@@ -1,0 +1,139 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    padding: 0 2rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+}
+
+.navbar .logo {
+    text-transform: uppercase;
+    font-family: "Playfair Display", serif;
+}
+
+.dark-mode .navbar .btn {
+    background-color:rgb(216, 197, 197);
+    color: black;
+}
+
+.dark-mode .navbar .btn:hover {
+    background-color: #3d3d3d;
+    color: white;
+    transform: scale(1.05);
+}
+.light-mode .navbar{
+    background-color: rgb(216, 197, 197);
+}
+
+.dark-mode .navbar{
+    background-color: black;
+}
+
+.navbar .nav-items {
+    /* border: 1px solid black; */
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.navbar .nav-items .nav-item {
+    cursor: pointer;
+    display: flex;
+    /* margin: 1rem; */
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.dark-mode .navbar a {
+    color: white;
+}
+
+.light-mode .navbar a {
+    color: black;
+}
+
+.navbar .nav-items .nav-item:hover {
+    border-bottom: 1px solid black;
+}
+
+.dark-mode .navbar .nav-items .nav-item:hover {
+    border-bottom: 1px solid white;
+}
+
+.light-mode .navbar .nav-items .active {
+    border-bottom: 1px solid black;
+}
+
+.dark-mode .navbar .nav-items .active {
+    border-bottom: 1px solid white;
+}
+
+#hamburger-menu {
+    display: none;
+    font-size: 2.2rem;
+    cursor: pointer;
+}
+
+.vertical-nav {
+    display: none;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100vw;
+    overflow: hidden;
+    background-color: white;
+    z-index: 100;
+    justify-content: center;
+    float: right;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    top: 0;
+}
+
+.vertical-nav .nav-item {
+    padding: 2rem;
+    font-size: 2rem;
+    /* margin: 1rem 0; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    position: absolute;
+    top: 8px;
+    right: 105px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    display: grid;
+    place-items: center;
+}
+
+@media(max-width:900px) {
+    .navbar .nav-items .nav-item {
+        display: none;
+    }
+
+    #hamburger-menu {
+        display: block;
+    }
+
+    .vertical-nav {
+        display: block;
+    }
+
+    .circle {
+        top: 527px;
+        right: 318px;
+    }
+
+}

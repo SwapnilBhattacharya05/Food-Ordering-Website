@@ -1,0 +1,7 @@
+.AdminTopbar_icon_light {
+    color: #292929;
+}
+
+.dark-mode .AdminTopbar_icon_light {
+    color: white;
+}

@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+::-ms-input-placeholder{
+    color: white;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.dark-mode {
+    background-color: #092635;
+    color: white;
+}
+
+.light-mode {
+    background-color: #ffff;
+    color: black;
+}
+
+img {
+    object-fit: cover;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: black;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .btn{
+    background-color: black;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #3d3d3d;
+    color: white;
+    transform: scale(1.05);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+body{
+  height: 100%;
+  width: 100%;
+}
