@@ -11,7 +11,7 @@
     opacity: 1;
 }
 
-::-ms-input-placeholder{
+::-ms-input-placeholder {
     color: white;
 }
 
@@ -46,7 +46,7 @@ img {
     transition: all 0.3s ease;
 }
 
-.dark-mode .btn{
+.dark-mode .btn {
     background-color: black;
     color: white;
 }
@@ -59,6 +59,16 @@ img {
 
 a {
     text-decoration: none;
+    color: black;
+}
+
+.dark-mode a {
+    color: white;
+}
+
+.dark-mode a:hover {
+    color: white;
+    text-decoration: none;
 }
 
 a:hover {
@@ -66,7 +76,7 @@ a:hover {
     color: black;
 }
 
-body{
-  height: 100%;
-  width: 100%;
+body {
+    height: 100%;
+    width: 100%;
 }

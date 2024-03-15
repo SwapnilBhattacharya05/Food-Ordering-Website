@@ -5,3 +5,11 @@
 .dark-mode .AdminTopbar_icon_light {
     color: white;
 }
+
+.AdminTopbar {
+    background-color: #efeeee;
+}
+
+.dark-mode .AdminTopbar {
+    background-color: #292929;
+}

@@ -29,11 +29,13 @@ const AdminTopbar = () => {
             <Box display="flex"
                 justifyContent="space-between"
                 p={2}
-                >
+                // backgroundColor={colors.grey[100]}
+                className="AdminTopbar"
+            >
 
                 {/* //! SEARCH BAR */}
                 <Box display="flex"
-                    backgroundColor={colors.primary[100]}
+                    backgroundColor={colors.primary[200]}
                     borderRadius="0.1875rem"
                 >
                     {/* // ?ml represents margin left */}

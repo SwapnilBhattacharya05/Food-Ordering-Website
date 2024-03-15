@@ -1,0 +1,26 @@
+.AdminSidebar {
+    background-color: #e0e0e0;
+}
+
+/* mui css styling for admin sidebar darkmode */
+.dark-mode .css-dip3t8 {
+    background-color: #333232;
+}
+
+.ps-menu-button {
+    &:hover {
+        background-color: #e0e0e0 !important;
+    }
+}
+
+.dark-mode .ps-menu-button {
+    &:hover {
+        background-color: #5c5a5a !important;
+    }
+}
+
+.css-1ycxt2a-MuiButtonBase-root-MuiIconButton-root {
+    &:hover {
+        background-color: transparent !important;
+    }
+}

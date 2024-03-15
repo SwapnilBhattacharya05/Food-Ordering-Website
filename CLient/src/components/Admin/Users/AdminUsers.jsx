@@ -5,10 +5,10 @@ import AdminTopbar from '../Global/AdminTopbar'
 import AdminSidebar from '../Global/AdminSidebar'
 import { ColorModeContext, useMode } from '../theme'
 import AdminHeader from '../Global/AdminHeader';
-import "./AdminDashboard.css";
+import "../Main/AdminMainGlobal.css";
 
 
-const AdminDashboard = () => {
+const AdminUsers = () => {
   const [theme, colorMode] = useMode();
   return (
     <>
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
               justifyContent='space-between'
               alignItems='center'>
 
-              <AdminHeader title="DASHBOARD" subtitle="Welcome to your dashboard" />
+              <AdminHeader title="USERS" subtitle="Welcome to User Page" />
             </Box>
 
           </Box>
@@ -41,4 +41,4 @@ const AdminDashboard = () => {
     </>
   )
 }
-export default AdminDashboard;
+export default AdminUsers;
