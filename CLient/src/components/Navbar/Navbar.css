@@ -15,8 +15,22 @@
     font-family: "Playfair Display", serif;
 }
 
+.navbar .logo img {
+    padding-right: 32px;
+    font-size: 50px;
+    width: 80px;
+    height: 95px;
+    mix-blend-mode: multiply;
+    padding-top: 9px;
+    overflow: hidden;
+}
+
+.dark-mode .navbar .logo img {
+    mix-blend-mode: screen; 
+}
+
 .dark-mode .navbar .btn {
-    background-color:rgb(216, 197, 197);
+    background-color: rgb(216, 197, 197);
     color: black;
 }
 
@@ -25,11 +39,12 @@
     color: white;
     transform: scale(1.05);
 }
-.light-mode .navbar{
+
+.light-mode .navbar {
     background-color: rgb(216, 197, 197);
 }
 
-.dark-mode .navbar{
+.dark-mode .navbar {
     background-color: black;
 }
 
@@ -118,7 +133,7 @@
     place-items: center;
 }
 
-@media(max-width:900px) {
+@media(max-width:982px) {
     .navbar .nav-items .nav-item {
         display: none;
     }

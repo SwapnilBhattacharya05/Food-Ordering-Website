@@ -1,16 +1,16 @@
-.footer-container{
+.footer-container {
     background-color: black;
-    height: 10rem;
+    min-height: 10rem;
     width: 100%;
-    color:  white;
+    color: white;
 }
 
-.footer-container .upper-footer{
+.footer-container .upper-footer {
     width: 100%;
     cursor: pointer;
     height: 3rem;
     background-color: rgb(48, 47, 47);
-    color:  white;
+    color: white;
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -18,12 +18,103 @@
 }
 
 
-.footer-container .upper-footer p{
+.footer-container .upper-footer p {
     margin: 0;
 }
 
-.footer-container .main-footer{
+.footer-container .main-footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.main-footer .footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+}
+
+.main-footer .footer-columns .footer-heading {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.main-footer .footer-columns .footer-link {
+    font-size: 1.2rem;
+}
+
+.main-footer .footer-columns .footer-column {
+    border-right: 2px solid white;
+}
+
+.main-footer .footer-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.main-footer .footer-logo h6 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-family: "Playfair Display", serif;
+}
+
+.main-footer .footer-logo img {
+    height: 10rem;
+    width: 10rem;
+    padding-top: 21px;
+    padding-right: 82px;
+}
+
+.main-footer .footer-columns .footer-column p {
+    padding-left: 3rem;
+    padding-top: 2rem;
+}
+
+.footer-container .lower-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-footer .footer-columns .footer-column:last-child {
+    border-right: none;
+}
+
+@media(max-width: 1075px) {
+    .main-footer .footer-logo {
+        justify-content: start;
+    }
+
+    .main-footer .footer-columns {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .main-footer .footer-columns .footer-column:nth-child(2) {
+        border-right: none;
+    }
+
+    .main-footer .footer-columns .footer-column h6 {
+        padding-top: 1rem;
+    }
+}
+
+@media(max-width: 607px) {
+    .main-footer .footer-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .main-footer .footer-columns .footer-column {
+        border-right: none;
+        border-bottom: 2px solid white;
+    }
+
+    .main-footer .footer-columns .footer-column:last-child {
+        border-bottom: none;
+    }
 }

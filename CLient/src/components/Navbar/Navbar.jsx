@@ -21,12 +21,13 @@ const Navbar = () => {
       {
         !showVerticalNav &&
         <nav className="navbar">
-          <div className="logo">
+          <div className="logo d-flex align-items-center justify-content-between">
             <h2>
               <NavLink to={"/"}>
                 Foodzie
               </NavLink>
             </h2>
+            <img src="img/foodzie_logo.png" alt="logo" />
           </div>
           <ul className="nav-items">
             <NavLink to={"/"} className={location.pathname === '/' ? "nav-item active" : "nav-item"}>
@@ -58,7 +59,6 @@ const Navbar = () => {
           </ul>
         </nav>
       }
-
 
       {
         showVerticalNav && <ul className="vertical-nav">

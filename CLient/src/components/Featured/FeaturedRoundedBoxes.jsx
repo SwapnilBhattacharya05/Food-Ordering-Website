@@ -19,4 +19,4 @@ const FeaturedRoundedBoxes = ({ items }) => {
     )
 }
 
-export default FeaturedRoundedBoxes;
+export default FeaturedRoundedBoxes
