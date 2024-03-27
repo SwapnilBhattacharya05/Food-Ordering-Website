@@ -10,14 +10,14 @@ const AdminHeader = ({ title, subtitle }) => {
     <>
       <Box m={"20px"}>
         <Typography
-          variant='h2'
+          variant='h3'
           fontWeight="bold"
           sx={{ m: "0 0 5px 0" }}
         >
           {title}
         </Typography>
         <Typography
-          variant='h5'
+          variant='h6'
           sx={{ m: "0 0 5px 0" }}
         >
           {subtitle}

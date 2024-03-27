@@ -23,14 +23,11 @@ const AdminTopbar = () => {
 
     return (
         <>
-            {/* // ?Box component is like a div component in MUI */}
-            {/* // *Write CSS directly in box component */}
-            {/* // ?short hand "p" stands for padding */}
             <Box display="flex"
                 justifyContent="space-between"
                 p={2}
-                // backgroundColor={colors.grey[100]}
                 className="AdminTopbar"
+
             >
 
                 {/* //! SEARCH BAR */}

@@ -71,7 +71,12 @@ const AdminSidebar = () => {
                 </Typography>
 
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <img src="../img/foodzie_logo.png" style={{ height: '5rem', width: '6.5rem' }} />
+                  <img src="../img/foodzie_logo.png"
+                    style={{
+                      height: '5rem',
+                      width: '6.5rem'
+                    }}
+                  />
                 </IconButton>
               </Box>
 
@@ -93,7 +98,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "5px 2px 5px 20px",
+                m: "6px 2px 5px 20px",
               }}
             >
               Users
@@ -111,7 +116,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "5px 2px 5px 20px",
+                m: "6px 2px 5px 20px",
               }}
             >
               Main
@@ -164,7 +169,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "5px 2px 5px 20px",
+                m: "6px 2px 5px 20px",
               }}
             >
               Graph
@@ -182,7 +187,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "5px 2px 5px 20px",
+                m: "6px 2px 5px 20px",
               }}
             >
               Other

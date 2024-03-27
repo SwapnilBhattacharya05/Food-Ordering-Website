@@ -25,7 +25,9 @@ const AdminCoupon = () => {
                     {/* CONTENT */}
                     <Box
                         m="5px 0 10px 5px"
-                        ml="15rem">
+                        ml="15rem"
+                        mt='4.324rem'
+                        >
 
                         <Box
                             display="flex"
