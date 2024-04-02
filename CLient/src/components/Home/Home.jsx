@@ -11,8 +11,7 @@ import KebabDiningIcon from '@mui/icons-material/KebabDining';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import DiscountIcon from '@mui/icons-material/Discount';
-import ToastMessage from "../ToastMessage";
-import { ToastContainer } from "react-toastify";
+import toastMessage from "../ToastMessage";
 import { Email } from "@mui/icons-material";
 
 const Home = () => {
@@ -101,29 +100,6 @@ const Home = () => {
     }
   ];
 
-  const newlyAdded = [
-    {
-      name: "Pizza",
-      link: "https://images.pexels.com/photos/9792476/pexels-photo-9792476.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Burger",
-      link: "https://images.pexels.com/photos/2282532/pexels-photo-2282532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Ice cream",
-      link: "https://images.pexels.com/photos/1343504/pexels-photo-1343504.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Momo",
-      link: "https://images.pexels.com/photos/7363682/pexels-photo-7363682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Biryani",
-      link: "https://s3-ap-south-1.amazonaws.com/betterbutterbucket-silver/debomita-chatterjee20180516172647354.jpeg",
-    }
-  ];
-
   const testimonials = [
     {
       name: "Dhruv Kumar",
@@ -154,10 +130,10 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (/^\w+([\.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(newsletter.email)) {
-      ToastMessage({ msg: "Thank you for subscribing to our newsletter!", type: "success" });
-    } else {
-      ToastMessage({ msg: "Invalid Email", type: "error" });
+    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(newsletter.email)) {
+      toastMessage({ msg: "Thank you for subscribing to our newsletter!",type: "success" });
+    }else{
+      toastMessage({ msg: "Invalid Email",type: "error" });
     }
   }
 
@@ -285,7 +261,6 @@ const Home = () => {
             <button type="submit" className="p-2 newsletter-btn btn">Subscribe</button>
           </form>
         </div>
-        <ToastContainer />
       </main>
 
       <Footer />

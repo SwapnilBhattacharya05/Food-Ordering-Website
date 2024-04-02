@@ -5,9 +5,10 @@
     height: 6rem;
     padding: 0 2rem;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    position: relative;
+    position: fixed;
+    top: 0;
     width: 100%;
-    z-index: 0;
+    z-index: 3;
 }
 
 .navbar .logo {
@@ -26,7 +27,7 @@
 }
 
 .dark-mode .navbar .logo img {
-    mix-blend-mode: screen; 
+    mix-blend-mode: screen;
 }
 
 .dark-mode .navbar .btn {
@@ -34,8 +35,18 @@
     color: black;
 }
 
-.dark-mode .navbar .btn:hover {
+.toggle-btn:hover {
+    border-bottom: none;
+}
+
+/* .dark-mode .navbar .btn:hover {
     background-color: #3d3d3d;
+    color: white;
+    transform: scale(1.05);
+} */
+
+.dark-mode .navbar .btn:hover {
+    background-color: #706363;
     color: white;
     transform: scale(1.05);
 }
@@ -45,7 +56,7 @@
 }
 
 .dark-mode .navbar {
-    background-color: black;
+    background-color: #232222;
 }
 
 .navbar .nav-items {
@@ -77,6 +88,20 @@
 
 .navbar .nav-items .nav-item:hover {
     border-bottom: 1px solid black;
+}
+
+.navbar .nav-items .profile-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.navbar .nav-items .profile-dropdown-container {
+    position: relative;
+    background-color: #3d3d3d;
+    height: 200px;
+    width: 200px;
 }
 
 .dark-mode .navbar .nav-items .nav-item:hover {
@@ -123,14 +148,15 @@
 
 .circle {
     position: absolute;
-    top: 8px;
-    right: 105px;
+    top: 5px;
+    right: 100px;
     border-radius: 50%;
-    background-color: black;
+    background-color: rgb(131, 131, 131);
     color: white;
     font-size: 1.2rem;
     display: grid;
     place-items: center;
+    padding: 0 4px;
 }
 
 @media(max-width:982px) {

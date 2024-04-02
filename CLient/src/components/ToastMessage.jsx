@@ -1,7 +1,7 @@
 import { Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ToastMessage = ({ msg, type }) => {
+const toastMessage = ({ msg, type }) => {
     return toast(msg, {
         position: "top-right",
         autoClose: 5000,
@@ -16,4 +16,4 @@ const ToastMessage = ({ msg, type }) => {
     });
 }
 
-export default ToastMessage;
+export default toastMessage;

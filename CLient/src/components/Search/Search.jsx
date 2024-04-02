@@ -1,14 +1,15 @@
 import "./Search.css";
 import Navbar from '../Navbar/Navbar';
-import { Container } from "react-bootstrap";
+import Footer from "../Footer/Footer";
 
 const Search = () => {
   return (
     <div>
       <Navbar />
-      <Container>
+      <div className="container search-container">
         <h3>Search</h3>
-      </Container>
+      </div>
+      <Footer />
     </div>
   )
 }

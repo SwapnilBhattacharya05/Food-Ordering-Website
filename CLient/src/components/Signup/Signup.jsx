@@ -5,15 +5,57 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PersonIcon from '@mui/icons-material/Person';
 import GoogleIcon from '@mui/icons-material/Google';
+import toastMessage from "../ToastMessage";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState({ email: "", phone: "", password: "", conpassword: "", fname: "", lname: "" });
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (userData.password !== userData.conpassword) {
+            return toastMessage({ msg: "Passwords do not match", type: "error" });
+        }
+
+        if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(userData.email)) {
+            return toastMessage({ msg: "Invalid Email", type: "error" });
+        }
+
+        if (userData.phone.length !== 10) {
+            return toastMessage({ msg: "Invalid Phone Number", type: "error" });
+        }
+
+        if (userData.password.length < 8) {
+            return toastMessage({ msg: "Password must be at least 8 characters long", type: "error" });
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fname: userData.fname.slice(0, 1).toUpperCase() + userData.fname.slice(1).toLowerCase(),
+                lname: userData.lname.slice(0, 1).toUpperCase() + userData.lname.slice(1).toLowerCase(),
+                email: userData.email,
+                phone: userData.phone,
+                password: userData.password,
+            })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            return toastMessage({ msg: data.error, type: "error" });
+        }
+
+        toastMessage({ msg: data.message, type: "success" });
+        setTimeout(() => {
+            navigate("/login");
+        }, 3700);
     }
 
     const handleOnChange = (e) => {
@@ -26,7 +68,7 @@ const Signup = () => {
 
     return (
         <div className='login-container'>
-            <HalfPagedImage image={"img/signup-pic.jpeg"}/>
+            <HalfPagedImage image={"img/signup-pic.jpeg"} />
             <div className="login-form-container container">
                 <form className="login-form" onSubmit={handleSubmit} method="POST`">
                     <div className="d-flex justify-content-between align-items-center">

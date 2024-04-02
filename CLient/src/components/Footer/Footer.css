@@ -90,7 +90,6 @@
     .main-footer .footer-logo {
         justify-content: start;
     }
-
     .main-footer .footer-columns {
         grid-template-columns: 1fr 1fr;
     }
@@ -99,7 +98,7 @@
         border-right: none;
     }
 
-    .main-footer .footer-columns .footer-column h6 {
+    .main-footer .footer-columns .footer-column h6{
         padding-top: 1rem;
     }
 }
