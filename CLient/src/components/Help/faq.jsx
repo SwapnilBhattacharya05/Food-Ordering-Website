@@ -32,7 +32,7 @@ const Faq = () => {
                         {/* FAQ PAGE ACCORDION CONTAINER */}
                         <Box
                             sx={{
-                                height: "auto",
+                                height: "400px",
                                 display: "flex",
                             }}
                         >
@@ -41,6 +41,7 @@ const Faq = () => {
                             <Box className="faq-box-left"
                                 sx={{
                                     width: "50%",
+                                    marginTop: "30px",
                                 }}
                             >
                                 {/* FAQ PAGE RIGHT */}
@@ -161,7 +162,16 @@ const Faq = () => {
 
                                 {/* FAQ PAGE RIGHT */}
                             </Box>
-                            <Box className="faq-box-right" />
+                            <Box className="faq-box-right">
+                                <img
+                                    src="./img/confused-panda-faq.jpg"
+                                    alt="faq-box-right-pic"
+                                    height='92%'
+                                    width='90%'
+                                />
+
+
+                            </Box>
                         </Box>
                     </Box>
                 </Box>

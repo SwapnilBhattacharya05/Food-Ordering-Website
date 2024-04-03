@@ -1,11 +1,5 @@
 .faq-box-right {
-  background-image: url("../../../public/img/confused-panda-faq.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   width: 50%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
 }
