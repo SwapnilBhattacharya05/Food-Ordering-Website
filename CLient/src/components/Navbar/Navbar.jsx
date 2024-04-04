@@ -9,12 +9,14 @@ import { useState } from "react";
 import { Close, DarkMode } from "@mui/icons-material";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useAppContext } from "../../Context/AppContext.js";
+import { useUserContext } from "../../Context/UserContext.js";
 
 const Navbar = () => {
 
   const location = useLocation();
   const [showVerticalNav, setShowVerticalNav] = useState(false);
   const { mode, toggleMode } = useAppContext();
+  const { user } = useUserContext();
 
   if (localStorage.getItem("authToken")) {
 
@@ -53,13 +55,13 @@ const Navbar = () => {
               }
             </li>
             {
-              !localStorage.getItem("userData") ? (
+              user === null ? (
                 <NavLink to={"/login"} className="nav-item">
                   <button className="btn">Log In/Sign Up</button>
                 </NavLink>
               ) : (
                 <NavLink to={'/profile'} className={"nav-item"} style={{ borderBottom: "none" }}>
-                  <img className="profile-img" src={JSON.parse(localStorage.getItem("userData")).image} alt="profile-img" />
+                  <img className="profile-img" src={user.image} alt="profile-img" />
                 </NavLink>
               )
             }

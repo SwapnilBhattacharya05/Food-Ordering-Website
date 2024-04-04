@@ -6,11 +6,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useState } from "react";
 import toastMessage from "../ToastMessage";
+import { useUserContext } from "../../Context/UserContext";
 
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState({ email: "", password: "" });
+
+    const { setUser } = useUserContext();
 
     const navigate = useNavigate();
 
@@ -49,13 +52,14 @@ const Login = () => {
             }, 3700);
             return;
         }
-
+        
         toastMessage({ msg: "Welcome Back to foodzie", type: "success" });
         localStorage.setItem("token", data.authToken);
-        localStorage.setItem("userData", JSON.stringify(data.user));
+        setUser(data.user);
         setTimeout(() => {
             return navigate("/");
         }, 2000);
+
     }
 
     const handleOnChange = (e) => {
