@@ -1,15 +1,18 @@
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
-import "./Profile.css";
+import "./Profile.css"
 import { tokens, useMode } from "../Admin/theme";
-import Avatar from '@mui/material/Avatar';
-import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
 import { Link } from "react-router-dom";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { WindowSharp } from "@mui/icons-material";
+
+
 
 const Item = ({ title, to, icon }) => {
     return (
@@ -57,7 +60,7 @@ const Profile = () => {
             >
 
                 {/* PROFILE LEFT */}
-                <Box className="Profile-left"
+                <Box className="profile-left"
                     sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -71,6 +74,7 @@ const Profile = () => {
                     {/* AVATAR */}
                     <Box
                         sx={{
+                            marginTop: "20px",
                             display: "flex",
                             justifyContent: "center",
                         }}
@@ -97,27 +101,42 @@ const Profile = () => {
                                 title="Profile"
                                 to={"/profile"}
                                 icon={<PersonOutlineOutlinedIcon />}
+                                className="profile-sidebar-item-profile"
                             />
                             <Item
                                 title="Favourites"
                                 to={"/profile"}
                                 icon={<FavoriteBorderOutlinedIcon />}
+                                className="profile-sidebar-item-favourites"
                             />
                             <Item
                                 title="Orders"
                                 to={"/profile"}
                                 icon={<FastfoodOutlinedIcon />}
+                                className="profile-sidebar-item-orders"
                             />
                             <Item
                                 title="Balance"
                                 to={"/profile"}
-                                icon={<PersonOutlineOutlinedIcon />}
+                                icon={<CurrencyRupeeIcon />}
+                                className="profile-sidebar-item-balance"
                             />
-                            <Item
-                                title="Profile"
-                                to={"/profile"}
-                                icon={<PersonOutlineOutlinedIcon />}
-                            />
+                            <Button
+                                variant="contained"
+                                color="error"
+                                sx={{
+                                    marginBottom: "20px",
+                                    padding: "10px 20px",
+                                }}
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                            >
+                                <ExitToAppIcon
+                                    sx={{
+                                        marginRight: "10px",
+                                    }}
+                                />   Logout
+                            </Button>
                         </Box>
                     </Box>
                 </Box>
@@ -135,6 +154,58 @@ const Profile = () => {
 
                 </Box>
             </Box >
+
+            <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5
+                                class="modal-title"
+                                id="exampleModalLabel"
+                            >
+                                Modal title
+                            </h5>
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                                <span
+                                    aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <Typography variant="h5">Are you Sure You Want To Logout?</Typography>
+                        </div>
+                        <div class="modal-footer" style={{
+                            justifyContent: "space-between"
+                        }}>
+                            <Button
+                                variant="outlined"
+                                color="error"
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                color="success"
+                                onClick={() => {
+                                    window.location.href = "/";
+                                }}
+                            >
+                                Yes
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div >
             <Footer />
         </>
     )

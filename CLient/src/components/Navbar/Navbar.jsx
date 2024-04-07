@@ -34,9 +34,9 @@ const Navbar = () => {
             <h2>
               <NavLink to={"/"}>
                 Foodzie
+                <img src="img/foodzie_logo.png" alt="logo" />
               </NavLink>
             </h2>
-            <img src="img/foodzie_logo.png" alt="logo" />
           </div>
           <ul className="nav-items">
             <NavLink to={"/"} className={location.pathname === '/' ? "nav-item active" : "nav-item"}>
