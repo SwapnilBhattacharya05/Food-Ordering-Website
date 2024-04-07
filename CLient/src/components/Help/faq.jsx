@@ -8,6 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import Navbar from "../Navbar/Navbar";
 import { ColorModeContext, tokens, useMode } from "../Admin/theme.js";
+import Footer from "../Footer/Footer.jsx";
 
 
 const Faq = () => {
@@ -177,6 +178,7 @@ const Faq = () => {
                 </Box>
             </ColorModeContext.Provider >
 
+            <Footer />
 
         </>
     )
