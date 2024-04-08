@@ -11,3 +11,36 @@
 
 }
 
+.dark-mode .profile-left {
+    background-color: #4b4a4a;
+
+}
+
+.profile-sidebar-item-profile {
+    &:hover {
+        color: rgb(37, 234, 103);
+        transition: all 0.2s ease;
+    }
+}
+
+.profile-sidebar-item-favourites {
+    &:hover {
+        color: rgb(234, 37, 37);
+        transition: all 0.2s ease;
+    }
+}
+
+.profile-sidebar-item-orders {
+    &:hover {
+        color: rgb(213, 140, 50);
+        transition: all 0.2s ease;
+    }
+}
+
+.profile-sidebar-item-coupons {
+    &:hover {
+        color: rgb(152, 37, 234);
+        transition: all 0.2s ease;
+    }
+
+}

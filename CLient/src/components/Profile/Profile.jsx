@@ -10,18 +10,25 @@ import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { WindowSharp } from "@mui/icons-material";
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 
 
-
-const Item = ({ title, to, icon }) => {
+const Item = ({ title, to, icon, className }) => {
     return (
         <>
+
+            {/* ITEM CONTAINER */}
             <Link to={to}>
-                <Box sx={{
-                    display: "flex",
-                    alignItems: "center",
-                }}>
+
+                {/* ICON */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                    className={className}
+                >
                     <Box
                         sx={{
                             marginRight: "10px",
@@ -29,8 +36,14 @@ const Item = ({ title, to, icon }) => {
                     >
                         {icon}
                     </Box>
+
+                    {/* TITLE */}
                     <Box>
-                        <Typography variant="h5">{title}</Typography>
+                        <Typography
+                            variant="h5"
+                        >
+                            {title}
+                        </Typography>
                     </Box>
                 </Box>
             </Link>
@@ -53,10 +66,14 @@ const Profile = () => {
             <Navbar />
 
             {/* PROFILE CONTAINER */}
-            <Box className="profile-container container"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+            <Box className="profile-container"
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: "2rem",
+                    marginRight: "2rem",
+                }}
             >
 
                 {/* PROFILE LEFT */}
@@ -116,13 +133,13 @@ const Profile = () => {
                                 className="profile-sidebar-item-orders"
                             />
                             <Item
-                                title="Balance"
+                                title="Coupons"
                                 to={"/profile"}
-                                icon={<CurrencyRupeeIcon />}
-                                className="profile-sidebar-item-balance"
+                                icon={<ConfirmationNumberOutlinedIcon />}
+                                className="profile-sidebar-item-coupons"
                             />
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="error"
                                 sx={{
                                     marginBottom: "20px",
@@ -144,7 +161,7 @@ const Profile = () => {
                 {/* PROFILE RIGHT */}
                 <Box className="Profile-right"
                     sx={{
-                        flex: 3,
+                        flex: 4,
                         textAlign: "center",
                         backgroundColor: colors.primary[300],
 
@@ -169,7 +186,7 @@ const Profile = () => {
                                 class="modal-title"
                                 id="exampleModalLabel"
                             >
-                                Modal title
+                                Sign Out?
                             </h5>
                             <button
                                 type="button"
@@ -181,7 +198,7 @@ const Profile = () => {
                             </button>
                         </div>
                         <div class="modal-body">
-                            <Typography variant="h5">Are you Sure You Want To Logout?</Typography>
+                            <Typography variant="h5">Are you Sure You Want To Sign Out?</Typography>
                         </div>
                         <div class="modal-footer" style={{
                             justifyContent: "space-between"
