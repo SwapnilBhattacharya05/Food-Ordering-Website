@@ -5,18 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Diptodas123/Food-ordering-system-server.git"
   },
-  "author": "Dipto Das",
+  "author": "Swapnil Bhattacharya",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Diptodas123/Food-ordering-system-server/issues"
+    "url": "https://github.com/SwapnilBhattacharya05/Food-Ordering-Website/issues"
   },
-  "homepage": "https://github.com/Diptodas123/Food-ordering-system-server#readme",
+  "homepage": "https://github.com/SwapnilBhattacharya05/Food-Ordering-Website/tree/master/Server",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
