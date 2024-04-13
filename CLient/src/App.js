@@ -6,10 +6,11 @@ import Search from './components/Search/Search';
 import Cart from './components/Cart/Cart';
 import Login from './components/Login/Login';
 import LoadingBar from 'react-top-loading-bar'
-import { useAppContext } from './Context/AppContext';
+import Profile from './components/Profile/Profile';
 import Signup from './components/Signup/Signup';
 import Faq from './components/Help/faq';
 
+import AdminLogin from './components/Admin/Login/AdminLogin';
 import AdminDashboard from './components/Admin/Dashboard/AdminDashboard';
 import AdminUsers from './components/Admin/Users/AdminUsers';
 import AdminOrders from './components/Admin/Main/AdminOrders';
@@ -18,9 +19,12 @@ import AdminMenu from './components/Admin/Main/AdminMenu';
 import AdminExtras from './components/Admin/Main/AdminExtra';
 import AdminRestaurant from './components/Admin/Main/AdminRestaurants';
 import AdminFinance from './components/Admin/Graph/AdminFinance';
-import { ToastContainer } from "react-toastify";
+
 import RestaurantRegistration from './components/Restaurant/RestaurantRegistration';
-import Profile from './components/Profile/Profile';
+import { useAppContext } from './Context/AppContext';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
 
@@ -51,6 +55,7 @@ function App() {
         <Route path='/signup' element={<Signup />} />
 
         {/* ADMIN PATHS */}
+        <Route path='/AdminLogin' element={<AdminLogin />} />
         <Route path='/AdminDashboard' element={<AdminDashboard />} />
         <Route path='/AdminUsers' element={<AdminUsers />} />
         <Route path='/AdminOrders' element={<AdminOrders />} />

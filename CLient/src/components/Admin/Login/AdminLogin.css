@@ -1,0 +1,92 @@
+.background-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../../../public/img/admin-login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#admin-login-submit-button {
+  background-color: transparent;
+  margin-top: 30px;
+  color: white;
+  width: 50%;
+  border: 2px solid rgb(97, 241, 97);
+
+  &:hover {
+    background-color: rgb(97, 241, 97);
+    transition: all 0.2s ease;
+  }
+
+}
+
+.admin-login-heading {
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.admin-login-image-container {
+  height: 190px;
+  width: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#admin-login-image {
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+
+#admin-login-username::placeholder,
+#admin-login-password::placeholder {
+  color: white
+}
+
+#admin-login-username,
+#admin-login-password {
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 80%;
+  margin: auto;
+  border-bottom: 1px solid rgb(25, 25, 25);
+
+  &:focus {
+    outline: none
+    ;
+  }
+  &:active {
+    outline: none;
+    background-color: transparent;
+  }
+}
+
+
+.admin-login-container {
+  width: 490px;
+  height: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  backdrop-filter: blur(-3px) saturate(139%);
+  background-color: rgba(187, 220, 211, 0.33);
+  border-radius: 12px;
+  border: 1px solid rgba(177, 177, 177, 0.125)
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-login-form input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
