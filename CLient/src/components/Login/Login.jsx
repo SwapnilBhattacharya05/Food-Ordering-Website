@@ -37,6 +37,7 @@ const Login = () => {
         }
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
+
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -52,7 +53,7 @@ const Login = () => {
             }, 3700);
             return;
         }
-        
+
         toastMessage({ msg: "Welcome Back to foodzie", type: "success" });
         localStorage.setItem("token", data.authToken);
         setUser(data.user);

@@ -14,7 +14,6 @@ const AdminLogin = () => {
     setAdmin({ ...admin, [e.target.name]: e.target.value });
     console.log(admin);
   }
-  const [errorMessage, setErrorMessage] = useState('');
 
   const authentication = (e) => {
     e.preventDefault();
@@ -25,6 +24,7 @@ const AdminLogin = () => {
       }, 1500);
     } else {
       toastMessage({ msg: 'Invalid credentials', type: 'error' });
+
     }
   };
 
