@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
@@ -13,40 +14,39 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 
 
-const Item = ({ title, to, icon, className }) => {
+const Item = ({ title, icon, className, onClick }) => {
     return (
         <>
 
-            {/* ITEM CONTAINER */}
-            <Link to={to}>
 
-                {/* ICON */}
+            {/* ICON */}
+            <Box
+                className={className}
+                onClick={onClick}
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                }}
+            >
                 <Box
                     sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        marginRight: "10px",
                     }}
-                    className={className}
                 >
-                    <Box
-                        sx={{
-                            marginRight: "10px",
-                        }}
-                    >
-                        {icon}
-                    </Box>
-
-                    {/* TITLE */}
-                    <Box>
-                        <Typography
-                            variant="h5"
-                        >
-                            {title}
-                        </Typography>
-                    </Box>
+                    {icon}
                 </Box>
-            </Link>
+
+                {/* TITLE */}
+                <Box>
+                    <Typography
+                        variant="h5"
+                    >
+                        {title}
+                    </Typography>
+                </Box>
+            </Box>
             <Divider
                 sx={{
                     margin: "20px 0",
@@ -60,12 +60,31 @@ const Item = ({ title, to, icon, className }) => {
 const Profile = () => {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
+    const [selectedItem, setSelectedItem] = useState('Profile');
+
+    const handleOptionClick = (title) => {
+        setSelectedItem(title);
+    }
+
+    const renderRightContent = () => {
+        switch (selectedItem) {
+            case 'Profile':
+                return <Typography variant="h1">Profile Content</Typography>;
+            case 'Favourites':
+                return <Typography variant="h1">Favourite Content</Typography>;
+            case 'Orders':
+                return <Typography variant="h1">Orders Content</Typography>;
+            case 'Coupons':
+                return <Typography variant="h1">Coupons Content</Typography>;
+            default:
+                return null;
+        }
+    }
 
     return (
         <>
             <Navbar />
 
-            {/* PROFILE CONTAINER */}
             <Box className="profile-container"
                 sx={{
                     display: "flex",
@@ -75,8 +94,6 @@ const Profile = () => {
                     marginRight: "2rem",
                 }}
             >
-
-                {/* PROFILE LEFT */}
                 <Box className="profile-left"
                     sx={{
                         display: "flex",
@@ -87,136 +104,89 @@ const Profile = () => {
                         textAlign: "center",
                     }}
                 >
-
-                    {/* AVATAR */}
-                    <Box
-                        sx={{
-                            marginTop: "20px",
-                            display: "flex",
-                            justifyContent: "center",
-                        }}
-                    >
+                    <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
                         <img
                             src="https://www.pngitem.com/pimgs/m/150-150"
                             height="100"
                             width="100"
                             alt="profile"
-                            style={{
-                                borderRadius: "50%",
-                                border: "1px solid green",
-                            }}
+                            style={{ borderRadius: "50%", border: "1px solid green" }}
                         />
                     </Box>
-
-                    {/* SIDEBAR PROFILE LEFT */}
-                    <Box>
-                        <Box
-                            className="profile-sidebar"
+                    <Box className="profile-sidebar">
+                        <Item
+                            title="Profile"
+                            icon={<PersonOutlineOutlinedIcon />}
+                            className="profile-sidebar-item-profile"
+                            onClick={() => handleOptionClick('Profile')}
+                        />
+                        <Item
+                            title="Favourites"
+                            icon={<FavoriteBorderOutlinedIcon />}
+                            className="profile-sidebar-item-favourites"
+                            onClick={() => handleOptionClick('Favourites')}
+                        />
+                        <Item
+                            title="Orders"
+                            icon={<FastfoodOutlinedIcon />}
+                            className="profile-sidebar-item-orders"
+                            onClick={() => handleOptionClick('Orders')}
+                        />
+                        <Item
+                            title="Coupons"
+                            icon={<ConfirmationNumberOutlinedIcon />}
+                            className="profile-sidebar-item-coupons"
+                            onClick={() => handleOptionClick('Coupons')}
+                        />
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            sx={{ marginBottom: "20px", padding: "10px 20px" }}
+                            data-toggle="modal"
+                            data-target="#exampleModal"
                         >
-                            {/* MENU */}
-                            <Item
-                                title="Profile"
-                                to={"/profile"}
-                                icon={<PersonOutlineOutlinedIcon />}
-                                className="profile-sidebar-item-profile"
-                            />
-                            <Item
-                                title="Favourites"
-                                to={"/profile"}
-                                icon={<FavoriteBorderOutlinedIcon />}
-                                className="profile-sidebar-item-favourites"
-                            />
-                            <Item
-                                title="Orders"
-                                to={"/profile"}
-                                icon={<FastfoodOutlinedIcon />}
-                                className="profile-sidebar-item-orders"
-                            />
-                            <Item
-                                title="Coupons"
-                                to={"/profile"}
-                                icon={<ConfirmationNumberOutlinedIcon />}
-                                className="profile-sidebar-item-coupons"
-                            />
-                            <Button
-                                variant="outlined"
-                                color="error"
-                                sx={{
-                                    marginBottom: "20px",
-                                    padding: "10px 20px",
-                                }}
-                                data-toggle="modal"
-                                data-target="#exampleModal"
-                            >
-                                <ExitToAppIcon
-                                    sx={{
-                                        marginRight: "10px",
-                                    }}
-                                />   Logout
-                            </Button>
-                        </Box>
+                            <ExitToAppIcon sx={{ marginRight: "10px" }} /> Logout
+                        </Button>
                     </Box>
                 </Box>
-
-                {/* PROFILE RIGHT */}
                 <Box className="Profile-right"
                     sx={{
                         flex: 4,
                         textAlign: "center",
                         backgroundColor: colors.primary[300],
-
                     }}
                 >
-                    right
-
+                    {renderRightContent()}
                 </Box>
             </Box >
-
             <div
-                class="modal fade"
+                className="modal fade "
                 id="exampleModal"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
             >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5
-                                class="modal-title"
-                                id="exampleModalLabel"
-                            >
-                                Sign Out?
-                            </h5>
+                <div className="modal-dialog">
+                    <div className="modal-content modal-dialog-logout">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Log Out?</h5>
                             <button
                                 type="button"
-                                class="close"
+                                className="close"
                                 data-dismiss="modal"
-                                aria-label="Close">
-                                <span
-                                    aria-hidden="true">&times;</span>
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <Typography variant="h5">Are you Sure You Want To Sign Out?</Typography>
+                        <div className="modal-body">
+                            <Typography variant="h5">Are you Sure You Are Not Hungry?</Typography>
                         </div>
-                        <div class="modal-footer" style={{
-                            justifyContent: "space-between"
-                        }}>
-                            <Button
-                                variant="outlined"
-                                color="error"
-                                data-dismiss="modal"
-                            >
+                        <div className="modal-footer" style={{ justifyContent: "space-between" }}>
+                            <Button variant="outlined" color="error" data-dismiss="modal">
                                 Close
                             </Button>
-                            <Button
-                                variant="outlined"
-                                color="success"
-                                onClick={() => {
-                                    window.location.href = "/";
-                                }}
-                            >
+                            <Button variant="outlined" color="success" onClick={() => { window.location.href = "/"; }}>
                                 Yes
                             </Button>
                         </div>
@@ -225,7 +195,7 @@ const Profile = () => {
             </div >
             <Footer />
         </>
-    )
+    );
 }
 
 export default Profile;

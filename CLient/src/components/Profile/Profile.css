@@ -12,7 +12,7 @@
 }
 
 .dark-mode .profile-left {
-    background-color: #4b4a4a;
+    background-color: #5f5e5e;
 
 }
 
@@ -43,4 +43,8 @@
         transition: all 0.2s ease;
     }
 
+}
+
+.modal-dialog-logout {
+    background-color: #565656;
 }
