@@ -12,6 +12,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import ProfileMain from "./Options/ProfileMain";
+
 
 
 const Item = ({ title, icon, className, onClick }) => {
@@ -69,13 +71,18 @@ const Profile = () => {
     const renderRightContent = () => {
         switch (selectedItem) {
             case 'Profile':
-                return <Typography variant="h1">Profile Content</Typography>;
+                return (
+                    <>
+                        <Typography variant="h5">Profile Content</Typography>
+                        <ProfileMain />
+                    </>
+                );
             case 'Favourites':
-                return <Typography variant="h1">Favourite Content</Typography>;
+                return <Typography variant="h5">Favourite Content</Typography>;
             case 'Orders':
-                return <Typography variant="h1">Orders Content</Typography>;
+                return <Typography variant="h5">Orders Content</Typography>;
             case 'Coupons':
-                return <Typography variant="h1">Coupons Content</Typography>;
+                return <Typography variant="h5">Coupons Content</Typography>;
             default:
                 return null;
         }
@@ -102,6 +109,8 @@ const Profile = () => {
                         gap: "1rem",
                         flex: 1,
                         textAlign: "center",
+                        height: "100%",
+                        width: "100%",
                     }}
                 >
                     <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
@@ -153,12 +162,15 @@ const Profile = () => {
                     sx={{
                         flex: 4,
                         textAlign: "center",
-                        backgroundColor: colors.primary[300],
+                        height: "100%",
+                        width: "100%",
+                        backgroundColor:colors.primary[400],
                     }}
                 >
                     {renderRightContent()}
                 </Box>
             </Box >
+            <Footer />
             <div
                 className="modal fade "
                 id="exampleModal"
@@ -193,7 +205,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div >
-            <Footer />
+
         </>
     );
 }
