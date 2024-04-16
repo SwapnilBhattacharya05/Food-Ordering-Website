@@ -12,15 +12,16 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import Avatar from '@mui/material/Avatar';
 import ProfileMain from "./Options/ProfileMain";
+
 
 
 
 const Item = ({ title, icon, className, onClick }) => {
     return (
         <>
-
-
+        
             {/* ICON */}
             <Box
                 className={className}
@@ -73,16 +74,59 @@ const Profile = () => {
             case 'Profile':
                 return (
                     <>
-                        <Typography variant="h5">Profile Content</Typography>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            Your Details
+                        </Typography>
                         <ProfileMain />
                     </>
                 );
+
             case 'Favourites':
-                return <Typography variant="h5">Favourite Content</Typography>;
+                return (
+                    <>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            Your Favourites
+                        </Typography>
+                    </>
+                );
+
             case 'Orders':
-                return <Typography variant="h5">Orders Content</Typography>;
+                return (
+                    <>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            Your Orders
+                        </Typography>
+                    </>
+                );
+
             case 'Coupons':
-                return <Typography variant="h5">Coupons Content</Typography>;
+                return (
+                    <>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            Your Coupons
+                        </Typography>
+                    </>
+                );
             default:
                 return null;
         }
@@ -101,6 +145,7 @@ const Profile = () => {
                     marginRight: "2rem",
                 }}
             >
+                {/* PROFILE LEFT CONTENT */}
                 <Box className="profile-left"
                     sx={{
                         display: "flex",
@@ -114,12 +159,15 @@ const Profile = () => {
                     }}
                 >
                     <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
-                        <img
-                            src="https://www.pngitem.com/pimgs/m/150-150"
-                            height="100"
-                            width="100"
+                        <Avatar
                             alt="profile"
-                            style={{ borderRadius: "50%", border: "1px solid green" }}
+                            src={""}
+                            sx={{
+                                height: 100,
+                                width: 100,
+                                borderRadius: "50%",
+                                border: "2px solid" + colors.greenAccent[500],
+                            }}
                         />
                     </Box>
                     <Box className="profile-sidebar">
@@ -158,18 +206,21 @@ const Profile = () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box className="Profile-right"
+
+                {/* PROFILE RIGHT CONTENT */}
+                <Box className="profile-right"
                     sx={{
                         flex: 4,
                         textAlign: "center",
                         height: "100%",
                         width: "100%",
-                        backgroundColor:colors.primary[400],
                     }}
                 >
                     {renderRightContent()}
                 </Box>
             </Box >
+
+            {/* FOOTER */}
             <Footer />
             <div
                 className="modal fade "
