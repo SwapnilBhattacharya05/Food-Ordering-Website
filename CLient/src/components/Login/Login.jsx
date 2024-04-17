@@ -3,10 +3,10 @@ import HalfPagedImage from "../HalfPagedImage";
 import "./Login.css";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
 import { useState } from "react";
 import toastMessage from "../ToastMessage";
 import { useUserContext } from "../../Context/UserContext";
+import OAuth from "../OAuth";
 
 const Login = () => {
 
@@ -37,7 +37,6 @@ const Login = () => {
         }
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
-
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -60,15 +59,10 @@ const Login = () => {
         setTimeout(() => {
             return navigate("/");
         }, 2000);
-
     }
 
     const handleOnChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
-    }
-
-    const handleGoogle = (e) => {
-        e.preventDefault();;
     }
 
     return (
@@ -101,7 +95,7 @@ const Login = () => {
                         }
                     </div>
                     <input className="btn mt-4" type="submit" value="Login" style={{ width: "100%" }} />
-                    <button onClick={handleGoogle} className="btn mt-2" style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}><GoogleIcon />&nbsp; Continue with Google</button>
+                    <OAuth />
                     <hr className="horizontal-line" />
                     <div className="login-footer">
                         <p>Don't have an account?</p>

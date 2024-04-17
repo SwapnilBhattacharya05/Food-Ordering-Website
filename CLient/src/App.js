@@ -6,6 +6,7 @@ import Search from './components/Search/Search';
 import Cart from './components/Cart/Cart';
 import Login from './components/Login/Login';
 import LoadingBar from 'react-top-loading-bar'
+import About from './components/About/About';
 import Profile from './components/Profile/Profile';
 import Signup from './components/Signup/Signup';
 import Faq from './components/Help/faq';
@@ -46,6 +47,7 @@ function App() {
         <Route path='/cart' element={<Cart />} />
         <Route path='/help' element={<Faq />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/about' element={<About />} />
 
         {/* RESTAURANT PATHS */}
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />

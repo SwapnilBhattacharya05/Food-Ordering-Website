@@ -9,6 +9,30 @@
     cursor: pointer;
 }
 
+.restaurant-registration-form .password-div{
+    width: 100%;
+    background-color: rgb(136, 133, 133);
+    position: relative;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.restaurant-registration-form .password-div input{
+    padding: 0.5rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 80%;
+}
+.restaurant-registration-container .reg-input {
+    background-color: rgb(136, 133, 133);
+    border-radius: 5px;
+    border: 1px solid black;
+    outline: none;
+    width: 100%;
+    padding: 0.5rem;
+}
+
 #pincode::-webkit-inner-spin-button,
 ::-webkit-outer-spin-button {
     appearance: none;
@@ -20,29 +44,4 @@
     appearance: none;
     margin: 0;
 
-}
-
-.restaurant-registration-form .password-div {
-    width: 100%;
-    background-color: rgb(136, 133, 133);
-    position: relative;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.restaurant-registration-form .password-div input {
-    padding: 0.5rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    width: 80%;
-}
-
-.restaurant-registration-container .reg-input {
-    background-color: rgb(136, 133, 133);
-    border-radius: 5px;
-    border: 1px solid black;
-    outline: none;
-    width: 100%;
-    padding: 0.5rem;
 }

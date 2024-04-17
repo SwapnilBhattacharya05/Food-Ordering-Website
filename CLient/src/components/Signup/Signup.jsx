@@ -4,9 +4,9 @@ import HalfPagedImage from "../HalfPagedImage";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PersonIcon from '@mui/icons-material/Person';
-import GoogleIcon from '@mui/icons-material/Google';
 import toastMessage from "../ToastMessage";
 import { useNavigate } from "react-router-dom";
+import OAuth from "../OAuth";
 
 const Signup = () => {
 
@@ -61,11 +61,7 @@ const Signup = () => {
     const handleOnChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     }
-
-    const handleGoogle = (e) => {
-        e.preventDefault();
-    }
-
+    
     return (
         <div className='login-container'>
             <HalfPagedImage image={"img/signup-pic.jpeg"} />
@@ -138,7 +134,7 @@ const Signup = () => {
                         }
                     </div>
                     <input className="btn mt-4" type="submit" value="Submit" style={{ width: "100%" }} />
-                    <button onClick={handleGoogle} className="btn mt-2" style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}><GoogleIcon />&nbsp; Continue with Google</button>
+                    <OAuth />
                 </form>
             </div>
         </div>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import "./Profile.css"
 import { tokens, useMode } from "../Admin/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
@@ -14,14 +14,18 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import Avatar from '@mui/material/Avatar';
 import ProfileMain from "./Options/ProfileMain";
+import Favourites from "./Options/Favourites";
+// import Orders from "./Options/Orders";
+// import Coupons from "./Options/Coupons";
 
 
+// import { useUserContext } from "../../Context/UserContext";
 
 
 const Item = ({ title, icon, className, onClick }) => {
     return (
         <>
-        
+
             {/* ICON */}
             <Box
                 className={className}
@@ -61,9 +65,36 @@ const Item = ({ title, icon, className, onClick }) => {
 }
 
 const Profile = () => {
+    const navigate = useNavigate();
+    // const userContext = useContext(useUserContext);
+    // const { userData, setUserData, setUser } = userContext;
+
+    const handleLogout = async () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userData");
+        // await setUserData({
+        //     id: "",
+        //     firstName: "",
+        //     lastName: "",
+        //     email: "",
+        //     image: "",
+        //     favourite: "",
+        //     cart: "",
+        //     address: "",
+        //     coupon: ""
+        // });
+        navigate("/login")
+        window.location.reload();
+
+    }
+
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
-    const [selectedItem, setSelectedItem] = useState('Profile');
+    const [selectedItem, setSelectedItem] = useState(sessionStorage.getItem("selectedItem") || "Profile");
+
+    useEffect(() => {
+        sessionStorage.setItem("selectedItem", selectedItem);
+    }, [selectedItem]);
 
     const handleOptionClick = (title) => {
         setSelectedItem(title);
@@ -97,6 +128,7 @@ const Profile = () => {
                         >
                             Your Favourites
                         </Typography>
+                        <Favourites />
                     </>
                 );
 
@@ -131,6 +163,8 @@ const Profile = () => {
                 return null;
         }
     }
+
+
 
     return (
         <>
@@ -232,7 +266,11 @@ const Profile = () => {
                 <div className="modal-dialog">
                     <div className="modal-content modal-dialog-logout">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Log Out?</h5>
+                            <h5 className="modal-title"
+                                id="exampleModalLabel"
+                            >
+                                Log Out?
+                            </h5>
                             <button
                                 type="button"
                                 className="close"
@@ -243,13 +281,30 @@ const Profile = () => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <Typography variant="h5">Are you Sure You Are Not Hungry?</Typography>
+                            <Typography
+                                variant="h5"
+                            >
+                                Are you Sure You Are Not Hungry?
+                            </Typography>
                         </div>
-                        <div className="modal-footer" style={{ justifyContent: "space-between" }}>
-                            <Button variant="outlined" color="error" data-dismiss="modal">
+                        <div className="modal-footer"
+                            style={{
+                                justifyContent: "space-between"
+                            }}
+                        >
+                            <Button
+                                variant="contained"
+                                color="error"
+                                data-dismiss="modal"
+                            >
                                 Close
                             </Button>
-                            <Button variant="outlined" color="success" onClick={() => { window.location.href = "/"; }}>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                type="submit"
+                                onClick={() => { handleLogout() }}
+                            >
                                 Yes
                             </Button>
                         </div>

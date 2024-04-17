@@ -2,14 +2,21 @@ import './RestaurantRegistration.css';
 import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar';
 import { useState } from 'react';
+import app from '../../firebase.js';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import toastMessage from '../ToastMessage';
 import { useNavigate } from 'react-router-dom';
+import { Delete } from '@mui/icons-material';
 
 const RestaurantRegistration = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const [imageUpoading, setImageUploading] = useState(false);
+    const [imageUploadError, setImageUploadError] = useState(false);
+    const [imgFiles, setImgFiles] = useState([]);
+    const [menuFile, setMenuFile] = useState([]);
     const [restaurantData, setRestaurantData] = useState({
         name: "",
         address: "",
@@ -30,8 +37,85 @@ const RestaurantRegistration = () => {
         menuUrl: "",
     });
 
-    const navigate=useNavigate();
-    
+    const navigate = useNavigate();
+
+    const storeImage = async (image) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const filename = new Date().getTime() + image.name;
+            const storageRef = ref(storage, filename);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log(progress);
+                }, (error) => {
+                    console.log(error);
+                    reject(error);
+                }, () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                });
+        })
+    }
+
+    const handleUpload = async (e) => {
+
+        if (imgFiles && menuFile && imgFiles.length > 0 && (imgFiles.length + (restaurantData.imgUrls || []).length <= 6)) {
+            setImageUploading(true);
+            setImageUploadError(false);
+
+            const allPromises = [];
+
+            for (let i = 0; i < imgFiles.length; i++) {
+                allPromises.push(storeImage(imgFiles[i]));
+            }
+
+            storeImage(menuFile).then((url) => {
+                setMenuFile(url);
+                setRestaurantData((prevData) => ({
+                    ...prevData,
+                    menuUrl: url
+                }))
+            }).catch((error) => {
+                console.log(error);
+                setImageUploadError("Failed to upload the menu image, (max 2MB allowed)");
+            });
+
+            Promise.all(allPromises).then((urls) => {
+                setRestaurantData((prevData) => ({
+                    ...prevData,
+                    imgUrls: (prevData.imgUrls || []).concat(urls.slice(0, imgFiles.length)),
+                }));
+                setImageUploading(false);
+            }).catch((error) => {
+                console.log(error);
+                setImageUploadError("Failed to upload the images, (max 2MB each allowed)");
+                setImageUploading(false);
+            });
+
+        } else {
+            setImageUploadError("You can only upload 3 images");
+            setImageUploading(false);
+        }
+
+    }
+
+    const handleDeleteImg = (index) => {
+        setRestaurantData((prevData) => ({
+            ...prevData,
+            imgUrls: prevData.imgUrls.filter((_, i) => i !== index),
+        }))
+    }
+
+    const handleMenuDelete = () => {
+        setRestaurantData((prevData) => ({
+            ...prevData,
+            menuUrl: ""
+        }))
+    }
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
@@ -55,7 +139,7 @@ const RestaurantRegistration = () => {
             return toastMessage({ msg: "Invalid Pincode", type: "error" });
         }
 
-        if (restaurantData.accountno.length !== 10) {
+        if (!restaurantData.accountno.length >= 9 && restaurantData.accountno.length <= 18) {
             return toastMessage({ msg: "Invalid Account Number", type: "error" });
         }
 
@@ -64,8 +148,9 @@ const RestaurantRegistration = () => {
         }
 
         const keywords = restaurantData.keywords.split(",").map(keyword => keyword.trim()).join(", ");
+        setRestaurantData(prevState => ({ ...prevState, imgUrls: prevState.imgUrls.concat(Array.from(imgFiles)), menuUrl: menuFile }));
 
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant-registration`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/registration`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -93,10 +178,10 @@ const RestaurantRegistration = () => {
         const data = await res.json();
 
         if (!data.success) {
-            return toastMessage({ msg: data.message, type: "error" });
+            return toastMessage({ message: data.message, type: "error" });
         }
 
-        toastMessage({ msg: data.message, type: "success" });
+        toastMessage({ message: data.message, type: "success" });
         setTimeout(() => {
             navigate("/restaurant-login");
         }, 3700);
@@ -104,6 +189,7 @@ const RestaurantRegistration = () => {
 
     const handleOnChange = (e) => {
         setRestaurantData({ ...restaurantData, [e.target.name]: e.target.value });
+        console.log(restaurantData);
     }
 
     return (
@@ -198,7 +284,6 @@ const RestaurantRegistration = () => {
                                 <option value="Thai">Thai</option>
                                 <option value="French">French</option>
                                 <option value="Spanish">Spanish</option>
-                                <option value="Other">Other</option>
                             </select>
                         </div>
 
@@ -217,17 +302,39 @@ const RestaurantRegistration = () => {
                     <hr />
                     <div className='row'>
                         <div className='col-lg-4 col-md-6 col-sm-12'>
-                            <label htmlFor="image">Images<span>(at least 3)</span></label>
+                            <label htmlFor="image">Images<span style={{ fontSize: "13px" }}>(at least 3 images and 2MB each)</span></label>
                             <br />
-                            <input type="file" required name="image" id="image" className="reg-input" multiple />
+                            <input onChange={(e) => setImgFiles(e.target.files)} accept='image/*' type="file" required name="imgUrls[]" id="image" className="reg-input" multiple />
                         </div>
                         <div className='col-lg-4 col-md-6 col-sm-12'>
                             <label htmlFor="menu">Menu</label>
                             <br />
-                            <input type="file" required name="menu" id="menu" className="reg-input" multiple />
+                            <div className='d-flex align-items-center justify-content-center'>
+                                <input onChange={(e) => setMenuFile(e.target.files[0])} accept='image/*' type="file" required name="menuUrl" id="menu" className="reg-input" />
+                                <input className='btn btn-success-outline ml-3' disabled={imageUpoading || (menuFile && imgFiles.length < 3)} type='button' value={imageUpoading ? "Uploading..." : "Upload"} onClick={handleUpload} />
+                            </div>
                         </div>
                     </div>
+                    <div className='row'>
+                        {
 
+                            restaurantData.imgUrls.length > 0 && restaurantData.imgUrls.map((url, index) => {
+                                console.log(index, url)
+                                return (
+                                    <div className='col-lg-4 col-md-6 col-sm-12' key={index}>
+                                        <img src={url} alt="img" className='img-thumbnail mt-2' style={{ width: "200px", borderRadius: "10px" }} />
+                                        <button onClick={() => handleDeleteImg(index)} className='ml-3 btn btn-danger-outline'><Delete /></button>
+                                    </div>
+                                )
+                            }).concat(
+                                restaurantData.menuUrl &&
+                                <div className='col-lg-4 col-md-6 col-sm-12'>
+                                    <img src={restaurantData.menuUrl} alt="menu" className='img-thumbnail mt-2' style={{ width: "200px", borderRadius: "10px" }} />
+                                    <button onClick={() => handleMenuDelete()} className='ml-3 btn btn-danger-outline'><Delete /></button>
+                                </div>
+                            )
+                        }
+                    </div>
                     <h4 className='mt-4'>Contact Details</h4>
                     <hr />
                     <div className='row'>
@@ -284,7 +391,7 @@ const RestaurantRegistration = () => {
                     <div className='row'>
                         <div className='col-lg-4 col-md-6 col-sm-12'>
                             <label htmlFor="loginid">Login ID<span>(Same as Email)</span></label>
-                            <input type="email" value={restaurantData.email} name="loginid"
+                            <input type="email" value={restaurantData.email} readOnly name="loginid"
                                 id="loginid" className="reg-input" placeholder='Enter Login ID'
                             />
                         </div>
@@ -292,7 +399,7 @@ const RestaurantRegistration = () => {
                             <label htmlFor="password">Password</label>
                             <input type="password" name="password"
                                 value={restaurantData.password} onChange={handleOnChange} id="password"
-                                className="reg-input" placeholder='Enter Password' required
+                                className="reg-input" placeholder='Enter Password' required autoComplete='password'
                             />
                         </div>
                         <div className='col-lg-4 col-md-6 col-sm-12'>
@@ -303,7 +410,7 @@ const RestaurantRegistration = () => {
                                     value={restaurantData.conpassword}
                                     type={showPassword ? "text" : "password"} name="conpassword"
                                     autoComplete="on"
-                                    id="password" required />
+                                    id="cpassword" required />
                                 {
                                     showPassword ?
                                         <VisibilityIcon onClick={() => setShowPassword(!showPassword)} className="eye-icon" /> :
@@ -315,8 +422,8 @@ const RestaurantRegistration = () => {
                     <div className="text-left">
                         <input style={{ width: "20%" }} type="submit" value={"Register"} className="mt-4 btn reg-submit" />
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
             <Footer />
         </>
     )
