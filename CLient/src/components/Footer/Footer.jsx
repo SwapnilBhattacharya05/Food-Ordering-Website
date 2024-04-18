@@ -44,8 +44,8 @@ const Footer = () => {
                     <div className="flex-column d-flex align-items-center justify-content-center footer-column">
                         <h6 className="footer-heading">Other Links</h6>
                         <ul className="list-unstyled d-flex align-items-center justify-content-center flex-column">
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/about"}><InfoIcon /> About</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/contact"}><ContactEmergency /> Contact</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link style={{ color: "white" }} to={"/about"}><InfoIcon /> About</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link style={{ color: "white" }} to={"/contact"}><ContactEmergency /> Contact</Link></li>
                             <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/partner-with-us"}><Handshake /> Partner with us</Link></li>
                         </ul>
                     </div>

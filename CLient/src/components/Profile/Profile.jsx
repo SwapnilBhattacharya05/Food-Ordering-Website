@@ -72,17 +72,7 @@ const Profile = () => {
     const handleLogout = async () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
-        // await setUserData({
-        //     id: "",
-        //     firstName: "",
-        //     lastName: "",
-        //     email: "",
-        //     image: "",
-        //     favourite: "",
-        //     cart: "",
-        //     address: "",
-        //     coupon: ""
-        // });
+
         navigate("/login")
         window.location.reload();
 

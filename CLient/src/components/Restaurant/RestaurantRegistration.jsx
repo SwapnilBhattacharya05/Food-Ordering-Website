@@ -2,7 +2,7 @@ import './RestaurantRegistration.css';
 import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar';
 import { useState } from 'react';
-import app from '../../firebase.js';
+import app from '../../firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';

@@ -70,3 +70,24 @@
 .dark-mode .profile-option-main-container input {
     color: white;
 }
+
+.favourite-card-main {
+    margin-left: 50px;
+}
+
+
+.profile-option-card {
+    border-radius: 10px;
+    height: 110px;
+    background-color: #e7e6e6;
+    width: 260px;
+    margin-top: 50px;
+
+    img {
+        border-radius: 5px;
+    }
+}
+
+.dark-mode .profile-option-card {
+    background-color: #9f9e9e;
+}
