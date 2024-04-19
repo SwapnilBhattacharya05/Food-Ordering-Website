@@ -117,6 +117,17 @@ const Profile = () => {
                             }}
                         >
                             Your Favourites
+                            <Box
+                                sx={{
+                                    textAlign: "left",
+                                    textIndent:70,
+                                    mt:2,
+                                }}
+                            >
+                                <Typography variant="h6">
+                                    You seem to enjoy these items: -
+                                </Typography>
+                            </Box>
                         </Typography>
                         <Favourites />
                     </>

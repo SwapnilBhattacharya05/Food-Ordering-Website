@@ -78,8 +78,8 @@
 
 .profile-option-card {
     border-radius: 10px;
-    height: 110px;
-    background-color: #e7e6e6;
+    height: 110.5px;
+    background-color: #e8e8e8;
     width: 260px;
     margin-top: 50px;
 
@@ -89,5 +89,5 @@
 }
 
 .dark-mode .profile-option-card {
-    background-color: #9f9e9e;
+    background-color: #818181;
 }

@@ -18,7 +18,7 @@ const Favourites = () => {
             <Box
                 sx={{
                     width: "100%",
-                    height: '439px',
+                    height: '385px',
                     overflow: 'auto',
                 }}
             >
@@ -90,6 +90,9 @@ const Favourites = () => {
                                                     sx={{
                                                         fontSize: 10.5,
                                                         maxWidth: 130,
+                                                        textOverflow: "ellipsis",
+                                                        overflow: "hidden",
+                                                        whiteSpace: "nowrap",
                                                     }}
                                                 >
                                                     <strong>Direction:</strong>&nbsp;{location}
