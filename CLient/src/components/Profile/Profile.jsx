@@ -14,7 +14,11 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import Avatar from '@mui/material/Avatar';
 import ProfileMain from "./Options/ProfileMain";
-import Favourites from "./Options/Favourites";
+import { ModuleFavourites, ListFavourites } from './Options/Favourites';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 // import Orders from "./Options/Orders";
 // import Coupons from "./Options/Coupons";
 
@@ -65,17 +69,23 @@ const Item = ({ title, icon, className, onClick }) => {
 }
 
 const Profile = () => {
+    const [view, setView] = useState('module');
+
+    const handleViewChange = (event, newView) => {
+        setView(newView);
+    };
+
+
+
     const navigate = useNavigate();
     // const userContext = useContext(useUserContext);
     // const { userData, setUserData, setUser } = userContext;
-
     const handleLogout = async () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
 
         navigate("/login")
         window.location.reload();
-
     }
 
     const [theme, colorMode] = useMode();
@@ -110,6 +120,7 @@ const Profile = () => {
             case 'Favourites':
                 return (
                     <>
+
                         <Typography
                             variant="h4"
                             sx={{
@@ -117,19 +128,51 @@ const Profile = () => {
                             }}
                         >
                             Your Favourites
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                textAlign: "left",
+                                textIndent: 70,
+                                mt: 2,
+                                height: 40,
+                                width: "100%",
+                                mb: 5,
+                            }}
+                        >
+                            <Typography variant="h5">
+                                You seem to enjoy these items: -
+                            </Typography>
                             <Box
                                 sx={{
-                                    textAlign: "left",
-                                    textIndent:70,
-                                    mt:2,
+                                    ml: 46.5,
                                 }}
                             >
-                                <Typography variant="h6">
-                                    You seem to enjoy these items: -
-                                </Typography>
+                                <ToggleButtonGroup
+                                    orientation="horizontal"
+                                    value={view}
+                                    exclusive
+                                    onChange={handleViewChange}
+                                    aria-label="view"
+                                >
+                                    <ToggleButton value="module" aria-label="module">
+                                        <ViewModuleIcon />
+                                    </ToggleButton>
+
+                                    <ToggleButton value="list" aria-label="list">
+                                        <ViewListIcon />
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
                             </Box>
-                        </Typography>
-                        <Favourites />
+                        </Box>
+                        {
+                            view === 'module'
+                                ?
+                                <ModuleFavourites />
+                                :
+                                <ListFavourites />
+                        }
                     </>
                 );
 

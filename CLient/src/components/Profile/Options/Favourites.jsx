@@ -8,7 +8,9 @@ import { mockFavourites } from '../../../data/MockData';
 import Rating from '@mui/material/Rating';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const Favourites = () => {
+
+// !Module View Section
+const ModuleFavourites = () => {
     const [profileFavourites, setProfileFavourites] = useState(mockFavourites);
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
@@ -18,8 +20,9 @@ const Favourites = () => {
             <Box
                 sx={{
                     width: "100%",
-                    height: '385px',
+                    height: 373.5,
                     overflow: 'auto',
+                    mt: -4,
                 }}
             >
                 <Box
@@ -99,7 +102,7 @@ const Favourites = () => {
                                                 </Box>
                                                 <Box
                                                     sx={{
-                                                        mt: -0.5,
+                                                        mt: 0.5,
                                                         display: "flex",
                                                         alignItems: "center",
                                                     }}
@@ -121,8 +124,7 @@ const Favourites = () => {
                                                         size="small"
                                                         sx={{
                                                             border: "1px solid" + colors.redAccent[500],
-                                                            ml: 3,
-                                                            mt: 1,
+                                                            ml: 2.5,
                                                         }}
                                                     >
                                                         <DeleteIcon fontSize='small' />
@@ -140,4 +142,21 @@ const Favourites = () => {
         </>
     )
 }
-export default Favourites
+
+
+// !List View Section
+const ListFavourites = () => {
+    return (
+        <Box
+            sx={{
+                width: "100%",
+                height: 373.5,
+                overflow: 'auto',
+                mt: -4,
+            }}>
+                
+        </Box>
+    )
+}
+
+export { ModuleFavourites, ListFavourites }
