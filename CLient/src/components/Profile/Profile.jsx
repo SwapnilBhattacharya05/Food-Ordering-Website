@@ -19,8 +19,9 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 // import Orders from "./Options/Orders";
-// import Coupons from "./Options/Coupons";
+// import Adressess from "./Options/Addressess";
 
 
 // import { useUserContext } from "../../Context/UserContext";
@@ -69,13 +70,14 @@ const Item = ({ title, icon, className, onClick }) => {
 }
 
 const Profile = () => {
-    const [view, setView] = useState('module');
+    const [theme, colorMode] = useMode();
+    const colors = tokens(theme.palette.mode);
+    const [selectedItem, setSelectedItem] = useState(sessionStorage.getItem("selectedItem") || "Profile");
+    const [view, setView] = useState(sessionStorage.getItem("view") || "module");
 
     const handleViewChange = (event, newView) => {
         setView(newView);
     };
-
-
 
     const navigate = useNavigate();
     // const userContext = useContext(useUserContext);
@@ -88,9 +90,6 @@ const Profile = () => {
         window.location.reload();
     }
 
-    const [theme, colorMode] = useMode();
-    const colors = tokens(theme.palette.mode);
-    const [selectedItem, setSelectedItem] = useState(sessionStorage.getItem("selectedItem") || "Profile");
 
     useEffect(() => {
         sessionStorage.setItem("selectedItem", selectedItem);
@@ -190,7 +189,7 @@ const Profile = () => {
                     </>
                 );
 
-            case 'Coupons':
+            case 'Address':
                 return (
                     <>
                         <Typography
@@ -199,7 +198,7 @@ const Profile = () => {
                                 marginTop: "20px",
                             }}
                         >
-                            Your Coupons
+                            Your Addresses
                         </Typography>
                     </>
                 );
@@ -236,7 +235,13 @@ const Profile = () => {
                         width: "100%",
                     }}
                 >
-                    <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "20px",
+                        }}
+                    >
                         <Avatar
                             alt="profile"
                             src={""}
@@ -268,19 +273,27 @@ const Profile = () => {
                             onClick={() => handleOptionClick('Orders')}
                         />
                         <Item
-                            title="Coupons"
-                            icon={<ConfirmationNumberOutlinedIcon />}
-                            className="profile-sidebar-item-coupons"
-                            onClick={() => handleOptionClick('Coupons')}
+                            title="Address"
+                            icon={<LocationOnOutlinedIcon />}
+                            className="profile-sidebar-item-address"
+                            onClick={() => handleOptionClick('Address')}
                         />
                         <Button
                             variant="outlined"
                             color="error"
-                            sx={{ marginBottom: "20px", padding: "10px 20px" }}
+                            sx={{
+                                marginBottom: "20px",
+                                padding: "10px 20px"
+                            }}
                             data-toggle="modal"
                             data-target="#exampleModal"
                         >
-                            <ExitToAppIcon sx={{ marginRight: "10px" }} /> Logout
+                            <ExitToAppIcon
+                                sx={{
+                                    marginRight: "10px"
+                                }}
+                            />
+                            Logout
                         </Button>
                     </Box>
                 </Box>

@@ -45,7 +45,7 @@
     }
 }
 
-.profile-sidebar-item-coupons {
+.profile-sidebar-item-address {
     &:hover {
         color: rgb(152, 37, 234);
         transition: all 0.2s ease;
@@ -90,4 +90,28 @@
 
 .dark-mode .profile-option-card {
     background-color: #818181;
+}
+
+.favourite-list-main {
+    margin-left: 30px;
+}
+
+.profile-option-list {
+    border: none;
+    border-bottom: 2px solid #000000;
+    height: 151.5px;
+    width: 1000px;
+    margin-top: 20px;
+
+    img {
+        border-radius: 5px 5px 0 0;
+    }
+}
+
+.dark-mode .profile-option-list{
+    border-bottom: 2px solid #ffffff;
+}
+
+.dark-mode .view-icon-profile-favourite-section{
+    color: white;
 }
