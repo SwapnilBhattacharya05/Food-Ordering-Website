@@ -349,6 +349,28 @@ export const mockFavourites = [
         pincode: "700019",
         rating: 4,
     },
+
+]
+
+export const mockOrders = [
+    {
+        id: "6372e046f52e37ef85fe2c5e",
+        img: "https://s3-ap-south-1.amazonaws.com/betterbutterbucket-silver/debomita-chatterjee20180516172647354.jpeg",
+        orderTime: "Sun, Feb 4, 2024, 02:20 PM",
+        restaurantName: "Restaurant 1",
+        foodItems: [
+            "Chicken Biryani",
+            "Paneer Tikka",
+            "Lassi(300 ml)",
+        ],
+        location: "dum dum",
+        city: "Kolkata",
+        state: "West Bengal",
+        pincode: "700089",
+        price: "200",
+        deliverTime: "Sun, Feb 4, 2024, 03:00 PM",
+        delivered: true,
+    }
 ]
 
 export const mockTransactions = [

@@ -66,35 +66,34 @@ const ProfileMain = () => {
                         </Typography>
 
                         {/* ROW 1 */}
-                        <Box>
-                            <TextField
-                                type='text'
-                                id="profile-first-name"
-                                label="First Name"
-                                variant="outlined"
-                                defaultValue="Swapnil"
-                                required
-                                sx={{
-                                    marginRight: '40px',
-                                }}
-                            />
-                            <TextField
-                                type='text'
-                                id="profile-last-name"
-                                label="Last Name"
-                                variant="outlined"
-                                defaultValue="Bhattacharya"
-                                required
-                            />
-                        </Box>
+                        <TextField
+                            type='text'
+                            id="profile-first-name"
+                            label="First Name"
+                            variant="outlined"
+                            defaultValue="Swapnil"
+                            required
+                            sx={{
+                                marginRight: '40px',
+                            }}
+                        />
+                        <TextField
+                            type='text'
+                            id="profile-last-name"
+                            label="Last Name"
+                            variant="outlined"
+                            defaultValue="Bhattacharya"
+                            required
+                        />
                     </Box>
-                    <Box sx={{
-                        marginTop: '30px',
-                        marginLeft: '50px',
-                        display: 'flex',
-                        alignContent: 'center',
-                        alignItems: 'center',
-                    }}
+                    <Box
+                        sx={{
+                            marginTop: '30px',
+                            marginLeft: '50px',
+                            display: 'flex',
+                            alignContent: 'center',
+                            alignItems: 'center',
+                        }}
                     >
                         {/* FORM LABEL */}
                         <Typography variant='h6'

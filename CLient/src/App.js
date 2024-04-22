@@ -9,7 +9,7 @@ import LoadingBar from 'react-top-loading-bar'
 import About from './components/About/About';
 import Profile from './components/Profile/Profile';
 import Signup from './components/Signup/Signup';
-import Faq from './components/Help/faq';
+import Faq from './components/Help/Faq';
 
 import AdminLogin from './components/Admin/Login/AdminLogin';
 import AdminDashboard from './components/Admin/Dashboard/AdminDashboard';

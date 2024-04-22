@@ -1,26 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import Footer from "../Footer/Footer";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 import "./Profile.css"
+import { Box, Typography, Button, IconButton } from "@mui/material";
 import { tokens, useMode } from "../Admin/theme";
+import { ModuleFavourites, ListFavourites } from './Options/Favourites';
 import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import Avatar from '@mui/material/Avatar';
 import ProfileMain from "./Options/ProfileMain";
-import { ModuleFavourites, ListFavourites } from './Options/Favourites';
+import Orders from "./Options/Orders";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-// import Orders from "./Options/Orders";
 // import Adressess from "./Options/Addressess";
 
 
@@ -76,7 +74,9 @@ const Profile = () => {
     const [view, setView] = useState(sessionStorage.getItem("view") || "module");
 
     const handleViewChange = (event, newView) => {
-        setView(newView);
+        if (newView !== null) {
+            setView(newView);
+        }
     };
 
     const navigate = useNavigate();
@@ -141,7 +141,7 @@ const Profile = () => {
                             }}
                         >
                             <Typography variant="h5">
-                                You seem to enjoy these items: -
+                                You seem to enjoy these items:&nbsp;-
                             </Typography>
                             <Box
                                 sx={{
@@ -184,8 +184,9 @@ const Profile = () => {
                                 marginTop: "20px",
                             }}
                         >
-                            Your Orders
+                            History of Orders:&nbsp;-
                         </Typography>
+                        <Orders />
                     </>
                 );
 
@@ -253,6 +254,8 @@ const Profile = () => {
                             }}
                         />
                     </Box>
+
+                    {/* SIDEBAR */}
                     <Box className="profile-sidebar">
                         <Item
                             title="Profile"

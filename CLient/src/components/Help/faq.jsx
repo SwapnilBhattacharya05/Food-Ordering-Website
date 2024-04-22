@@ -1,12 +1,12 @@
 import React from "react";
-import './faq.css';
+import './Faq.css';
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { CssBaseline, ThemeProvider } from "@mui/material"
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../Navbar/Navbar.jsx";
 import { ColorModeContext, tokens, useMode } from "../Admin/theme.js";
 import Footer from "../Footer/Footer.jsx";
 
@@ -22,7 +22,7 @@ const Faq = () => {
                 <CssBaseline />
 
                 {/* FAQ PAGE CONTAINER */}
-                <Box mt="120px" mb="120px" ml="20px">
+                <Box mt="100px" mb="120px" ml="20px">
 
                     {/* FAQ PAGE HEADING */}
                     <Box mb="30px">

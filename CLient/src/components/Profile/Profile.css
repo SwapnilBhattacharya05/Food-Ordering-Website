@@ -1,5 +1,5 @@
 .profile-container {
-    margin-top: 140px;
+    margin-top: 100px;
     height: 500px;
 }
 
@@ -108,10 +108,24 @@
     }
 }
 
-.dark-mode .profile-option-list{
+.dark-mode .profile-option-list {
     border-bottom: 2px solid #ffffff;
 }
 
-.dark-mode .view-icon-profile-favourite-section{
+.dark-mode .view-icon-profile-favourite-section {
     color: white;
+}
+
+.profile-orders-list-main {
+    margin-left: 30px;
+}
+
+.profile-option-orders {
+    height: 151.5px;
+    width: 1000px;
+    margin-top: 20px;
+
+    img {
+        border-radius: 5px 5px 0 0;
+    }
 }
