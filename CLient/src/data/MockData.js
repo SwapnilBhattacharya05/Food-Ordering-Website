@@ -26,6 +26,39 @@ export const mockPieData = [
 ]
 
 
+export const mockProductRating = [
+    {
+        id: 1,
+        name: 'Food1',
+        value: 4.5
+    },
+    {
+        id: 2,
+        name: 'Food2',
+        value: 4
+    },
+    {
+        id: 3,
+        name: 'Food3',
+        value: 3.5
+    },
+    {
+        id: 4,
+        name: 'Food4',
+        value: 3
+    },
+    {
+        id: 5,
+        name: 'Food5',
+        value: 2
+    },
+    {
+        id: 6,
+        name: 'Food6',
+        value: 1.5
+    },
+
+]
 export const mockRestaurantRating = [
     {
         id: 1,

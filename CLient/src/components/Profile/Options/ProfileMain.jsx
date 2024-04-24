@@ -4,13 +4,17 @@ import { Box, Typography, Button } from '@mui/material'
 import TextField from '@mui/material/TextField';
 import { tokens, useMode } from '../../Admin/theme';
 import Avatar from '@mui/material/Avatar';
+import { useUserContext } from '../../../Context/UserContext';
 
 
 
 
 const ProfileMain = () => {
+
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
+    const { user } = useUserContext();
+    console.log(user)
     return (
 
         <>
@@ -71,10 +75,12 @@ const ProfileMain = () => {
                             id="profile-first-name"
                             label="First Name"
                             variant="outlined"
-                            defaultValue="Swapnil"
+                            defaultValue={user.firstName}
                             required
                             sx={{
-                                marginRight: '40px',
+                                marginRight: '10px',
+                                width: '250px',
+
                             }}
                         />
                         <TextField
@@ -82,8 +88,11 @@ const ProfileMain = () => {
                             id="profile-last-name"
                             label="Last Name"
                             variant="outlined"
-                            defaultValue="Bhattacharya"
+                            defaultValue={user.lastName}
                             required
+                            sx={{
+                                width: '250px',
+                            }}
                         />
                     </Box>
                     <Box
@@ -111,10 +120,12 @@ const ProfileMain = () => {
                                 id="profile-contact"
                                 label="Contact No."
                                 variant="outlined"
-                                defaultValue="1234567890"
+                                defaultValue={user.phone}
                                 required
                                 sx={{
-                                    marginRight: '40px',
+                                    marginRight: '10px',
+                                    width: '250px',
+
                                 }}
                             />
                             <TextField
@@ -122,8 +133,11 @@ const ProfileMain = () => {
                                 id="profile-email"
                                 label="Email"
                                 variant="outlined"
-                                defaultValue="hungry@gmail.com"
+                                defaultValue={user.email}
                                 required
+                                sx={{
+                                    width: '250px',
+                                }}
                             />
                         </Box>
                     </Box>
@@ -149,13 +163,14 @@ const ProfileMain = () => {
 
                             <TextField
                                 id="profile-address"
-                                type='email'
+                                type='text'
                                 variant="outlined"
                                 multiline
+                                devaultValue={user.address}
                                 rows={6}
                                 required
                                 sx={{
-                                    width: '485px',
+                                    width: '510px',
                                 }}
                                 InputLabelProps={{
                                     shrink: true,
@@ -170,6 +185,7 @@ const ProfileMain = () => {
                     sx={{
                         height: '100%',
                         flex: 2,
+
                     }}
                 >
                     <Box
@@ -181,7 +197,7 @@ const ProfileMain = () => {
                     >
                         <Avatar
                             alt='User Main Image'
-                            src={''}
+                            src={user.image}
                             sx={{
                                 height: 200,
                                 width: 200,

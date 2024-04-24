@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { tokens, useMode } from '../../Admin/theme'
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography, Button, IconButton } from "@mui/material";
 import { mockOrders } from '../../../data/MockData';
 import "../Profile.css"
 import Divider from '@mui/material/Divider';
@@ -92,7 +92,6 @@ const Orders = () => {
                                                         <CancelIcon color="warning"
                                                         />
                                                     }
-
                                                 </Box>
                                             </Box>
                                             <Box
@@ -158,7 +157,6 @@ const Orders = () => {
                                                 >REORDER
 
                                                 </Button>
-
                                             </Box>
                                         </Box>
                                     </Box>
@@ -168,8 +166,6 @@ const Orders = () => {
                         })
 
                     }
-
-
                 </Box>
             </Box >
         </>

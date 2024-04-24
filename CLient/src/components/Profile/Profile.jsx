@@ -19,12 +19,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-// import Adressess from "./Options/Addressess";
-
-
-// import { useUserContext } from "../../Context/UserContext";
-
-
+import { useUserContext } from "../../Context/UserContext.js";
 const Item = ({ title, icon, className, onClick }) => {
     return (
         <>
@@ -42,7 +37,7 @@ const Item = ({ title, icon, className, onClick }) => {
             >
                 <Box
                     sx={{
-                        marginRight: "10px",
+                        mr: 1,
                     }}
                 >
                     {icon}
@@ -59,7 +54,7 @@ const Item = ({ title, icon, className, onClick }) => {
             </Box>
             <Divider
                 sx={{
-                    margin: "20px 0",
+                    margin: "25px 0",
                 }}
             />
         </>
@@ -72,6 +67,7 @@ const Profile = () => {
     const colors = tokens(theme.palette.mode);
     const [selectedItem, setSelectedItem] = useState(sessionStorage.getItem("selectedItem") || "Profile");
     const [view, setView] = useState(sessionStorage.getItem("view") || "module");
+    const { user } = useUserContext();
 
     const handleViewChange = (event, newView) => {
         if (newView !== null) {
@@ -189,20 +185,6 @@ const Profile = () => {
                         <Orders />
                     </>
                 );
-
-            case 'Address':
-                return (
-                    <>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                marginTop: "20px",
-                            }}
-                        >
-                            Your Addresses
-                        </Typography>
-                    </>
-                );
             default:
                 return null;
         }
@@ -241,11 +223,12 @@ const Profile = () => {
                             display: "flex",
                             justifyContent: "center",
                             marginTop: "20px",
+                            mb: 3,
                         }}
                     >
                         <Avatar
                             alt="profile"
-                            src={""}
+                            src={user.image}
                             sx={{
                                 height: 100,
                                 width: 100,
@@ -275,17 +258,11 @@ const Profile = () => {
                             className="profile-sidebar-item-orders"
                             onClick={() => handleOptionClick('Orders')}
                         />
-                        <Item
-                            title="Address"
-                            icon={<LocationOnOutlinedIcon />}
-                            className="profile-sidebar-item-address"
-                            onClick={() => handleOptionClick('Address')}
-                        />
                         <Button
                             variant="outlined"
                             color="error"
                             sx={{
-                                marginBottom: "20px",
+                                mt: 2,
                                 padding: "10px 20px"
                             }}
                             data-toggle="modal"

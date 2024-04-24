@@ -22,6 +22,8 @@ import AdminRestaurant from './components/Admin/Main/AdminRestaurants';
 import AdminFinance from './components/Admin/Graph/AdminFinance';
 
 import RestaurantRegistration from './components/Restaurant/RestaurantRegistration';
+import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
+
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -51,6 +53,7 @@ function App() {
 
         {/* RESTAURANT PATHS */}
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />
+        <Route path='/restaurant-dashboard' element={<RestaurantDashboard />} />
 
         {/* LOGIN SIGNUP PATHS */}
         <Route path='/login' element={<Login />} />

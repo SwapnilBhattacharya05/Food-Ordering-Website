@@ -1,0 +1,35 @@
+.sticky-sidebar {
+    position: fixed;
+}
+
+.Admin-StatBox-Background {
+    background-color: #d9dbd8;
+}
+
+.dark-mode .Admin-StatBox-Background {
+    background-color: #525352;
+}
+
+.Admin-Chart-Background {
+    background-color: #d9dbd8;
+}
+
+.dark-mode .Admin-Chart-Background {
+    background-color: #525352;
+}
+
+.Admin-Transaction-Background {
+    background-color: #d9dbd8;
+}
+
+.dark-mode .Admin-Transaction-Background {
+    background-color: #525352;
+}
+
+.Admin-ThirdRow-Background {
+    background-color: #d9dbd8;
+}
+
+.dark-mode .Admin-ThirdRow-Background {
+    background-color: #525352;
+}
