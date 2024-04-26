@@ -22,7 +22,9 @@ const Footer = () => {
                     <div className="d-flex flex-column footer-column">
                         <div className="footer-logo">
                             <h6>FOODZIE</h6>
-                            <img src="img/foodzie_logo.png" alt="logo" />
+                            <img
+                                src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/foodzie_logo.png?alt=media&token=8ce6cfe2-8ff4-4186-8721-690d25eb7e2c"
+                                alt="logo" />
                         </div>
                         <p>Follow Us @</p>
                         <ul className="social-icons gap-3 list-unstyled d-flex justify-content-start align-items-center">

@@ -23,7 +23,7 @@ const RestaurantRegistration = () => {
         city: "",
         pincode: "",
         state: "",
-        cuisine: "",
+        cuisine: "Indian",
         keywords: "",
         hours: "",
         phone: "",

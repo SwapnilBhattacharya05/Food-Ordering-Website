@@ -1,0 +1,29 @@
+.review-container .review-box{
+    width: 100%;
+    min-height: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border:1px solid green;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.dark-mode .review-container .review-sort{
+    background-color: inherit;
+    color: inherit !important;
+}
+
+.dark-mode .review-container .review-sort option{
+    background-color: black;
+    color: white;
+}
+
+.review-container .review-form .review-input{
+    width: 100%;
+    height: 5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid green;
+    margin-bottom: 1rem;
+}

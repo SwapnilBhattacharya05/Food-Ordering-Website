@@ -27,6 +27,7 @@ import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import RestaurantPage from './components/Restaurant/RestaurantPage';
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
         {/* RESTAURANT PATHS */}
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />
         <Route path='/restaurant-dashboard' element={<RestaurantDashboard />} />
+        <Route path='/restaurant-registration' element={<RestaurantRegistration />}></Route>
+        <Route path='/restaurant/:restaurantId' element={<RestaurantPage />}></Route>
 
         {/* LOGIN SIGNUP PATHS */}
         <Route path='/login' element={<Login />} />

@@ -1,0 +1,84 @@
+.restaurant-page {
+    min-height: 300px;
+    margin-top: 100px;
+}
+
+.restaurant-page .restaurant-page-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 25.5rem;
+    object-fit: contain;
+}
+
+.restaurant-page .restaurant-page-image-container .restaurant-page-banner-left-part {
+    width: 70%;
+    height: 25.5rem;
+}
+
+.restaurant-page .restaurant-page-image-container .restaurant-page-banner-left-part img {
+    width: 100%;
+    /* overflow: hidden; */
+    height: 100%;
+    border-radius: 1rem;
+    border: 2px solid green;
+    cursor: pointer;
+}
+
+.restaurant-page .restaurant-page-image-container .restaurant-page-banner-right-part {
+    width: 30%;
+    height: 25.5rem;
+}
+
+.restaurant-page .restaurant-page-image-container .restaurant-page-banner-right-part img {
+    overflow: hidden;
+    cursor: pointer;
+    height: 12.51rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 2px solid green;
+}
+
+.restaurant-page .restaurant-page-info .restaurant-page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurant-page .restaurant-page-info .restaurant-page-heading h1 {
+    font-size: 3rem;
+    font-weight: bolder;
+}
+
+.restaurant-page .restaurant-page-info {
+    position: sticky;
+    top: 0;
+}
+
+.restaurant-page .restaurant-page-main .restaurant-page-main-options {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid black;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.dark-mode .restaurant-page .restaurant-page-main .restaurant-page-main-options {
+    border-bottom: 1px solid white;
+}
+
+.restaurant-page .restaurant-page-main .restaurant-page-main-options button {
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    color: black;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.dark-mode .restaurant-page .restaurant-page-main .restaurant-page-main-options button {
+    color: white;
+}
