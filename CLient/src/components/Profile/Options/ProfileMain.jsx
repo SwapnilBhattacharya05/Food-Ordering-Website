@@ -1,20 +1,85 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "../Profile.css"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { Box, Typography, Button } from '@mui/material'
 import TextField from '@mui/material/TextField';
 import { tokens, useMode } from '../../Admin/theme';
 import Avatar from '@mui/material/Avatar';
-import { useUserContext } from '../../../Context/UserContext';
-
-
-
+import { useUserContext } from "../../../Context/UserContext.js";
+import app from '../../../firebase.js';
 
 const ProfileMain = () => {
-
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const { user } = useUserContext();
-    console.log(user)
+
+    const [edit, setEdit] = useState(false);
+
+    const [file, setFile] = useState(null);
+    const [fileURL, setFileURL] = useState(null);
+    const [fileError, setFileError] = useState(false);
+    const [filePercentage, setFilePercentage] = useState(0);
+
+    const [formData, setFormData] = useState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        password: "",
+        conpassword: "",
+    });
+
+    useEffect(() => {
+        if (file) {
+            handleFileUpload(file);
+        }
+        console.log(file);
+    }, [file]);
+
+    const fileRef = useRef(null);
+    const handleOnChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const handleFileUpload = (file) => {
+        if (!file) {
+            console.error("No file selected.");
+            return;
+        }
+
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        console.log("Upload task created.");
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload progress:", progress);
+                setFilePercentage(Math.round(progress));
+            },
+            (error) => {
+                console.error("Error uploading file:", error);
+                setFileError(true);
+            },
+            () => {
+                console.log("Upload completed.");
+                getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
+                        console.log("File uploaded successfully. URL:", downloadURL);
+                        setFileURL(downloadURL);
+                    })
+                    .catch((error) => {
+                        console.error("Error retrieving download URL:", error);
+                        setFileError(true);
+                    });
+            }
+        );
+    };
+
+
     return (
 
         <>
@@ -49,11 +114,11 @@ const ProfileMain = () => {
                 <Box className='profile-option-main-form-left'
                     sx={{
                         height: '100%',
-                        flex: 1,
+                        flex: 4,
                     }}
                 >
                     <Box sx={{
-                        marginTop: '30px',
+                        marginTop: '58px',
                         marginLeft: '50px',
                         display: 'flex',
                         alignContent: 'center',
@@ -63,7 +128,7 @@ const ProfileMain = () => {
                         {/* FORM LABEL */}
                         <Typography variant='h6'
                             sx={{
-                                marginRight: '30px'
+                                marginRight: '44px'
                             }}
                         >
                             Name:
@@ -73,41 +138,43 @@ const ProfileMain = () => {
                         <TextField
                             type='text'
                             id="profile-first-name"
+                            name="firstName"
                             label="First Name"
                             variant="outlined"
-                            defaultValue={user.firstName}
+                            onChange={edit ? handleOnChange : null}
+                            value={formData.firstName}
                             required
                             sx={{
-                                marginRight: '10px',
-                                width: '250px',
-
+                                marginRight: '40px',
+                                width: '210px',
                             }}
                         />
                         <TextField
                             type='text'
                             id="profile-last-name"
+                            name="lastName"
+                            onChange={edit ? handleOnChange : null}
                             label="Last Name"
                             variant="outlined"
-                            defaultValue={user.lastName}
+                            value={formData.lastName}
                             required
                             sx={{
-                                width: '250px',
+                                width: '210px',
                             }}
                         />
                     </Box>
-                    <Box
-                        sx={{
-                            marginTop: '30px',
-                            marginLeft: '50px',
-                            display: 'flex',
-                            alignContent: 'center',
-                            alignItems: 'center',
-                        }}
+                    <Box sx={{
+                        marginTop: '58px',
+                        marginLeft: '50px',
+                        display: 'flex',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                    }}
                     >
                         {/* FORM LABEL */}
                         <Typography variant='h6'
                             sx={{
-                                marginRight: '10px'
+                                marginRight: '25px'
                             }}
                         >
                             Account:
@@ -119,24 +186,28 @@ const ProfileMain = () => {
                                 type='number'
                                 id="profile-contact"
                                 label="Contact No."
+                                name='phone'
                                 variant="outlined"
-                                defaultValue={user.phone}
+                                onChange={edit ? handleOnChange : null}
+                                value={formData.phone}
                                 required
                                 sx={{
-                                    marginRight: '10px',
-                                    width: '250px',
+                                    marginRight: '40px',
+                                    width: '210px',
 
                                 }}
                             />
                             <TextField
                                 type='email'
                                 id="profile-email"
+                                name='email'
                                 label="Email"
+                                onChange={edit ? handleOnChange : null}
                                 variant="outlined"
-                                defaultValue={user.email}
+                                value={formData.email}
                                 required
                                 sx={{
-                                    width: '250px',
+                                    width: '210px',
                                 }}
                             />
                         </Box>
@@ -144,7 +215,7 @@ const ProfileMain = () => {
 
                     {/* ROW 3 */}
                     <Box sx={{
-                        marginTop: '30px',
+                        marginTop: '58px',
                         marginLeft: '50px',
                         display: 'flex',
                         alignContent: 'center',
@@ -154,26 +225,37 @@ const ProfileMain = () => {
                         {/* FORM LABEL */}
                         <Typography variant='h6'
                             sx={{
-                                marginRight: '10px'
+                                marginRight: '10px',
                             }}
                         >
-                            Address:
+                            Password:
                         </Typography>
                         <Box>
-
                             <TextField
-                                id="profile-address"
-                                type='text'
+                                type='password'
+                                id="profile-password"
+                                name='password'
+                                label="Password"
+                                onChange={edit ? handleOnChange : null}
                                 variant="outlined"
-                                multiline
-                                devaultValue={user.address}
-                                rows={6}
+                                value={formData.password}
                                 required
                                 sx={{
-                                    width: '510px',
+                                    marginRight: '40px',
+                                    width: '210px',
                                 }}
-                                InputLabelProps={{
-                                    shrink: true,
+                            />
+                            <TextField
+                                type='password'
+                                id="profile-password"
+                                name='conpassword'
+                                label="Confirm Password"
+                                onChange={edit ? handleOnChange : null}
+                                variant="outlined"
+                                value={formData.conpassword}
+                                required
+                                sx={{
+                                    width: '210px',
                                 }}
                             />
 
@@ -185,7 +267,6 @@ const ProfileMain = () => {
                     sx={{
                         height: '100%',
                         flex: 2,
-
                     }}
                 >
                     <Box
@@ -195,21 +276,41 @@ const ProfileMain = () => {
                             alignItems: 'center',
                         }}
                     >
+                        <input
+                            type='file'
+                            accept='image/*'
+                            id='profile-image-input'
+                            ref={fileRef}
+                            hidden
+                            onChange={(e) => setFile(e.target.files[0])}
+                        />
                         <Avatar
+                            onClick={() => fileRef.current.click()}
                             alt='User Main Image'
-                            src={user.image}
+                            src={fileURL || user.image}
                             sx={{
                                 height: 200,
                                 width: 200,
                                 border: '2px solid ' + colors.greenAccent[500],
+                                cursor: 'pointer',
+                                transition: 'all 0.1s ease-in-out',
+                                "&:hover": {
+                                    border: '2px solid ' + colors.greenAccent[600],
+                                },
+                                '&:hover img': {
+                                    transform: 'scale(1.1)',
+                                    transition: 'all ease-in-out',
+                                }
                             }}
                         />
                     </Box>
-
+                    <span className='text-danger'>{fileError ? 'Something went wrong' : null}</span>
+                    {!fileError && <span className='text-success'>{filePercentage === 100 ? 'Image uploaded successfully' : null}</span>}
                     {/* SUBMIT BUTTON */}
                     <Box className="profile-option-main-form-button">
                         <Button
                             type='submit'
+                            onClick={() => setEdit(!edit)}
                             variant="contained"
                             id='profile-option-main-submit-button'
                             sx={{
@@ -217,11 +318,11 @@ const ProfileMain = () => {
                                 p: '12px 50px',
                             }}
                         >
-                            Edit
+                            {edit ? 'Save' : 'Edit'}
                         </Button>
                     </Box>
                 </Box>
-            </Box >
+            </Box>
         </>
     )
 }

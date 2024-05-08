@@ -20,6 +20,8 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useUserContext } from "../../Context/UserContext.js";
+
+
 const Item = ({ title, icon, className, onClick }) => {
     return (
         <>
@@ -37,7 +39,7 @@ const Item = ({ title, icon, className, onClick }) => {
             >
                 <Box
                     sx={{
-                        mr: 1,
+                        marginRight: "10px",
                     }}
                 >
                     {icon}
@@ -54,7 +56,7 @@ const Item = ({ title, icon, className, onClick }) => {
             </Box>
             <Divider
                 sx={{
-                    margin: "25px 0",
+                    margin: "20px 0",
                 }}
             />
         </>
@@ -185,6 +187,20 @@ const Profile = () => {
                         <Orders />
                     </>
                 );
+
+            case 'Address':
+                return (
+                    <>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            Your Addresses
+                        </Typography>
+                    </>
+                );
             default:
                 return null;
         }
@@ -223,7 +239,6 @@ const Profile = () => {
                             display: "flex",
                             justifyContent: "center",
                             marginTop: "20px",
-                            mb: 3,
                         }}
                     >
                         <Avatar
@@ -258,11 +273,17 @@ const Profile = () => {
                             className="profile-sidebar-item-orders"
                             onClick={() => handleOptionClick('Orders')}
                         />
+                        <Item
+                            title="Address"
+                            icon={<LocationOnOutlinedIcon />}
+                            className="profile-sidebar-item-address"
+                            onClick={() => handleOptionClick('Address')}
+                        />
                         <Button
                             variant="outlined"
                             color="error"
                             sx={{
-                                mt: 2,
+                                marginBottom: "20px",
                                 padding: "10px 20px"
                             }}
                             data-toggle="modal"
@@ -289,7 +310,7 @@ const Profile = () => {
                 >
                     {renderRightContent()}
                 </Box>
-            </Box >
+            </Box>
 
             {/* FOOTER */}
             <Footer />
@@ -347,7 +368,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
 
         </>
     );

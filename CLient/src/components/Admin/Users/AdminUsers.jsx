@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { CssBaseline, ThemeProvider, Button, colors } from "@mui/material"
 import AdminTopbar from '../Global/AdminTopbar'
@@ -17,10 +17,27 @@ const AdminUsers = () => {
   const [theme, colorMode] = useMode();
 
   const [allUsers, setAllUsers] = useState([]);
-  const usersWithIds = allUsers.map((value, index, array) => ({
-    id: value._id,
-    ...value,
-  }));
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/getallusers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      const data = await response.json();
+      console.log(data.users);
+      setAllUsers(data.users);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, [allUsers.length]);
 
   const columns = [
     {
@@ -41,8 +58,8 @@ const AdminUsers = () => {
     },
 
     {
-      field: "username",
-      headerName: "Username",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column-cell"
     },
@@ -178,7 +195,8 @@ const AdminUsers = () => {
                   color: "#3da58a !important",
                 },
               }}
-              rows={usersWithIds}
+              getRowId={(row) => row._id}
+              rows={allUsers}
               columns={columns}
               slots={{
                 toolbar: customToolbar,

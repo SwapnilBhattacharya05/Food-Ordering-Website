@@ -10,6 +10,7 @@ import About from './components/About/About';
 import Profile from './components/Profile/Profile';
 import Signup from './components/Signup/Signup';
 import Faq from './components/Help/Faq';
+import Contact from './components/Contact/Contact'
 
 import AdminLogin from './components/Admin/Login/AdminLogin';
 import AdminDashboard from './components/Admin/Dashboard/AdminDashboard';
@@ -51,6 +52,7 @@ function App() {
         <Route path='/help' element={<Faq />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
 
         {/* RESTAURANT PATHS */}
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />
