@@ -135,3 +135,19 @@
 .dark-mode .profile-option-orders {
     background-color: #818181;
 }
+
+.profile-address-card {
+    background-color: #ffffff;
+}
+
+.dark-mode .profile-address-card {
+    background-color: #818181;
+}
+
+
+.profile-address-icon{
+    color: #cdcccc;
+}
+.dark-mode .profile-address-icon{
+    color: white;
+}
