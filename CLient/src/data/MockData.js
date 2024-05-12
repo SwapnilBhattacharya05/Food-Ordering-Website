@@ -24,6 +24,34 @@ export const mockPieData = [
     },
 
 ]
+export const mockAddress =[
+    {
+        id: 1,
+        type: 'Home',
+        address:'123 Main Street New York, NY 10001',
+    },
+    {
+        id: 2,
+        type: 'Work',
+        address:'123 Main Street New York, NY 10001',
+    },
+    {
+        id: 3,
+        type: 'Other',
+        address:'123 Main Street New York, NY 10001',
+    },
+    {
+        id: 4,
+        type: 'Other',
+        address:'123 Main Street New York, NY 10001',
+    },
+    {
+        id: 5,
+        type: 'Other',
+        address:'123 Main Street New York, NY 10001',
+    },
+
+]
 
 
 export const mockProductRating = [

@@ -145,9 +145,19 @@
 }
 
 
-.profile-address-icon{
+.profile-address-icon {
     color: #cdcccc;
 }
-.dark-mode .profile-address-icon{
+
+.dark-mode .profile-address-icon {
     color: white;
+}
+
+.dark-mode .profile-modal>* {
+    background-color: #797777;
+
+}
+
+.dark-mode .address-modal>* {
+    background-color: #797777;
 }

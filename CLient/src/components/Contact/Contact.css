@@ -1,3 +1,100 @@
 .contact-container {
-  margin-top: 100px;
+  margin: auto;
+  position: relative;
+  display: flex;
+  margin-top: 92px;
+  width: 80vw;
+  min-height: 90vh;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  background-color: whitesmoke;
+}
+
+.dark-mode .contact-container {
+  background-color: #525352;
+}
+
+.contact-left {
+  width: 80%;
+  height: 100%;
+}
+
+.contact-right {
+  width: 20%;
+  background-color: rgba(184, 228, 208, 0.797);
+}
+
+.contact-heading {
+  font-size: 3rem;
+  font-weight: 500;
+  padding: 20px;
+}
+
+.contact-highlight {
+  color: rgb(26, 237, 167);
+}
+
+.contact-subheading {
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+.contact-form-container {
+  width: 40vw;
+  height: 60vh;
+}
+
+.dark-mode .contact-form-container input {
+  color: white;
+}
+.dark-mode .contact-form-container textarea {
+  color: white;
+}
+
+#contact-phone::-webkit-outer-spin-button,
+::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+
+}
+
+#contact-submit {
+  background-color: rgb(26, 237, 167);
+  padding: 10px 220px;
+}
+
+.contact-icon {
+  display: flex;
+  align-items: center;
+}
+
+.contact-info-title {
+  text-align: center;
+  font-weight: 500;
+}
+
+.contact-info-number {
+  font-size: 0.7rem;
+}
+
+.contact-info {
+  margin-right: 40px;
+}
+
+.contact-map {
+  position: absolute;
+  top: 35px;
+  right: 100px;
+  height: 80vh;
+  width: 20vw;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 20px;
+}
+
+#contact-map-iframe {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+
 }
