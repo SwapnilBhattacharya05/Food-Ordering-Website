@@ -14,11 +14,13 @@
 }
 
 .contact-left {
+  position: relative;
   width: 80%;
   height: 100%;
 }
 
 .contact-right {
+  position: relative;
   width: 20%;
   background-color: rgba(184, 228, 208, 0.797);
 }
@@ -46,6 +48,7 @@
 .dark-mode .contact-form-container input {
   color: white;
 }
+
 .dark-mode .contact-form-container textarea {
   color: white;
 }

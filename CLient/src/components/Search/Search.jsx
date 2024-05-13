@@ -1,13 +1,25 @@
 import "./Search.css";
 import Navbar from '../Navbar/Navbar';
 import Footer from "../Footer/Footer";
+import FilterSection from "./FilterSection";
+import SearchResults from "./SearchResults";
+import SortingSection from "./SortingSection";
+
 
 const Search = () => {
+
   return (
     <div>
       <Navbar />
       <div className="container search-container">
-        <h3>Search</h3>
+        <div className="first-container">
+          <FilterSection />
+        </div>
+
+        <div className="second-container">
+          <SortingSection />
+          <SearchResults />
+        </div>
       </div>
       <Footer />
     </div>

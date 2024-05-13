@@ -1,0 +1,59 @@
+.filter-section-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem
+}
+
+.filter-section-container .search-input {
+    padding: 0.4rem;
+    width: 95%;
+    outline: none;
+    border-radius: 5px;
+}
+
+.dark-mode .filter-section-container .search-input {
+    background-color: rgb(136, 133, 133);
+    border: none;
+    outline: none;
+}
+
+.filter-section-container .search-input::placeholder {
+    color: black;
+}
+
+.filter-section-container .filter-btn {
+    border: none;
+    background-color: rgb(228, 228, 228);
+    outline: none;
+    border-radius: 5px;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    height: 2rem;
+    width: auto;
+    padding: 0.4rem;
+    font-size: small;
+    cursor: pointer;
+}
+
+.dark-mode .filter-section-container .filter-btn {
+    background-color: #13313d;
+    color: white;
+}
+
+.filter-section-container .filter-btn.active {
+    background-color: rgb(0, 0, 0);
+    color: white
+}
+
+.filter-section-container .cuisine-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem
+}
+
+.filter-section-container .cuisine-container .form-check .form-check-input {
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.filter-section-container .cuisine-container .form-check .form-check-label {
+    font-weight: bolder;
+    cursor: pointer;
+}

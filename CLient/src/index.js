@@ -5,6 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from './Context/AppContext.js';
 import { UserProvider } from './Context/UserContext.js';
+import { FilterProvider } from './Context/FilterContext.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <React.StrictMode>
       <AppProvider>
         <UserProvider>
-          <App />
+          <FilterProvider>
+            <App />
+          </FilterProvider>
         </UserProvider>
       </AppProvider>
     </React.StrictMode>
