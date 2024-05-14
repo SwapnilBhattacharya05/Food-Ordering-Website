@@ -164,23 +164,28 @@ const AdminUsers = () => {
                 },
                 // ?change the style of the cells/rows in the table
                 "& .MuiDataGrid-cell": {
-                  borderBottom: "1px solid #a3a3a3",
+                  borderBottom: "1px solid #9d9999",
                 },
                 // ?change the style of the headers of the table
                 "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: "#a3a3a3",
+                  backgroundColor: "#525352",
                 },
                 ".dark-mode & .MuiDataGrid-columnHeaders": {
                   backgroundColor: "#525352",
                 },
                 // ?change style of the content in the table 
                 "& .MuiDataGrid-virtualScroller": {
-                  backgroundColor: "#F0F0F0",
+                  backgroundColor: "white",
+                  color : "black"
+                },
+                ".dark-mode & .MuiDataGrid-virtualScroller": {
+                  backgroundColor: "#979797",
+                  color : "white"
                 },
                 // ?change style of the footer of the table
                 "& .MuiDataGrid-footerContainer": {
                   borderTop: "none",
-                  backgroundColor: "#a3a3a3",
+                  backgroundColor: "#525352",
                 },
                 ".dark-mode & .MuiDataGrid-footerContainer": {
                   borderTop: "none",

@@ -34,7 +34,7 @@ const AdminRestaurant = () => {
                             justifyContent='space-between'
                             alignItems='center'>
 
-                            <AdminHeader title="COUPONS" subtitle="Edit Your Coupons Here" />
+                            <AdminHeader title="RESTAURANTS" subtitle="Check Restaurants Here" />
                         </Box>
 
                     </Box>

@@ -40,6 +40,7 @@ const AdminSidebar = () => {
 
         style={{
           position: 'fixed',
+          height: '100vh',
         }}
 
         className='AdminSidebar'>
@@ -73,7 +74,7 @@ const AdminSidebar = () => {
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <img src="../img/foodzie_logo.png"
                     style={{
-                      height: '5rem',
+                      height: '3rem',
                       width: '6.5rem'
                     }}
                   />
@@ -98,7 +99,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "6px 2px 5px 20px",
+                m: "10px 2px 20px 20px",
               }}
             >
               Users
@@ -116,7 +117,7 @@ const AdminSidebar = () => {
             <Typography
               variant='h6'
               sx={{
-                m: "6px 2px 5px 20px",
+                m: "10px 2px 20px 20px",
               }}
             >
               Main
@@ -166,28 +167,11 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             >
             </Item>
-            <Typography
-              variant='h6'
-              sx={{
-                m: "6px 2px 5px 20px",
-              }}
-            >
-              Graph
-            </Typography>
-
-            <Item
-              title="Finance"
-              to={"/AdminFinance"}
-              icon={<StackedLineChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            >
-            </Item>
 
             <Typography
               variant='h6'
               sx={{
-                m: "6px 2px 5px 20px",
+                m: "10px 2px 20px 20px",
               }}
             >
               Other

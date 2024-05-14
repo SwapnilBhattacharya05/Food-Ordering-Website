@@ -20,7 +20,6 @@ import AdminCoupon from './components/Admin/Main/AdminCoupons';
 import AdminMenu from './components/Admin/Main/AdminMenu';
 import AdminExtras from './components/Admin/Main/AdminExtra';
 import AdminRestaurant from './components/Admin/Main/AdminRestaurants';
-import AdminFinance from './components/Admin/Graph/AdminFinance';
 
 import RestaurantRegistration from './components/Restaurant/RestaurantRegistration';
 import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
@@ -73,7 +72,6 @@ function App() {
         <Route path='/AdminMenu' element={<AdminMenu />} />
         <Route path='/AdminAddMenu' element={<AdminExtras />} />
         <Route path='/AdminRestaurants' element={<AdminRestaurant />} />
-        <Route path='/AdminFinance' element={<AdminFinance />} />
       </Routes>
     </div>
   );

@@ -6,9 +6,7 @@ import { ColorModeContext, tokens, useMode } from '../Admin/theme'
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import AdminTopbar from '../Admin/Global/AdminTopbar'
-import AdminSidebar from '../Admin/Global/AdminSidebar'
 import AdminHeader from '../Admin/Global/AdminHeader';
-import AdminMapChart from '../Admin/Global/AdminMap';
 import "./RestaurantDashboard.css";
 import AdminStatbox from '../Admin/Global/Statbox';
 import Rating from '@mui/material/Rating';
@@ -17,6 +15,7 @@ import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import RestaurantSidebar from './RestaurantSidebar';
 
 
 
@@ -50,7 +49,7 @@ const RestaurantDashboard = () => {
           <AdminTopbar />
 
           {/* SIDEBAR */}
-          <AdminSidebar />
+          <RestaurantSidebar />
 
           {/* CONTENT */}
           <Box
@@ -368,7 +367,7 @@ const RestaurantDashboard = () => {
                     justifyContent: "center",
                   }}
                 >
-                  
+
                 </Box>
               </Box>
 
