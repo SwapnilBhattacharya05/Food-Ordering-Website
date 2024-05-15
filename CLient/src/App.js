@@ -23,11 +23,12 @@ import AdminRestaurant from './components/Admin/Main/AdminRestaurants';
 
 import RestaurantRegistration from './components/Restaurant/RestaurantRegistration';
 import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
+import RestaurantExtras from './components/Restaurant/Options/RestaurantExtras';
+import RestaurantPage from './components/Restaurant/RestaurantPage';
 
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import RestaurantPage from './components/Restaurant/RestaurantPage';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
         {/* RESTAURANT PATHS */}
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />
         <Route path='/restaurant-dashboard' element={<RestaurantDashboard />} />
+        <Route path='/RestaurantAddMenu' element={<RestaurantExtras />} />
         <Route path='/restaurant-registration' element={<RestaurantRegistration />}></Route>
         <Route path='/restaurant/:restaurantId' element={<RestaurantPage />}></Route>
 

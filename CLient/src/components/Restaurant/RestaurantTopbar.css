@@ -1,0 +1,21 @@
+.RestaurantTopbar_icon_light {
+    color: #292929;
+}
+
+.dark-mode .RestaurantTopbar_icon_light {
+    color: white;
+}
+
+.RestaurantTopbar {
+    background-color: #efeeee;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.dark-mode .RestaurantTopbar {
+    background-color: #292929;
+}

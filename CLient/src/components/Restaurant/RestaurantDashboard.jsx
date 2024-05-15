@@ -5,7 +5,6 @@ import { mockTransactions, mockPieData, mockRestaurantRating, mockProductRating 
 import { ColorModeContext, tokens, useMode } from '../Admin/theme'
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
-import AdminTopbar from '../Admin/Global/AdminTopbar'
 import AdminHeader from '../Admin/Global/AdminHeader';
 import "./RestaurantDashboard.css";
 import AdminStatbox from '../Admin/Global/Statbox';
@@ -16,6 +15,7 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import RestaurantSidebar from './RestaurantSidebar';
+import RestaurantTopbar from './RestaurantTopbar';
 
 
 
@@ -46,7 +46,7 @@ const RestaurantDashboard = () => {
           <CssBaseline />
 
           {/* TOPBAR */}
-          <AdminTopbar />
+          <RestaurantTopbar />
 
           {/* SIDEBAR */}
           <RestaurantSidebar />
