@@ -152,6 +152,12 @@
     border-radius: 50%;
 }
 
+.newsletter form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .newsletter .newsletter-input {
     width: 20rem;
     height: 3rem;

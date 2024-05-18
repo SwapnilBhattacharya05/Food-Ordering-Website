@@ -1,22 +1,23 @@
+import { useFilterContext } from '../../Context/FilterContext';
 import './GridView.css';
+import GridSkeleton from './GridSkeleton';
+import GridCard from '../../Helper/GridCard';
 const GridView = ({ data = [] }) => {
+    const { isLoading } = useFilterContext();
 
-    return (
-        <div className='container grid-view'>
-            {
-                data.map((curElem, index) => {
-                    return (
-                        <div key={index} className='card'>
-                            <figure className='card-image-container'>
-                                <img src={curElem.imgUrls[0]} alt={curElem.name} />
-                                <figcaption>{curElem.name}</figcaption>
-                            </figure>
-                        </div>
-                    )
-                })
-            }
-        </div>
-    )
+    if (isLoading) {
+        return <GridSkeleton />
+    } else {
+        return (
+            <div className='container grid-view'>
+                {
+                    data.map((curElem, index) => {
+                        return <GridCard data={curElem} key={index} />
+                    })
+                }
+            </div>
+        )
+    }
 }
 
 export default GridView;

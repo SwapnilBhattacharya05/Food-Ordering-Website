@@ -134,7 +134,7 @@ const Contact = () => {
               }} />
               <Box className="contact-info">
                 <span className="contact-info-title">Email</span>
-                <Box className="contact-info-number">foodzie@gmail.com</Box>
+                <Box className="contact-info-number">infofoodzie@gmail.com</Box>
               </Box>
 
             </Box>

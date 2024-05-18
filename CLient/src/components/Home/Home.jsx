@@ -13,6 +13,8 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import DiscountIcon from '@mui/icons-material/Discount';
 import toastMessage from "../ToastMessage";
 import { Email } from "@mui/icons-material";
+import { useUserContext } from "../../Context/UserContext";
+import { useFilterContext } from "../../Context/FilterContext";
 
 const Home = () => {
   const typeWriterstrings = [
@@ -29,6 +31,7 @@ const Home = () => {
 
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [newsletter, setNewsletter] = useState({ email: "" });
+  const { user } = useUserContext();
 
   useEffect(() => {
     const testimonialsBody = document.querySelector(".testimonials-body");
@@ -72,6 +75,9 @@ const Home = () => {
       link: 'https://images.pexels.com/photos/7363682/pexels-photo-7363682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     }
   ]
+
+  const { allRestaurants } = useFilterContext();
+  const featuredRestaurants = allRestaurants.slice(0, 7);
 
   const cuisines = [
     {
@@ -131,9 +137,9 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(newsletter.email)) {
-      toastMessage({ msg: "Thank you for subscribing to our newsletter!",type: "success" });
-    }else{
-      toastMessage({ msg: "Invalid Email",type: "error" });
+      toastMessage({ msg: "Thank you for subscribing to our newsletter!", type: "success" });
+    } else {
+      toastMessage({ msg: "Invalid Email", type: "error" });
     }
   }
 
@@ -156,8 +162,8 @@ const Home = () => {
 
       <main className="container mt-4">
         <div className="featured-iteams">
-          <h4>User, what's on your mind?</h4>
-          <FeaturedRoundedBoxes items={imgArr} />
+          <h4>{user ? user.firstName : "User"}, what's on your mind?</h4>
+          <FeaturedRoundedBoxes searchBy={"Dishes"} items={imgArr} />
         </div>
 
         <hr />
@@ -165,21 +171,21 @@ const Home = () => {
         <div className="mt-4 recommend">
           <h4>Recommended Restaurants for You</h4>
           <p>Find the best restaurants that suit you</p>
-          <Slider img={imgArr} />
+          <Slider featuredRestaurants={featuredRestaurants} />
         </div>
         <hr />
 
         <div className="mt-4 featured-cuisines">
           <h4>Featured Cuisines</h4>
           <p>Explore some of our most popular cuisines selected just for you</p>
-          <FeaturedRoundedBoxes items={cuisines} />
+          <FeaturedRoundedBoxes searchBy={"Restaurants"} items={cuisines} />
         </div>
         <hr />
 
         <div className="mt-4 newly-added">
           <h4>Newly Added foods</h4>
           <p>Do not miss out on these recently added items selected just for you</p>
-          <Slider img={cuisines} />
+          <Slider featuredRestaurants={featuredRestaurants} />
         </div>
 
         <hr />
@@ -204,7 +210,8 @@ const Home = () => {
                   </div>
                   <h6 className="why-card-h6 px-2">Convenient Ordering Experience</h6>
                   <p className="why-card-p px-2">
-                    <p className="why-card-p px-2">Say goodbye to the hassles of traditional food ordering, our user-friendly platform ensures effortless ordering at your fingertips.</p></p>
+                    Say goodbye to the hassles of traditional food ordering, our user-friendly platform ensures effortless ordering at your fingertips.
+                  </p>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 col-sm-12">

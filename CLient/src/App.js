@@ -58,7 +58,6 @@ function App() {
         <Route path='/partner-with-us' element={<RestaurantRegistration />} />
         <Route path='/restaurant-dashboard' element={<RestaurantDashboard />} />
         <Route path='/RestaurantAddMenu' element={<RestaurantExtras />} />
-        <Route path='/restaurant-registration' element={<RestaurantRegistration />}></Route>
         <Route path='/restaurant/:restaurantId' element={<RestaurantPage />}></Route>
 
         {/* LOGIN SIGNUP PATHS */}

@@ -1,25 +1,101 @@
 .grid-view {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
+    grid-gap: 18px;
     margin-top: 60px;
     margin-bottom: 60px;
 }
 
-.grid-view .card {
-    border: 2px solid green;
+.grid-card {
+    border: none;
+    height: 270px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    width: 270px;
+    padding: 0.5rem;
+}
+
+.grid-card:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform: scale(1.02);
+}
+
+.dark-mode .grid-card {
+    background-color: #090e13;
+}
+
+.grid-card .card-image-container {
+    height: 70%;
+}
+
+.grid-card .card-image-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.grid-view .skeleton-card {
     height: 250px;
     width: 250px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.grid-view .card .card-image-container {
-    height: 70%;
+.dark-mode .skeleton-card {
+    background-color: #090e13;
 }
 
-.grid-view .card .card-image-container img{
-    width: 100%;
+.skeleton-card .skeleton-card-image-container {
     height: 100%;
+}
+
+.grid-card .card-image-container .figcaption-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem;
+}
+
+.grid-card .card-image-container .figcaption-container .card-figcaption {
+    font-size: large;
+    font-weight: bold;
+}
+
+.grid-card .card-image-container .figcaption-container .card-rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    width: auto;
+    height: 1.4rem;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    padding: 0.3rem;
+    font-size: small;
+}
+
+.grid-card .grid-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 10%;
+    width: 100%;
+    font-size: 0.8rem;
+    color: rgb(71, 70, 70)
+}
+
+.grid-card .grid-card-footer p {
+    padding-top: 2.5rem;
+}
+
+.grid-card .grid-card-address {
+    font-size: 0.8rem;
+    height: 10%;
+    padding: 0.5rem;
+    color: rgb(93, 93, 93)
+}
+
+.grid-card .card-image-container .figcaption-container .card-rating-container .card-star {
+    font-size: small;
 }
 
 @media(max-width: 830px) {
@@ -28,8 +104,16 @@
         place-items: center;
     }
 
-    .grid-view .card {
+    .grid-card {
         height: 300px;
         width: 300px;
+    }
+
+    .grid-card .grid-card-address {
+        padding: 0.5rem 1rem;
+    }
+
+    .grid-card .card-image-container .figcaption-container {
+        padding: 0.5rem 1.1rem;
     }
 }

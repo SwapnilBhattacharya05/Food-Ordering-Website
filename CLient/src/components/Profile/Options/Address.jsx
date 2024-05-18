@@ -175,7 +175,7 @@ const Address = () => {
                                         display: 'flex',
                                         flexDirection: 'column',
                                     }}>
-                                        
+
                                     {/* ROW1 */}
                                     <Typography variant="h6"
                                         sx={{
@@ -185,18 +185,20 @@ const Address = () => {
                                         Type:
                                     </Typography>
                                     <TextField
-                                        type='text'
                                         id="profile-address-type"
                                         select
                                         name="type"
                                         variant="outlined"
                                         required
+                                        SelectProps={{
+                                            native: true,
+                                        }}
                                         sx={{
                                             width: 450,
                                             mb: 2,
                                         }}
                                     >
-                                        <MenuItem
+                                        <option
                                             sx={{
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -204,9 +206,9 @@ const Address = () => {
 
                                             }}
                                         >
-                                            <HomeIcon /> Home
-                                        </MenuItem>
-                                        <MenuItem
+                                            Home
+                                        </option>
+                                        <option
                                             sx={{
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -214,9 +216,9 @@ const Address = () => {
 
                                             }}
                                         >
-                                            <WorkIcon /> Work
-                                        </MenuItem>
-                                        <MenuItem
+                                            Work
+                                        </option>
+                                        <option
                                             sx={{
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -225,8 +227,8 @@ const Address = () => {
 
                                             }}
                                         >
-                                            <FmdGoodIcon /> Other
-                                        </MenuItem>
+                                            Other
+                                        </option>
                                     </TextField>
 
                                     {/* ROW2 */}
@@ -267,7 +269,7 @@ const Address = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
         </>
     )

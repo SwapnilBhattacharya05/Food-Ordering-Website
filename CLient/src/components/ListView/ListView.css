@@ -3,31 +3,93 @@
     margin-bottom: 60px;
 }
 
-.list-view .card {
-    border: 2px solid green;
+.list-view .list-card {
     margin: 0 auto 20px auto;
     height: 200px;
     width: 90%;
+    padding: 0.5rem;
+    display: flex;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 
-.list-view .card .card-image-container {
+.list-view .list-card:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform: scale(1.02);
+}
+
+.dark-mode .list-view .list-card {
+    background-color: #090e13;
+}
+
+.list-view .list-card .list-card-image-container {
     height: 100%;
-    width: 70%;
+    width: 60%;
 }
 
-.list-view .card .card-image-container img {
+.list-view .list-card .list-card-text-container {
+    width: 100%;
+    display: flex;
+}
+
+.list-view .list-card .list-card-text-container h3 {
+    font-weight: bold;
+    padding-right: 0.5rem;
+    font-size: 1.6rem;
+}
+
+
+.list-view .list-card .list-card-text-container .list-card-rating {
+    width: 30%;
+    margin-top: 0.3rem;
+}
+
+.list-view .list-card .list-card-image-container img {
     width: 100%;
     height: 100%;
 }
 
+.list-view .skeleton-card {
+    height: 200px;
+    width: 90%;
+    margin: 0 auto 20px auto;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.list-view .skeleton-card .skeleton-list-card-image-container {
+    height: 100%;
+}
+
+.list-view .skeleton-card .skeleton-list-card-image-container {
+    height: 100%;
+}
+
+.list-view .list-card .list-card-content {
+    width: 40%;
+    padding-left: 1rem;
+    height: 100%;
+}
+
+.list-view .list-card .list-card-content p {
+    font-size: 0.8rem;
+}
+
+.list-view .list-card .list-card-keywords {
+    display: flex;
+    align-items: center;
+    width: auto;
+    font-size: small;
+    margin-bottom: 0.5rem;
+}
+
 @media(max-width: 830px) {
-    .list-view .card {
+    .list-view .list-card {
         width: 100%;
     }
 
-    .list-view .card .card-image-container {
+    .list-view .list-card .list-card-image-container {
         width: 70%;
     }
 

@@ -6,6 +6,7 @@ const FilterSection = () => {
   const { filter: { text, cuisine, maxPrice, minPrice, price, searchBy }, allRestaurants, updateFilterValue, clearFilter } = useFilterContext();
 
   const allCuisines = ['All', ...new Set(allRestaurants.map((item) => item.cuisine))];
+  const foodType = ['All', 'Veg', 'Non-Veg'];
 
   return (
     <section className="container filter-section-container">
@@ -30,6 +31,49 @@ const FilterSection = () => {
         />
       </form>
 
+      {
+        searchBy === "Dishes" &&
+        <section>
+          <h5>Type</h5>
+          {
+            foodType.map((item, index) => {
+              if (item === 'All') {
+                return (
+                  <div key={index} className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      name='foodType'
+                      onChange={updateFilterValue}
+                      defaultChecked
+                      id={item}
+                      checked={foodType.includes(item)}
+                      value={item}
+                    />
+                    <label htmlFor={item} className='form-check-label'>{item}</label>
+                  </div>
+                )
+              }
+              return (
+                <div key={index} className='form-check'>
+                  <input
+                    className='form-check-input'
+                    type='checkbox'
+                    name='foodType'
+                    id={item}
+                    onChange={updateFilterValue}
+                    checked={foodType.includes(item)}
+                    value={item}
+                  />
+                  <label htmlFor={item}
+                    className='form-check-label'
+                  >{item}</label>
+                </div>
+              )
+            })
+          }
+        </section>
+      }
       <section className='cuisine-container'>
         <h5>Cuisine</h5>
         {

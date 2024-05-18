@@ -1,11 +1,21 @@
 import React from 'react'
-// import './SearchResults.css'
+import './SearchResults.css'
 import { useFilterContext } from '../../Context/FilterContext'
 import ListView from '../ListView/ListView'
 import GridView from '../GridView/GridView'
+import GridSkeleton from '../GridView/GridSkeleton'
+import ListSkeleton from '../ListView/ListSkeleton'
 const SearchResults = () => {
-  const { filterRestaurants, filterDishes, gridView, filter: { searchBy } } = useFilterContext();
-  
+  const { filterRestaurants, filterDishes, isLoading, gridView, filter: { searchBy } } = useFilterContext();
+  if (isLoading && filterRestaurants.length === 0) {
+    return (
+      <div className='container search-results-container'>
+        {
+          gridView ? <GridSkeleton /> : <ListSkeleton />
+        }
+      </div>
+    )
+  }
   if (filterRestaurants.length === 0) {
     return (
       <div className='container search-results-container'>

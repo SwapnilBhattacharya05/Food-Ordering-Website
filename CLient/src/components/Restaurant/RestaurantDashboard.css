@@ -33,3 +33,31 @@
 .dark-mode .Admin-ThirdRow-Background {
     background-color: #525352;
 }
+
+.extras-container-dashboard-restaurant {
+    /* background-color: red; */
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.extras-container-dashboard-restaurant input {
+    color: black;
+}
+
+.extras-container-dashboard-restaurant select {
+    color: black;
+}
+.dark-mode .extras-container-dashboard-restaurant input {
+    color: white;
+
+}
+
+.dark-mode .extras-container-dashboard-restaurant select {
+    color: white;
+}
+
+.extras-container-dashboard-restaurant option{
+    color: white;
+}

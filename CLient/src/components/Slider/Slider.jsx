@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
 import "./Slider.css";
+import GridCard from "../../Helper/GridCard";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const Slider = ({ img }) => {
+const Slider = ({ featuredRestaurants = [], featuredDishes = [] }) => {
     const sliderRef = useRef(null);
 
     const handleLeftSlide = () => {
@@ -23,20 +26,16 @@ const Slider = ({ img }) => {
     return (
         <div className="slider-container container-fluid mt-3">
             <button id="left-slider-btn" onClick={handleLeftSlide}>
-                <p>&lt;</p>
+                <p style={{ marginBottom: 0 }}><ArrowBackIosIcon /></p>
             </button>
             <button id="right-slider-btn" onClick={handleRightSlide}>
-                <p>&gt;</p>
+                <p style={{ marginBottom: 0 }}><ArrowForwardIosIcon /></p>
             </button>
             <div className="slider" ref={sliderRef}>
                 {
-                    img.map((currElem, index) => (
-                        <div className="card" key={index}>
-                            <figure className="img-figure">
-                                <img className="slider-img" src={currElem.link} alt={currElem.name} />
-                            </figure>
-                        </div>
-                    ))
+                    featuredRestaurants.length ? featuredRestaurants.map((currElem, index) => {
+                        return <GridCard data={currElem} key={index} />
+                    }) : null
                 }
             </div>
         </div>

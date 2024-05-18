@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 const SortingSection = () => {
   const { filterRestaurants, filterDishes, setGridView, setListView, sorting, gridView, filter: { searchBy } } = useFilterContext();
   return (
-    <section className='sorting-section-container px-3 mt-4'>
+    <section className='container sorting-section-container px-3 mt-4'>
       <div className='btn-container'>
         <button className={gridView ? "active" : ""} onClick={() => setGridView()}><GridViewIcon /></button>
         <button className={!gridView ? "active" : ""} onClick={() => setListView()}><MenuIcon /></button>

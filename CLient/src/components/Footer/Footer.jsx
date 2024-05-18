@@ -56,7 +56,7 @@ const Footer = () => {
                         <ul className="list-unstyled d-flex align-items-center justify-content-center flex-column">
                             <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"https://www.google.com/maps"}><LocationOn /> 12/3, M.G. Road, Kolkata</Link></li>
                             <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"tel:+91 6234567890"}><Phone /> +91 6234567890</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"mailto:foodzie@gmail.com"}><Email /> foodzie@gmail.com</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"mailto:infofoodzie@gmail.com"}><Email /> infofoodzie@gmail.com</Link></li>
                         </ul>
                     </div>
                 </div>

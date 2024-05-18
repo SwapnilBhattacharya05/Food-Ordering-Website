@@ -1,6 +1,6 @@
 .filter-section-container {
     margin-top: 1rem;
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
 }
 
 .filter-section-container .search-input {
@@ -8,11 +8,12 @@
     width: 95%;
     outline: none;
     border-radius: 5px;
+    border: 2px solid rgb(185, 184, 184);
 }
 
 .dark-mode .filter-section-container .search-input {
     background-color: rgb(136, 133, 133);
-    border: none;
+    border: 2px solid rgb(0, 0, 0);
     outline: none;
 }
 

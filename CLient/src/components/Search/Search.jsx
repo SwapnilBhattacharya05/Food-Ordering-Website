@@ -4,9 +4,14 @@ import Footer from "../Footer/Footer";
 import FilterSection from "./FilterSection";
 import SearchResults from "./SearchResults";
 import SortingSection from "./SortingSection";
-
+import { useEffect } from "react";
+// import BackToTop from "../../Helper/BackToTop";
 
 const Search = () => {
+
+  // useEffect(() => {
+  //   BackToTop();
+  // }, []);
 
   return (
     <div>

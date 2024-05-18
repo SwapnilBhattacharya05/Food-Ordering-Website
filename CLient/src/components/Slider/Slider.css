@@ -7,17 +7,11 @@
     display: flex;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    padding: 0.5rem;
 }
 
-.slider .card{
-    background-color: rgb(74, 71, 71);
-    border: 2px solid green;
-    height: 300px;
-    position: relative;
-    min-width: 300px;
-    margin: 0.6rem;
-    border-radius: 2rem 2rem 0 0;
-    overflow: hidden;
+.slider .grid-card {
+    margin: 0 0.8rem 0 1rem;
 }
 
 .slider-container #left-slider-btn,
@@ -27,8 +21,7 @@
     position: absolute;
     padding: 0.2rem;
     font-size: 2rem;
-    /* background-color: rgb(85, 85, 85); */
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter:blur(1px);
     color: rgb(255, 255, 255);
@@ -40,6 +33,13 @@
     align-items: center;
 }
 
+.slider-container #left-slider-btn p,
+.slider-container #right-slider-btn p{
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .slider-container #right-slider-btn{
     right: 0;
     margin-left: 20rem;
@@ -47,16 +47,4 @@
 
 .slider-container #left-slider-bt{
     left: 0;
-}
-
-.slider .card .img-figure{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-
-}
-
-.slider .card .img-figure .slider-img{
-    height: 60%;
-    width: 100%;
 }
