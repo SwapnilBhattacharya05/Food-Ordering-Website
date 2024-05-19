@@ -16,15 +16,8 @@ const Navbar = () => {
   const location = useLocation();
   const [showVerticalNav, setShowVerticalNav] = useState(false);
   const { mode, toggleMode } = useAppContext();
-  const { user } = useUserContext();
+  const { user, totalCartItems } = useUserContext();
 
-  if (localStorage.getItem("authToken")) {
-
-    const profileImg = document.querySelector(".profile-img");
-    profileImg.addEventListener("mouseover", () => {
-
-    })
-  }
   return (
     <>
       {
@@ -34,12 +27,9 @@ const Navbar = () => {
             <h2>
               <NavLink to={"/"}>
                 Foodzie
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/foodzie_logo.png?alt=media&token=8ce6cfe2-8ff4-4186-8721-690d25eb7e2c"
-                  alt="logo"
-                />
               </NavLink>
             </h2>
+            <img src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/foodzie_logo.png?alt=media&token=8ce6cfe2-8ff4-4186-8721-690d25eb7e2c" alt="logo" />
           </div>
           <ul className="nav-items">
             <NavLink to={"/"} className={location.pathname === '/' ? "nav-item active" : "nav-item"}>
@@ -51,7 +41,7 @@ const Navbar = () => {
             <NavLink to={"/help"} className={location.pathname === '/help' ? "nav-item active" : "nav-item"}>
               <HelpIcon /> Help
             </NavLink>
-            <li className="nav-item toggle-btn" onClick={() => toggleMode()}>
+            <li className="nav-item toggle-btn" style={{ borderBottom: "none" }} onClick={() => toggleMode()}>
               {
                 mode === "light-mode" ? <LightModeIcon /> :
                   <DarkMode />
@@ -69,7 +59,7 @@ const Navbar = () => {
               )
             }
             <NavLink to={"/cart"} className={location.pathname === '/cart' ? "nav-item active" : "nav-item"}>
-              <div className="circle">10</div>
+              <div className="circle">{totalCartItems}</div>
               <ShoppingCartIcon />
               Cart
             </NavLink>
@@ -105,7 +95,7 @@ const Navbar = () => {
             <button className="btn">Log In/Sign Up</button>
           </NavLink>
           <NavLink to={"/cart"} className={location.pathname === '/cart' ? "nav-item active" : "nav-item"}>
-            <div className="circle">10</div>
+            <div className="circle">{totalCartItems}</div>
             <ShoppingCartIcon />Cart
           </NavLink>
         </ul>

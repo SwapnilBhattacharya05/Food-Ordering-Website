@@ -5,22 +5,21 @@ const FeaturedRoundedBoxes = ({ items, searchBy }) => {
     const { updateFilterValue } = useFilterContext();
     const navigate = useNavigate();
     const updateValue = (curElem) => {
-        let event = {
-            target: {
-                name: "cuisine",
-                value: curElem.name
+        const events = [
+            searchBy === "Restaurants" ? { name: "cuisine", value: curElem.name } : { name: "cuisine", value: "All" },
+            { name: "searchBy", value: searchBy },
+            ...(searchBy === "Dishes" ? [{ name: "text", value: curElem.name }] : [{ name: "text", value: "" }])
+        ];
+
+        events.forEach(({ name, value }) => {
+            if (name && value !== undefined) {
+                updateFilterValue({ target: { name, value } });
             }
-        }
-        updateFilterValue(event);
-        event = {
-            target: {
-                name: "searchBy",
-                value: searchBy
-            }
-        }
-        updateFilterValue(event);
+        });
+
         navigate(`/search`);
-    }
+    };
+
     return (
         <div className="row mt-4">
             {

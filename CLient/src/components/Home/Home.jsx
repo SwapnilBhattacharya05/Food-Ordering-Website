@@ -71,13 +71,14 @@ const Home = () => {
       link: 'https://images.pexels.com/photos/1343504/pexels-photo-1343504.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
     {
-      name: "Momo",
+      name: "momo",
       link: 'https://images.pexels.com/photos/7363682/pexels-photo-7363682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     }
   ]
 
-  const { allRestaurants } = useFilterContext();
+  const { allRestaurants,allDishes } = useFilterContext();
   const featuredRestaurants = allRestaurants.slice(0, 7);
+  const featuredDishes = allDishes.slice(0, 7);
 
   const cuisines = [
     {
@@ -185,7 +186,7 @@ const Home = () => {
         <div className="mt-4 newly-added">
           <h4>Newly Added foods</h4>
           <p>Do not miss out on these recently added items selected just for you</p>
-          <Slider featuredRestaurants={featuredRestaurants} />
+          <Slider featuredDishes={featuredDishes} searchBy={"Dishes"} />
         </div>
 
         <hr />

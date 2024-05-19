@@ -7,7 +7,7 @@ import GridSkeleton from '../GridView/GridSkeleton'
 import ListSkeleton from '../ListView/ListSkeleton'
 const SearchResults = () => {
   const { filterRestaurants, filterDishes, isLoading, gridView, filter: { searchBy } } = useFilterContext();
-  if (isLoading && filterRestaurants.length === 0) {
+  if (isLoading && (filterRestaurants.length === 0 || filterDishes.length === 0)) {
     return (
       <div className='container search-results-container'>
         {
@@ -16,7 +16,7 @@ const SearchResults = () => {
       </div>
     )
   }
-  if (filterRestaurants.length === 0) {
+  if (filterRestaurants.length === 0 || filterDishes.length === 0) {
     return (
       <div className='container search-results-container'>
         <img style={{ display: 'block', margin: '1rem auto 0 auto', height: "300px", width: "300px" }}
@@ -28,11 +28,11 @@ const SearchResults = () => {
 
   if (gridView) {
     return (
-      <GridView data={searchBy === "Restaurants" ? filterRestaurants : filterDishes} />
+      <GridView searchBy={searchBy} data={searchBy === "Restaurants" ? filterRestaurants : filterDishes} />
     )
   } else {
     return (
-      <ListView data={searchBy === "Restaurants" ? filterRestaurants : filterDishes} />
+      <ListView searchBy={searchBy} data={searchBy === "Restaurants" ? filterRestaurants : filterDishes} />
     )
   }
 }

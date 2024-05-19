@@ -15,6 +15,7 @@ const initialState = {
         text: "",
         searchBy: "Restaurants",
         cuisine: "All",
+        category: "All",
         maxPrice: 0,
         minPrice: 0,
         price: 0,
@@ -24,18 +25,27 @@ const initialState = {
 const FilterProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-
     const getallRestaurants = async () => {
         dispatch({ type: "SET_LOADING" });
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/getallRestaurants`);
             const data = await response.json();
-            console.log(data);
             dispatch({ type: "SET_ALL_RESTAURANTS", payload: { restaurants: data.restaurants, rating: data.rating } });
         } catch (error) {
             console.log(error);
         }
     };
+
+    const getAllDishes = async () => {
+        dispatch({ type: "SET_LOADING" });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/getAllFoodItems`);
+            const data = await response.json();
+            dispatch({ type: "SET_ALL_DISHES", payload: data });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const setGridView = () => {
         dispatch({ type: "SET_GRID_VIEW" });
@@ -54,12 +64,16 @@ const FilterProvider = ({ children }) => {
     const updateFilterValue = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-
+        console.log(name, value);
         dispatch({ type: "UPDATE_FILTER_VALUE", payload: { name, value } });
     }
 
     const clearFilter = () => {
         dispatch({ type: "CLEAR_FILTER" });
+        dispatch({ type: "SET_LOADING" })
+        setTimeout(() => {
+            dispatch({ type: "UNSET_LOADING" })
+        }, 1000);
     }
 
     useEffect(() => {
@@ -69,9 +83,10 @@ const FilterProvider = ({ children }) => {
 
     useEffect(() => {
         getallRestaurants();
+        getAllDishes();
     }, []);
 
-    return <FilterContext.Provider value={{ ...state, setGridView, setListView, sorting, updateFilterValue, clearFilter }}>
+    return <FilterContext.Provider value={{ ...state, setGridView, setListView, sorting, updateFilterValue, clearFilter, getAllDishes }}>
         {children}
     </FilterContext.Provider>
 }

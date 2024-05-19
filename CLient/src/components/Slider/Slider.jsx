@@ -23,6 +23,8 @@ const Slider = ({ featuredRestaurants = [], featuredDishes = [] }) => {
         }
     };
 
+    const dataToDisplay = featuredRestaurants.length ? featuredRestaurants : featuredDishes;
+    const searchBy = featuredRestaurants.length ? "Restaurants" : "Dishes"
     return (
         <div className="slider-container container-fluid mt-3">
             <button id="left-slider-btn" onClick={handleLeftSlide}>
@@ -32,11 +34,9 @@ const Slider = ({ featuredRestaurants = [], featuredDishes = [] }) => {
                 <p style={{ marginBottom: 0 }}><ArrowForwardIosIcon /></p>
             </button>
             <div className="slider" ref={sliderRef}>
-                {
-                    featuredRestaurants.length ? featuredRestaurants.map((currElem, index) => {
-                        return <GridCard data={currElem} key={index} />
-                    }) : null
-                }
+                {dataToDisplay.map((item, index) => (
+                    <GridCard searchBy={searchBy} data={item} key={item._id || index} />
+                ))}
             </div>
         </div>
     );

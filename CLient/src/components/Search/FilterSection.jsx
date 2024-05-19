@@ -3,10 +3,10 @@ import "./FilterSection.css"
 import { useFilterContext } from '../../Context/FilterContext';
 import FormatPrice from '../../Helper/FormatPrice';
 const FilterSection = () => {
-  const { filter: { text, cuisine, maxPrice, minPrice, price, searchBy }, allRestaurants, updateFilterValue, clearFilter } = useFilterContext();
+  const { filter: { text, cuisine, category, maxPrice, minPrice, price, searchBy }, allRestaurants, updateFilterValue, clearFilter } = useFilterContext();
 
   const allCuisines = ['All', ...new Set(allRestaurants.map((item) => item.cuisine))];
-  const foodType = ['All', 'Veg', 'Non-Veg'];
+  const allCategories = ['All', 'Veg', 'Non-Veg'];
 
   return (
     <section className="container filter-section-container">
@@ -32,89 +32,89 @@ const FilterSection = () => {
       </form>
 
       {
-        searchBy === "Dishes" &&
-        <section>
-          <h5>Type</h5>
-          {
-            foodType.map((item, index) => {
-              if (item === 'All') {
+        searchBy === "Dishes" ?
+          <section className='cuisine-container'>
+            <h5>Category</h5>
+            {
+              allCategories.map((item, index) => {
+                if (item === 'All') {
+                  return (
+                    <div key={index} className='form-check'>
+                      <input
+                        className='form-check-input'
+                        type='checkbox'
+                        name='category'
+                        onChange={updateFilterValue}
+                        defaultChecked
+                        id={item}
+                        checked={category.includes(item)}
+                        value={item}
+                      />
+                      <label htmlFor={item} className='form-check-label'>{item}</label>
+                    </div>
+                  )
+                }
                 return (
                   <div key={index} className='form-check'>
                     <input
                       className='form-check-input'
                       type='checkbox'
-                      name='foodType'
-                      onChange={updateFilterValue}
-                      defaultChecked
+                      name='category'
                       id={item}
-                      checked={foodType.includes(item)}
+                      onChange={updateFilterValue}
+                      checked={category === item}
                       value={item}
                     />
-                    <label htmlFor={item} className='form-check-label'>{item}</label>
+                    <label htmlFor={item}
+                      className='form-check-label'
+                    >{item}</label>
                   </div>
                 )
-              }
-              return (
-                <div key={index} className='form-check'>
-                  <input
-                    className='form-check-input'
-                    type='checkbox'
-                    name='foodType'
-                    id={item}
-                    onChange={updateFilterValue}
-                    checked={foodType.includes(item)}
-                    value={item}
-                  />
-                  <label htmlFor={item}
-                    className='form-check-label'
-                  >{item}</label>
-                </div>
-              )
-            })
-          }
-        </section>
-      }
-      <section className='cuisine-container'>
-        <h5>Cuisine</h5>
-        {
-          allCuisines.map((item, index) => {
-            if (item === 'All') {
-              return (
-                <div key={index} className='form-check'>
-                  <input
-                    className='form-check-input'
-                    type='checkbox'
-                    name='cuisine'
-                    onChange={updateFilterValue}
-                    defaultChecked
-                    id={item}
-                    checked={cuisine.includes(item)}
-                    value={item}
-                  />
-                  <label htmlFor={item} className='form-check-label'>{item}</label>
-                </div>
-              )
+              })
             }
-            return (
-              <div key={index} className='form-check'>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  name='cuisine'
-                  id={item}
-                  onChange={updateFilterValue}
-                  checked={cuisine.includes(item)}
-                  value={item}
-                />
-                <label htmlFor={item}
-                  className='form-check-label'
-                >{item}</label>
-              </div>
-            )
-          })
-        }
-      </section>
-
+          </section>
+          :
+          <section className='cuisine-container'>
+            <h5>Cuisine</h5>
+            {
+              allCuisines.map((item, index) => {
+                if (item === 'All') {
+                  return (
+                    <div key={index} className='form-check'>
+                      <input
+                        className='form-check-input'
+                        type='checkbox'
+                        name='cuisine'
+                        onChange={updateFilterValue}
+                        defaultChecked
+                        id={item}
+                        checked={cuisine.includes(item)}
+                        value={item}
+                      />
+                      <label htmlFor={item} className='form-check-label'>{item}</label>
+                    </div>
+                  )
+                }
+                return (
+                  <div key={index} className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      name='cuisine'
+                      id={item}
+                      onChange={updateFilterValue}
+                      checked={cuisine.includes(item)}
+                      value={item}
+                    />
+                    <label htmlFor={item}
+                      className='form-check-label'
+                    >{item}</label>
+                  </div>
+                )
+              })
+            }
+          </section>
+      }
       <section className='price-container'>
         <h5>Price</h5>
         <p><FormatPrice price={price} /></p>
