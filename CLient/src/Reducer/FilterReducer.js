@@ -35,11 +35,19 @@ const reducer = (state, action) => {
             };
         case "SET_ALL_DISHES":
             let { foodItems } = action.payload;
+            const maximumPrice = Math.max(...foodItems.map((item) => item.price));
+            const minimumPrice = Math.min(...foodItems.map((item) => item.price));
             return {
                 ...state,
                 isLoading: false,
                 allDishes: foodItems,
-                filterDishes: foodItems
+                filterDishes: foodItems,
+                filter: {
+                    ...state.filter,
+                    maxPrice: maximumPrice,
+                    minPrice: minimumPrice,
+                    price: maximumPrice
+                }
             }
 
         case "SET_GRID_VIEW":
@@ -85,13 +93,13 @@ const reducer = (state, action) => {
             if (cuisine !== "All") {
                 tempData = tempData.filter((item) => item.cuisine === cuisine);
             }
-            if (maxPrice !== 0) {
+            if (maxPrice !== 0 && searchBy === "Dishes") {
                 tempData = tempData.filter((item) => item.price <= maxPrice);
             }
-            if (minPrice !== 0) {
+            if (minPrice !== 0 && searchBy === "Dishes") {
                 tempData = tempData.filter((item) => item.price >= minPrice);
             }
-            if (price !== 0) {
+            if (price !== 0 && searchBy === "Dishes") {
                 tempData = tempData.filter((item) => item.price <= price);
             }
             return {
@@ -136,9 +144,9 @@ const reducer = (state, action) => {
                     text: "",
                     cuisine: "All",
                     category: "All",
-                    maxPrice: 0,
-                    minPrice: 0,
-                    price: 0,
+                    maxPrice: state.filter.maxPrice,
+                    minPrice: state.filter.minPrice,
+                    price: state.filter.maxPrice,
                 }
             }
         default:

@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./RestaurantSidebar.css"
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
@@ -16,16 +16,28 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
+
+    const navigate = useNavigate();
+    const handler = (title) => {
+        if (title === "Sign Out") {
+            setSelected(title)
+            sessionStorage.clear();
+            navigate("/restaurant-login");
+        } else {
+            setSelected(title);
+        }
+    }
+
     return (
         <Link to={to}>
             <MenuItem
                 active={selected === title}
-                onClick={() => setSelected(title)}
+                onClick={() => handler(title)}
                 icon={icon}
             >
                 <Typography>{title}</Typography>
             </MenuItem>
-        </Link >
+        </Link>
     )
 }
 
@@ -49,7 +61,7 @@ const RestaurantSidebar = () => {
                     <MenuItem
 
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        icon={isCollapsed ? <img src="../img/foodzie_logo.png" style={{ height: '5rem', width: '6.5rem' }} /> : undefined}
+                        icon={isCollapsed ? <img src="../img/foodzie_logo.png" style={{ height: '5rem', width: '6.5rem' }} alt='logo' /> : undefined}
 
                         style={{
                             margin: "10px 0 5px 0",
@@ -72,6 +84,7 @@ const RestaurantSidebar = () => {
 
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <img src="../img/foodzie_logo.png"
+                                        alt="logo"
                                         style={{
                                             height: '3rem',
                                             width: '6.5rem'
@@ -153,7 +166,7 @@ const RestaurantSidebar = () => {
 
                         <Item
                             title="Sign Out"
-                            to={"/RestaurantLogin"}
+                            to={"/restaurant-login"}
                             icon={<ExitToAppOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}

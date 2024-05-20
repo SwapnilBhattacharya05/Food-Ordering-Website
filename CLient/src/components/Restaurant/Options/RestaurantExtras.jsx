@@ -73,7 +73,7 @@ const RestaurantExtras = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/addfooditem/661ee792d24015c93cc3f57f`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/addfooditem/${sessionStorage.getItem("restaurantId")}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

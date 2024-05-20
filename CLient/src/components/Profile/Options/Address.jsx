@@ -50,13 +50,13 @@ const Address = () => {
 
 
                                     <Box className="profile-address-card"
+                                        key={id}
                                         sx={{
                                             display: "flex",
                                             width: "29vw",
                                             height: "23vh",
                                             border: "1px solid black",
                                             borderRadius: "10px",
-                                            key: { id },
                                         }}
                                     >
                                         <Box className="profile-address-icon"

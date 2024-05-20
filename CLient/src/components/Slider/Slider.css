@@ -48,3 +48,7 @@
 .slider-container #left-slider-bt{
     left: 0;
 }
+
+.slider .grid-card .grid-card-item-footer button{
+    width: 1rem;
+}

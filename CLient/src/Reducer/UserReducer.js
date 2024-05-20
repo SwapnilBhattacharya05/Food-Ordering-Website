@@ -13,8 +13,19 @@ const reducer = (state, action) => {
             }
         case "UPDATE_CART_ITEMS":
             let { _id, image, name, price, restaurant } = action.payload;
-            let newCartItems = [];
-            if (state.cartItems.length === 0) {
+
+            let newCartItems = state.cartItems;
+            const differentRestaurant = state.cartItems.find(item => item.restaurant._id !== restaurant._id);
+            if (newCartItems.length === 0) {
+                newCartItems = [{
+                    _id,
+                    image,
+                    name,
+                    price,
+                    quantity: 1,
+                    restaurant,
+                }]
+            } else if (differentRestaurant) {
                 newCartItems = [{
                     _id,
                     image,
@@ -24,23 +35,28 @@ const reducer = (state, action) => {
                     restaurant,
                 }]
             } else {
-                newCartItems = state.cartItems.map(item => {
+                let isItemAvailable = false;
+                newCartItems = newCartItems.map(item => {
                     if (item._id === _id) {
+                        isItemAvailable = true;
                         return {
                             ...item,
                             quantity: item.quantity + 1,
                         }
                     } else {
-                        return {
-                            _id,
-                            image,
-                            name,
-                            price,
-                            quantity: 1,
-                            restaurant,
-                        }
+                        return item
                     }
-                })
+                });
+                if (!isItemAvailable) {
+                    newCartItems = [...newCartItems, {
+                        _id,
+                        image,
+                        name,
+                        price,
+                        quantity: 1,
+                        restaurant,
+                    }]
+                }
             }
             return {
                 ...state,
@@ -93,6 +109,14 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 cartItems: decrementedCart
+            }
+
+        case "REMOVE_CART_ITEM":
+            const filteredCart = state.cartItems.filter(item => item._id !== action.payload);
+            
+            return {
+                ...state,
+                cartItems: filteredCart
             }
 
         case "CLEAR_CART_ITEMS":

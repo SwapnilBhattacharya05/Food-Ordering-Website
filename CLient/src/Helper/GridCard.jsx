@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../Context/AppContext';
 import FormatPrice from './FormatPrice';
@@ -9,7 +9,13 @@ import CartQuantityToggle from '../Helper/CartQuantityToggle';
 
 const GridCard = ({ data, index, searchBy }) => {
     const { mode } = useAppContext();
-    const { addToCart } = useUserContext();
+    const { addToCart, cartItems } = useUserContext();
+    const [buttonToggle, setButtonToggle] = useState(false);
+
+    useEffect(() => {
+        const existingItem = cartItems.find(item => item._id === data._id);
+        setButtonToggle(!!existingItem);
+    }, [cartItems, data._id]);
 
     // Check if data is defined and has the necessary properties
     if (!data) {
@@ -22,6 +28,21 @@ const GridCard = ({ data, index, searchBy }) => {
         var imgUrl = (data.imgUrls && data.imgUrls.length > 0) ? data.imgUrls[0] : 'https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg';
         var keywords = data.keywords ? data.keywords : [];
     }
+
+    const handleAddToCart = (data) => {
+        const differentRestaurant = cartItems.find(item => item.restaurant._id !== data.restaurant._id);
+        if (differentRestaurant) {
+            const confirm = window.confirm('Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?')
+            if (confirm) {
+                addToCart(data);
+                setButtonToggle(true);
+            }
+        } else {
+            addToCart(data);
+            setButtonToggle(true);
+        }
+
+    };
 
     return (
         searchBy === "Restaurants" ?
@@ -89,14 +110,16 @@ const GridCard = ({ data, index, searchBy }) => {
                             />
                             <p style={{ marginBottom: 0 }}>{data.name}</p>
                         </div>
-                        <div className='grid-card-item-footer'>
+                        <div className='grid-card-item-footer mt-1'>
                             <p style={{ paddingLeft: "0.6rem", fontSize: "1.3rem" }}>
                                 <FormatPrice price={data.price} />
                             </p>
-                            <button className='btn' style={{ height: "2.5rem" }}
-                                onClick={() => addToCart(data)}
+                            <button className={'btn'} style={{ height: "2.5rem", width: "6.5rem", fontSize: "0.8rem" }}
+                                onClick={() => handleAddToCart(data)}
                             >
-                                Add to Cart
+                                {
+                                    buttonToggle ? "Added" : "Add To Cart"
+                                }
                             </button>
                         </div>
                     </div>

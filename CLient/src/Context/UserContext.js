@@ -40,13 +40,17 @@ const UserProvider = ({ children }) => {
         dispatch({ type: "DECREMENT_CART_ITEM_QUANTITY", payload: id })
     }
 
+    const removeItem = (id) => {
+        dispatch({ type: "REMOVE_CART_ITEM", payload: id })
+    }
+
     const clearCartItems = () => {
         dispatch({ type: "CLEAR_CART_ITEMS" })
     }
 
     useEffect(() => {
-        dispatch({ type: "CART_TOTAL_ITEM_PRICE" });
         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        dispatch({ type: "CART_TOTAL_ITEM_PRICE" });
     }, [state.cartItems]);
 
     // useEffect(() => {
@@ -58,7 +62,7 @@ const UserProvider = ({ children }) => {
     }, [state.user])
 
     return (
-        <UserContext.Provider value={{ ...state, setUser, clearUser, addToCart, incrementQuantity, decrementQuantity, clearCartItems }}>
+        <UserContext.Provider value={{ ...state, setUser, clearUser, addToCart, incrementQuantity, decrementQuantity, clearCartItems, removeItem }}>
             {children}
         </UserContext.Provider>
     )

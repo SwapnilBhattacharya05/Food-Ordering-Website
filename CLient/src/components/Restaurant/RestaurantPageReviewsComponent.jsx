@@ -62,26 +62,31 @@ const RestaurantPageReviewsComponent = ({ name, reviews }) => {
         <button className="review-btn btn" type="submit">Submit</button>
       </form> */}
       {
-        reviews.map((review, index) => {
-          return (
-            <div key={index} className="review-box">
-              <div className="d-flex align-items-center">
-                <img src={review.user.image} alt={"display-img"} style={{ width: "50px", height: "50px", borderRadius: "50%" }}></img>
-                <div className="px-3">
-                  <h5>{review.user.firstName + " " + review.user.lastName}</h5>
-                  <span>{Intl.DateTimeFormat('en-IN').format(new Date(review.createdAt))}</span>
+        reviews.length ?
+          reviews.map((review, index) => {
+            return (
+              <div key={index} className="review-box">
+                <div className="d-flex align-items-center">
+                  <img src={review.user.image} alt={"display-img"} style={{ width: "50px", height: "50px", borderRadius: "50%" }}></img>
+                  <div className="px-3">
+                    <h5>{review.user.firstName + " " + review.user.lastName}</h5>
+                    <span>{Intl.DateTimeFormat('en-IN').format(new Date(review.createdAt))}</span>
+                  </div>
+                </div>
+                <Rating className="mt-2" name="read-only" value={review.rating} readOnly />
+                <div className="review-main-content mt-2">
+                  <p>{review.comment}</p>
+                  {
+                    review.image !== "" && <img src={review.image} alt="review" style={{ width: "15rem", borderRadius: "10px" }}></img>
+                  }
                 </div>
               </div>
-              <Rating className="mt-2" name="read-only" value={review.rating} readOnly />
-              <div className="review-main-content mt-2">
-                <p>{review.comment}</p>
-                {
-                  review.image !== "" && <img src={review.image} alt="review" style={{ width: "15rem", borderRadius: "10px" }}></img>
-                }
-              </div>
-            </div>
-          )
-        })
+            )
+          }) : <img
+            src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/no-review.png?alt=media&token=e0c75b61-c440-4174-b59d-9e3abd77c4d0"
+            alt="No reviews"
+            style={{ display: "block", margin: "0 auto", objectFit: "cover" }}
+          />
       }
     </div>
   )

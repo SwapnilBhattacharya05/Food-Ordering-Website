@@ -119,6 +119,7 @@ const FilterSection = () => {
         <h5>Price</h5>
         <p><FormatPrice price={price} /></p>
         <input style={{ cursor: 'pointer' }} type='range'
+          step={50}
           name='price' id='price' onChange={updateFilterValue}
           min={minPrice} max={maxPrice} value={price}
         />
