@@ -8,12 +8,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { mockAddress } from '../../data/MockData';
 import FormatPrice from '../../Helper/FormatPrice';
 import { useAppContext } from '../../Context/AppContext';
+import toastMessage from '../ToastMessage';
 import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import WorkIcon from '@mui/icons-material/Work';
-import FmdGoodIcon from '@mui/icons-material/FmdGood';
-
+import FmdGoodIcon from '@mui/icons-material/FmdGood'
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const { user,
@@ -24,11 +25,66 @@ const Cart = () => {
     totalCartItemPrice,
     deliveryCharge
   } = useUserContext();
-  const [coupon, setCoupon] = useState('')
-  const [address, setAddress] = useState(mockAddress)
+
+  const [address, setAddress] = useState(mockAddress);
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [validCoupon, setValidCoupon] = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const navigate = useNavigate();
   const { mode } = useAppContext();
+
+  const handleCouponSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verifyCoupon/${user._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ coupon: coupon.toUpperCase() })
+    });
+
+    const data = await response.json();
+    if (!data.success) {
+      setCoupon("");
+      return toastMessage({ msg: data.message, type: "error" });
+    }
+
+    toastMessage({ msg: data.message, type: "success" });
+    setDiscount(data.discount);
+    setValidCoupon(true);
+    setCoupon("");
+  }
+
+  const setAddressHandler = (value) => {
+    console.log(value);
+    setDeliveryAddress(value.address);
+  }
+
+  const placeOrder = async (e) => {
+    e.preventDefault();
+    const totalAmout = totalCartItemPrice + deliveryCharge;
+    const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/order/generatePayment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ cartItems, deliveryCharge })
+    });
+
+    const session = await response.json();
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id
+    });
+
+    if (result.error) {
+      toastMessage({ msg: result.error.message, type: "error" });
+    }
+  }
+
   return (
     <div>
       <Navbar />
@@ -43,16 +99,18 @@ const Cart = () => {
               <section className='cart-items-table-container'>
                 <table>
                   <thead>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Remove</th>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Subtotal</th>
+                      <th>Remove</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {
-                      cartItems.map((item) => (
-                        <tr key={item.id}>
+                      cartItems.map((item, index) => (
+                        <tr key={index}>
                           <td className='d-flex align-items-center'>
                             <img src={item.image} alt={item.name} />
                             <div>
@@ -159,6 +217,7 @@ const Cart = () => {
                                 <Button
                                   variant="outlined"
                                   color='success'
+                                  onClick={() => setAddressHandler(value)}
                                 >
                                   Use
                                 </Button>
@@ -169,21 +228,19 @@ const Cart = () => {
                       })
                     }
                   </Box>
-
-
                 </section>
                 <section className='cart-bill-container'>
-                  <form action="">
+                  <form method='post' onSubmit={handleCouponSubmit}>
                     <input className='input'
                       type="text"
                       placeholder='Apply Coupon'
                       value={coupon}
                       onChange={(e) => setCoupon(e.target.value)}
-
                     />
                     <input
                       className='btn'
                       type="submit"
+                      disabled={!coupon}
                       value="Apply"
                     />
                   </form>
@@ -199,21 +256,43 @@ const Cart = () => {
                       <p className='price'>{<FormatPrice price={deliveryCharge} />}</p>
                     </div>
                     <div style={mode === "light-mode" ? { borderTop: "2px solid black" } : { borderTop: "2px solid white" }}></div>
+                    {
+                      validCoupon ?
+                        <div>
+                          <div className='cart-bill-row'>
+                            <p>Discount</p>
+                            <p className='price'>- {<FormatPrice price={discount / 100 * 100} />}</p>
+                          </div>
+                          <div style={mode === "light-mode" ? { borderTop: "2px solid black" } : { borderTop: "2px solid white" }}></div>
+                        </div>
+                        : null
+                    }
                     <div className='cart-bill-row mt-1'>
                       <h6>Grand Total</h6>
-                      <p className='price'>{<FormatPrice price={totalCartItemPrice + deliveryCharge} />}</p>
+                      <p className='price'>{<FormatPrice price={validCoupon ? totalCartItemPrice - discount + deliveryCharge : (totalCartItemPrice + deliveryCharge)} />}</p>
                     </div>
                   </div>
                 </section>
 
               </div>
-              <div className='btn-container mt-4 text-right'>
+              <form className='cart-footer' method='post' onSubmit={placeOrder}>
+                <div className='d-flex align-items-center' style={{ width: "100%", justifyContent: "flex-start", gap: "1rem" }}>
+                  <Typography variant="h6">Delivery Address:</Typography>
+                  <input type="text"
+                    value={deliveryAddress}
+                    placeholder='Choose Delivery Address'
+                    readOnly
+                  />
+                </div>
                 <button className='btn'
                   style={{ width: "200px", fontSize: "20px" }}
+                  type='submit'
+                  disabled={!deliveryAddress}
+                  title={!deliveryAddress ? "Please choose delivery address" : null}
                 >
                   Place Order
                 </button>
-              </div>
+              </form>
             </>
             :
             <div style={{ textAlign: 'center' }}>

@@ -1,0 +1,21 @@
+.success-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.success-page img {
+    height: 15rem;
+    width: 30%;
+}
+
+.success-page h2 {
+    margin-top: 1rem;
+    color: red;
+}
+
+.success-page p {
+    margin: 1rem 0;
+}

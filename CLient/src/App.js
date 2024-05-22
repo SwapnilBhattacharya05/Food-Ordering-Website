@@ -30,6 +30,8 @@ import RestaurantLogin from './components/Restaurant/RestaurantLogin';
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Success from './components/Payment/Success';
+import Cancel from './components/Payment/Cancel';
 
 
 function App() {
@@ -61,6 +63,8 @@ function App() {
         <Route path='/restaurant-dashboard' element={<RestaurantDashboard />} />
         <Route path='/RestaurantAddMenu' element={<RestaurantExtras />} />
         <Route path='/restaurant/:restaurantId' element={<RestaurantPage />}></Route>
+        <Route path='/success' element={<Success />}></Route>
+        <Route path='/cancel' element={<Cancel />}></Route>
 
         {/* LOGIN SIGNUP PATHS */}
         <Route path='/login' element={<Login />} />

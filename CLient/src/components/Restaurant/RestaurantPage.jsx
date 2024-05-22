@@ -5,7 +5,7 @@ import "./RestaurantPage.css";
 import { useCallback, useEffect, useState } from "react";
 import toastMessage from "../ToastMessage";
 import KeywordBox from "../KeywordBox";
-import RenderRatings from "../RenderRatings";
+import RenderRatings from "../../Helper/RenderRatings";
 import RestaurantPageExploreComponent from "./RestaurantPageExploreComponent";
 import RestaurantPageDetailsComponent from "./RestaurantPageDetailsComponent";
 import RestaurantPageReviewsComponent from "./RestaurantPageReviewsComponent";
@@ -82,55 +82,57 @@ const RestaurantPage = () => {
     return (
         <>
             <Navbar />
-            <div className="restaurant-page container">
-                {
-                    loading ?
-                        <img src="https://i.pinimg.com/originals/cc/52/d8/cc52d88c5738d491c2175c408d90d1dc.gif" alt="loading..." />
-                        :
-                        <>
-                            <section className="restaurant-page-image-container">
-                                <div className="restaurant-page-banner-left-part mr-2">
-                                    <img className="restaurant-page-img" src={restaurant.imgUrls[0]} alt={restaurant.name} />
-                                </div>
-                                <div className="restaurant-page-banner-right-part">
-                                    <img className="restaurant-page-img mb-2" src={restaurant.imgUrls[1]} alt={restaurant.name} />
-                                    <img className="restaurant-page-img" src={restaurant.imgUrls[2]} alt={restaurant.name} />
-                                </div>
-                            </section>
-                            <div className="restaurant-page-info">
-                                <div className="restaurant-page-heading">
-                                    <h1>{restaurant.name}</h1>
-                                    <div className="restaurant-page-rating d-flex align-items-center justify-content-center">
-                                        <RenderRatings rating={rating} />
-                                        <span>({reviews.length} reviews)</span>
-                                    </div>
-                                </div>
-                                <div className="d-flex">
-                                    {
-                                        keywords?.map((keyword, index) => {
-                                            return <KeywordBox key={index} keyword={keyword} />
-                                        })
-                                    }
-                                </div>
-                                <p className="mt-3">{restaurant.address}, {restaurant.city}- {restaurant.pincode}</p>
-                                <p><span className={new Date().getTime() > restaurant.hours ? "text-danger" : "text-success"}>{new Date().getTime() > restaurant.hours ? "Closed now -  " : "Open now -  "}</span>{restaurant.hours}</p>
-
-                                <div className="restaurant-page-main">
-                                    <div className="restaurant-page-main-options">
-                                        <button className="pl-3" onClick={(e) => setComponent(e.target.innerText)}>Details</button>
-                                        <button onClick={(e) => setComponent(e.target.innerText)}>Explore</button>
-                                        <button onClick={(e) => setComponent(e.target.innerText)}>Reviews</button>
-                                        <button onClick={(e) => setComponent(e.target.innerText)}>Photos</button>
-                                        <button onClick={(e) => setComponent(e.target.innerText)}>Menu</button>
-                                    </div>
-                                    <div className="restaurant-page-main-details">
-                                        {renderComponent()}
-                                    </div>
+            {
+                loading ?
+                    <img
+                        style={{ width: "100%", height: "100%", marginTop: "80px" }}
+                        src="https://cdn.dribbble.com/users/348647/screenshots/1273497/hgwm_loading.gif"
+                        alt="loading..." />
+                    :
+                    <div className="restaurant-page container">
+                        <section className="restaurant-page-image-container">
+                            <div className="restaurant-page-banner-left-part mr-2">
+                                <img className="restaurant-page-img" src={restaurant.imgUrls[0]} alt={restaurant.name} />
+                            </div>
+                            <div className="restaurant-page-banner-right-part">
+                                <img className="restaurant-page-img mb-2" src={restaurant.imgUrls[1]} alt={restaurant.name} />
+                                <img className="restaurant-page-img" src={restaurant.imgUrls[2]} alt={restaurant.name} />
+                            </div>
+                        </section>
+                        <div className="restaurant-page-info">
+                            <div className="restaurant-page-heading">
+                                <h1>{restaurant.name}</h1>
+                                <div className="restaurant-page-rating d-flex align-items-center justify-content-center">
+                                    <RenderRatings rating={rating} />
+                                    <span>({reviews.length} reviews)</span>
                                 </div>
                             </div>
-                        </>
-                }
-            </div>
+                            <div className="d-flex">
+                                {
+                                    keywords?.map((keyword, index) => {
+                                        return <KeywordBox key={index} keyword={keyword} />
+                                    })
+                                }
+                            </div>
+                            <p className="mt-3">{restaurant.address}, {restaurant.city}- {restaurant.pincode}</p>
+                            <p><span className={new Date().getTime() > restaurant.hours ? "text-danger" : "text-success"}>{new Date().getTime() > restaurant.hours ? "Closed now -  " : "Open now -  "}</span>{restaurant.hours}</p>
+
+                            <div className="restaurant-page-main">
+                                <div className="restaurant-page-main-options">
+                                    <button className="pl-3" onClick={(e) => setComponent(e.target.innerText)}>Details</button>
+                                    <button onClick={(e) => setComponent(e.target.innerText)}>Explore</button>
+                                    <button onClick={(e) => setComponent(e.target.innerText)}>Reviews</button>
+                                    <button onClick={(e) => setComponent(e.target.innerText)}>Photos</button>
+                                    <button onClick={(e) => setComponent(e.target.innerText)}>Menu</button>
+                                </div>
+                                <div className="restaurant-page-main-details">
+                                    {renderComponent()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            }
             <Footer />
         </>
 

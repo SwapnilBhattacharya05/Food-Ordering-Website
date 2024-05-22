@@ -1,0 +1,21 @@
+.cancel-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.cancel-page img {
+    height: 10rem;
+    width: 30%;
+}
+
+.cancel-page h2 {
+    margin-top: 1rem;
+    color: red;
+}
+
+.cancel-page p {
+    margin: 1rem 0;
+}

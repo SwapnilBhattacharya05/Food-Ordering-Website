@@ -76,7 +76,7 @@ const Home = () => {
     }
   ]
 
-  const { allRestaurants,allDishes } = useFilterContext();
+  const { allRestaurants, allDishes } = useFilterContext();
   const featuredRestaurants = allRestaurants.slice(0, 7);
   const featuredDishes = allDishes.slice(0, 7);
 
@@ -139,6 +139,7 @@ const Home = () => {
     e.preventDefault();
     if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(newsletter.email)) {
       toastMessage({ msg: "Thank you for subscribing to our newsletter!", type: "success" });
+      setNewsletter({ email: "" });
     } else {
       toastMessage({ msg: "Invalid Email", type: "error" });
     }

@@ -12,7 +12,8 @@ const initialState = {
     user: JSON.parse(localStorage.getItem("userData")) || null,
     cartItems: getCartItemsFromLocalStorage(),
     totalCartItems: 0,
-    totalCartItemPrice: 0
+    totalCartItemPrice: 0,
+    deliveryCharge: 50
 }
 
 
