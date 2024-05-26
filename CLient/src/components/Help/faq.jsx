@@ -22,7 +22,7 @@ const Faq = () => {
                 <CssBaseline />
 
                 {/* FAQ PAGE CONTAINER */}
-                <Box mt="100px" mb="120px" ml="20px">
+                <Box mt="120px" mb="120px" ml="20px">
 
                     {/* FAQ PAGE HEADING */}
                     <Box mb="30px">
@@ -176,7 +176,7 @@ const Faq = () => {
                         </Box>
                     </Box>
                 </Box>
-            </ColorModeContext.Provider >
+            </ColorModeContext.Provider>
 
             <Footer />
 

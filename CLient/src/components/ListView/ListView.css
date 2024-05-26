@@ -19,7 +19,7 @@
     transform: scale(1.02);
 }
 
-.dark-mode .list-view .list-card {
+.dark-mode .list-view .list-card{
     background-color: #090e13;
 }
 
@@ -66,13 +66,13 @@
     height: 100%;
 }
 
-.list-view .list-card .list-card-content {
+.list-view .list-card .list-card-content{
     width: 40%;
     padding-left: 1rem;
     height: 100%;
 }
 
-.list-view .list-card .list-card-content p {
+.list-view .list-card .list-card-content p{
     font-size: 0.8rem;
 }
 

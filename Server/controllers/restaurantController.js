@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 import Review from "../schema/reviewSchema.js";
+import jwt from "jsonwebtoken";
 import FoodItem from "../schema/foodItemSchema.js";
 const register = async (req, res) => {
 
@@ -78,7 +79,7 @@ const login = async (req, res) => {
 
         const token = jwt.sign(payload, process.env.JWT_SECRET);
         success = true;
-        return res.status(200).json({ success, token });
+        return res.status(200).json({ success, token, id: restaurant._id });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Internal Server Error", error: err.message });
@@ -191,22 +192,49 @@ const postReview = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()[0].msg });
     }
+
+    if (!req.user) {
+        return res.status(400).json({ message: "Please login to post review" });
+    }
+
     try {
         let success = false;
 
+        const userId = new Types.ObjectId(req.user);
         const review = await Review.create({
             restaurant: req.params.id,
-            user: req.body.user,
+            user: userId,
             comment: req.body.comment,
             rating: req.body.rating,
             image: req.body.image
         });
 
         success = true;
-        return res.status(200).json({ success, review });
+        return res.status(200).json({ success, review, message: "Review added successfully" });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 }
-export default { register, login, getRestaurant, getallRestaurants, postReview, addFoodItem, getAllFoodItems };
+
+const getAllOrdersforRestaurant = async (req, res) => {
+    try {
+        let success = false;
+        const restrauntId = new Types.ObjectId(req.params.id);
+        const allOrders = await Order.find({ restaurant: restrauntId });
+
+        if (!allOrders) {
+            return res.status(404).json({ success, message: "No orders found" });
+        }
+
+        return res.status(200).json({ success, allOrders });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+export default {
+    register, login, getRestaurant, getallRestaurants,
+    postReview, addFoodItem, getAllFoodItems, getAllOrdersforRestaurant
+};

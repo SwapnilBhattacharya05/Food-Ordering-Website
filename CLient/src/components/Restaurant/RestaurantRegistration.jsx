@@ -195,7 +195,7 @@ const RestaurantRegistration = () => {
     return (
         <>
             <Navbar />
-            <div className="container restaurant-registration-container mt-4">
+            <div className="container restaurant-registration-container">
                 <form method='POST' onSubmit={handleFormSubmit} className="restaurant-registration-form">
                     <div className='text-center'>
                         <h1 className='text-center'>Restaurant Registration Form</h1>

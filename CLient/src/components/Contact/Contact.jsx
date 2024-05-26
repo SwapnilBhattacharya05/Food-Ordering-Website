@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TextField } from "@mui/material"
 import Footer from "../Footer/Footer"
 import Navbar from "../Navbar/Navbar"
 import "./Contact.css"
@@ -6,9 +6,57 @@ import { tokens, useMode } from "../Admin/theme"
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import FaxIcon from '@mui/icons-material/Fax';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
+import { useUserContext } from "../../Context/UserContext"
+import { useState } from "react"
+import toastMessage from "../ToastMessage"
 const Contact = () => {
+  //eslint-disable-next-line
   const [theme, colorMode] = useMode()
   const colors = tokens(theme.palette.mode)
+  const { user } = useUserContext();
+
+  const [formData, setFormData] = useState({
+    name: user?.firstName.concat(" " + user?.lastName) || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    message: ""
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact/post-contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        return toastMessage({ msg: data.message, type: "error" });
+      }
+
+      toastMessage({ msg: data.message, type: "success" });
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          message: ""
+        });
+      }, 4000);
+
+    } catch (err) {
+      toastMessage({ msg: err.message, type: "error" });
+    }
+  }
+
+
+  const onHandleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
   return (
     <>
@@ -24,6 +72,8 @@ const Contact = () => {
           <Box className="contact-form-container"
             component="form"
             autoComplete='off'
+            onSubmit={handleSubmit}
+            method="POST"
             sx={{
               '&.MuiTextField-root': {
                 m: 1,
@@ -55,8 +105,10 @@ const Contact = () => {
               name="name"
               variant="outlined"
               placeholder="Name"
+              value={formData.name}
               label="Name"
               required
+              onChange={onHandleChange}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -70,6 +122,8 @@ const Contact = () => {
               name="email"
               variant="outlined"
               label="Email"
+              onChange={onHandleChange}
+              value={formData.email}
               placeholder="example@gmail.com"
               required
               InputLabelProps={{
@@ -84,6 +138,8 @@ const Contact = () => {
               id="contact-phone"
               name="phone"
               variant="outlined"
+              onChange={onHandleChange}
+              value={formData.phone}
               label="Phone"
               placeholder="100-100-1010"
               required
@@ -97,7 +153,9 @@ const Contact = () => {
             <TextField
               type='text'
               id="contact-query"
-              name="Query"
+              onChange={onHandleChange}
+              name="message"
+              value={formData.query}
               placeholder="Enter your query"
               variant="outlined"
               multiline
@@ -109,6 +167,8 @@ const Contact = () => {
             />
             <Button variant="contained"
               id="contact-submit"
+              type="submit"
+              disabled={!formData.name || !formData.email || !formData.phone || !formData.message}
             >
               Send
             </Button>
@@ -144,9 +204,10 @@ const Contact = () => {
         <Box className="contact-right">
           <Box className="contact-map">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d460.7955107785612!2d88.31156443023897!3d22.490519030481636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027a6d20580d19%3A0xaea2dcdc78bf4d6d!2s12%2F3%2C%2012%2F3%2C%20Gopinagar%2C%20Behala%2C%20Kolkata%2C%20West%20Bengal%20700034!5e0!3m2!1sen!2sin!4v1715536553825!5m2!1sen!2sin"
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              title="contact-map"
+              referrerPolicy="no-referrer-when-downgrade"
               id="contact-map-iframe">
             </iframe>
           </Box>

@@ -1,7 +1,7 @@
 import { Rating } from '@mui/material'
 import React from 'react'
 
-const RenderRatings = ({ rating, className, size }) => {
+const RenderRatings = ({ rating,className,size }) => {
     return (
         <div className={className}>
             <Rating name="read-only" value={rating} precision={0.5} readOnly size={size} />
@@ -9,4 +9,4 @@ const RenderRatings = ({ rating, className, size }) => {
     )
 }
 
-export default RenderRatings;
+export default RenderRatings

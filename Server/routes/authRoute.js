@@ -5,6 +5,7 @@ import { body } from "express-validator";
 
 const router = express.Router();
 
+//endpoints for user manupulation
 router.post("/signup", [
     body("fname", "Enter a valid first name").isLength({ min: 3 }),
     body("lname", "Enter a valid last name").isLength({ min: 3 }),
@@ -20,7 +21,7 @@ router.post("/login", [
 
 router.post("/google", authController.googleAuth);
 
-router.post("/update-profile", [
+router.patch("/update-profile", [
     body("fname", "Enter a valid first name").isLength({ min: 3 }),
     body("lname", "Enter a valid last name").isLength({ min: 3 }),
     body("email", "Enter a valid email").isEmail(),
@@ -29,5 +30,22 @@ router.post("/update-profile", [
 ], fetchUser, authController.updateProfile);
 
 router.get("/getallusers", authController.getAllUsers);
+
+router.post("/verifyCoupon/:id", [
+    body("coupon", "Enter a valid coupon code").isLength({ min: 3 }),
+], authController.verifyCoupon);
+
+
+// --------------------------
+//endpoints for order manupulation
+router.get("/getAllOrders", fetchUser, authController.getAllOrders);
+
+
+// --------------------------
+//endpoints for address manupulation
+router.post("/addAddress", fetchUser, authController.addAddress);
+router.patch("/updateAddress/:index", fetchUser, authController.updateAddress);
+router.delete("/deleteAddress/:index", fetchUser, authController.deleteAddress);
+router.get("/getAllAddress", fetchUser, authController.getAllAddress);
 
 export default router;

@@ -113,7 +113,7 @@ const reducer = (state, action) => {
 
         case "REMOVE_CART_ITEM":
             const filteredCart = state.cartItems.filter(item => item._id !== action.payload);
-            
+
             return {
                 ...state,
                 cartItems: filteredCart
@@ -123,6 +123,17 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 cartItems: []
+            }
+
+        case "SET_ORDER_HISTORY":
+            return {
+                ...state,
+                orderHistory: action.payload
+            }
+        case "SET_USER_ADDRESS":
+            return {
+                ...state,
+                userAddress: action.payload
             }
 
         default:

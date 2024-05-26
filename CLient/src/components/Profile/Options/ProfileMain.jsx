@@ -7,11 +7,12 @@ import { tokens, useMode } from '../../Admin/theme';
 import Avatar from '@mui/material/Avatar';
 import { useUserContext } from "../../../Context/UserContext.js";
 import app from '../../../firebase.js';
+import toastMessage from '../../ToastMessage.jsx';
 
 const ProfileMain = () => {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
-    const { user } = useUserContext();
+    const { user, setUser } = useUserContext();
 
     const [edit, setEdit] = useState(false);
 
@@ -33,7 +34,6 @@ const ProfileMain = () => {
         if (file) {
             handleFileUpload(file);
         }
-        console.log(file);
     }, [file]);
 
     const fileRef = useRef(null);
@@ -79,12 +79,67 @@ const ProfileMain = () => {
         );
     };
 
+    const handleProfileChange = async (e) => {
+        e.preventDefault();
+        setEdit(!edit);
+        if (formData.password !== formData.conpassword || !formData.password || !formData.conpassword) {
+            return toastMessage({ msg: "Please enter valid password", type: "error" });
+        }
+
+        if (fileError) {
+            return toastMessage({ msg: "Please upload your profile picture", type: "error" });
+        }
+
+        try {
+            const respone = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/update-profile`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                },
+                body: JSON.stringify({
+                    fname: formData.firstName,
+                    lname: formData.lastName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    password: formData.password,
+                    image: fileURL
+                })
+            });
+
+            const json = await respone.json();
+            if (!json.success) {
+                return toastMessage({ msg: json.message, type: "error" });
+            }
+
+            toastMessage({ msg: json.message, type: "success" });
+            setEdit(false);
+            setUser(json.user);
+
+            setFormData({
+                firstName: json.user.firstName,
+                lastName: json.user.lastName,
+                email: json.user.email,
+                phone: json.user.phone,
+                password: "",
+                conpassword: "",
+            });
+            setFilePercentage(0);
+            setFile(null);
+            setFileURL(null);
+            setFileError(false);
+        } catch (error) {
+            toastMessage({ msg: error.message, type: "error" });
+            console.log(error);
+        }
+    }
 
     return (
 
         <>
             <Box className="profile-option-main-container"
                 component="form"
+                onSubmit={handleProfileChange}
                 autoComplete='off'
                 sx={{
                     '&.MuiTextField-root': {
@@ -280,6 +335,7 @@ const ProfileMain = () => {
                             type='file'
                             accept='image/*'
                             id='profile-image-input'
+                            name='image'
                             ref={fileRef}
                             hidden
                             onChange={(e) => setFile(e.target.files[0])}

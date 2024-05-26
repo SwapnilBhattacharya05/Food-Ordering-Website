@@ -1,7 +1,9 @@
 import User from "../schema/userSchema.js";
 import bcrypt from "bcrypt";
+import { Types } from "mongoose";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
+import Order from "../schema/orderSchema.js";
 
 const signup = async (req, res) => {
 
@@ -137,10 +139,11 @@ const updateProfile = async (req, res) => {
             return res.status(400).json({ success, message: "Please login to update your profile" });
         }
 
-        let user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email });
 
-        if (user) {
-            return res.status(400).json({ success, message: "Sorry a user with this email already exists" });
+        const userId = new Types.ObjectId(req.user);
+        if (user && !user._id.equals(userId)) {
+            return res.status(400).json({ success, message: "Sorry, a user with this email already exists" });
         }
 
         if (req.body.password) {
@@ -148,24 +151,27 @@ const updateProfile = async (req, res) => {
             req.body.password = await bcrypt.hash(req.body.password, salt);
         }
 
-        user = await User.findByIdAndUpdate(req.user.id, {
+        if (!req.body.image) {
+            req.body.image = user.image
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {
             $set: {
                 firstName: req.body.fname,
                 lastName: req.body.lname,
                 email: req.body.email,
                 phone: req.body.phone,
-                password: req.body.password,
                 image: req.body.image
             }
         }, { new: true });
 
         success = true;
-        return res.status(200).json({ success, message: "Profile updated successfully", user });
+        return res.status(200).json({ success, message: "Profile updated successfully", user: updatedUser });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
-}
+};
 
 const getAllUsers = async (req, res) => {
     try {
@@ -177,4 +183,163 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-export default { signup, login, googleAuth, updateProfile, getAllUsers };
+const verifyCoupon = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()[0].msg });
+    }
+    try {
+        let success = false;
+        const id = new Types.ObjectId(req.params.id)
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        const validCoupon = user.coupon.find((coupon) => coupon.code === req.body.coupon);
+
+        if (!validCoupon) {
+            return res.status(400).json({ success, message: "Invalid coupon" });
+        }
+
+        success = true;
+        return res.status(200).json({ discount: validCoupon.discount, success, message: "Coupon applied with discount of " + validCoupon.discount + "% of 100 Rs" });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const getAllOrders = async (req, res) => {
+    if (!req.user) {
+        return res.status(400).json({ success, message: "Please login to get all orders" });
+    }
+
+    try {
+        let success = false;
+        const userId = new Types.ObjectId(req.user)
+
+        const orders = await Order.find({ user: userId }).populate("restaurant", "name address imgUrls").populate("user", "firstName lastName");
+
+        if (!orders) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        success = true;
+        return res.status(200).json({ success, orders });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const addAddress = async (req, res) => {
+    if (!req.user) {
+        return res.status(400).json({ success, message: "Please login to add address" });
+    }
+
+    try {
+        let success = false;
+
+        const userId = new Types.ObjectId(req.user);
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        const address = {
+            type: req.body.type,
+            address: req.body.address,
+        }
+
+        user.address.push(address);
+        await user.save();
+        success = true;
+        return res.status(200).json({ success, message: "Address added successfully", user });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+
+const updateAddress = async (req, res) => {
+    if(!req.user){
+        return res.status(400).json({ success, message: "Please login to update address" });
+    }
+
+    try {
+        let success = false;
+
+        const userId = new Types.ObjectId(req.user);
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        user.address[req.params.index].type = req.body.type;
+        user.address[req.params.index].address = req.body.address;
+        await user.save();
+        success = true;
+        return res.status(200).json({ success, message: "Address updated successfully", user });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const deleteAddress = async (req, res) => {
+    if (!req.user) {
+        return res.status(400).json({ success, message: "Please login to delete address" });
+    }
+
+    try {
+        let success = false;
+
+        const userId = new Types.ObjectId(req.user);
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        user.address.splice(req.params.index, 1);
+        await user.save();
+        success = true;
+        return res.status(200).json({ success, message: "Address deleted successfully", user });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const getAllAddress = async (req, res) => {
+    if (!req.user) {
+        return res.status(400).json({ success, message: "Please login to get address" });
+    }
+
+    try {
+        let success = false;
+
+        const userId = new Types.ObjectId(req.user);
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success, message: "User not found" });
+        }
+
+        success = true;
+        return res.status(200).json({ success, address: user.address });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+export default { signup, login, googleAuth, updateProfile, getAllUsers, verifyCoupon, getAllOrders, addAddress, updateAddress, deleteAddress, getAllAddress };

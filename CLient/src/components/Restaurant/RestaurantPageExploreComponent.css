@@ -1,0 +1,67 @@
+.list-item-card-container {
+    padding: 0.7rem;
+    height: 250px;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.dark-mode .list-item-card-container {
+    background-color: #090e13;
+}
+
+.list-item-card-container:hover {
+    transform: scale(1.02);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+
+.restaurant-page-explore-container .restaurant-page-explore-form {
+    width: 80%;
+    margin: 0 auto 1.5rem auto;
+}
+
+.restaurant-page-explore-container .restaurant-page-explore-form input[type="text"] {
+    padding: 0.5rem;
+    width: 100%;
+    height: 3rem;
+    outline: none;
+    border: 1px solid rgb(136, 133, 133);
+    border-radius: 0.5rem;
+}
+
+.dark-mode .restaurant-page-explore-container .restaurant-page-explore-form input[type="text"] {
+    background-color: rgb(136, 133, 133);
+    border: 1px solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+}
+
+.restaurant-page-explore-container .restaurant-page-explore-form input[type="text"]::placeholder {
+    color: black;
+}
+
+.list-item-card-container .list-item-card-image-container {
+    width: 40%;
+    height: 100%;
+}
+
+.list-item-card-container .list-item-card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.list-item-card-container .list-item-card-content-container {
+    height: 100%;
+    width: 60%;
+    padding: 1rem;
+}
+
+.list-item-card-container .list-item-card-content-container .list-item-card-description {
+    font-size: 0.8rem;
+    color: rgb(101, 98, 98);
+}

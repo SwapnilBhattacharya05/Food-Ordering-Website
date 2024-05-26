@@ -17,6 +17,10 @@
     text-transform: capitalize;
 }
 
+.dark-mode .category-figcaption{
+    color: white;
+}
+
 @media(max-width: 575px){
     .category-figure-container{
         width: 60%;

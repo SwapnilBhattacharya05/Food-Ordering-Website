@@ -5,7 +5,6 @@ import FormatPrice from './FormatPrice';
 import Star from '@mui/icons-material/Star';
 import { useUserContext } from '../Context/UserContext';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CartQuantityToggle from '../Helper/CartQuantityToggle';
 
 const GridCard = ({ data, index, searchBy }) => {
     const { mode } = useAppContext();
@@ -114,7 +113,7 @@ const GridCard = ({ data, index, searchBy }) => {
                             <p style={{ paddingLeft: "0.6rem", fontSize: "1.3rem" }}>
                                 <FormatPrice price={data.price} />
                             </p>
-                            <button className={'btn'} style={{ height: "2.5rem", width: "6.5rem", fontSize: "0.8rem" }}
+                            <button className={'btn'}
                                 onClick={() => handleAddToCart(data)}
                             >
                                 {

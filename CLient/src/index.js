@@ -6,18 +6,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from './Context/AppContext.js';
 import { UserProvider } from './Context/UserContext.js';
 import { FilterProvider } from './Context/FilterContext.js';
+import { OrderProvider } from './Context/OrderContext.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <AppProvider>
-        <UserProvider>
+    <AppProvider>
+      <UserProvider>
+        <OrderProvider>
           <FilterProvider>
             <App />
           </FilterProvider>
-        </UserProvider>
-      </AppProvider>
-    </React.StrictMode>
+        </OrderProvider>
+      </UserProvider>
+    </AppProvider>
   </BrowserRouter>
 );

@@ -1,0 +1,75 @@
+.track-order-page-container {
+    margin-top: 100px;
+    min-height: 300px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.track-order-page-loader {
+    background: url("../../../public/img/track-order-loader.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    height: 100vh;
+    width: 100vw;
+    margin-top: 80px;
+}
+
+.track-order-page-container .track-order-page-left-container {
+    width: 60%;
+    height: 100%;
+    /* border: 1px solid black; */
+    padding: 1rem;
+}
+
+.track-order-page-container .track-order-page-left-container .order-details p {
+    margin-bottom: 0;
+}
+
+.track-order-page-container .track-order-page-left-container .order-items-table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid black;
+}
+.track-order-page-container .track-order-page-left-container .order-items-table tbody tr {
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+.track-order-page-container .track-order-page-left-container .order-items-table thead tr th,
+.track-order-page-container .track-order-page-left-container .order-items-table tbody tr td {
+    border: 1px solid black;
+}
+
+.dark-mode .track-order-page-container .track-order-page-left-container .order-items-table tbody tr td,
+.dark-mode .track-order-page-container .track-order-page-left-container .order-items-table thead tr th {
+    border: 1px solid white;
+}
+
+.track-order-page-container .track-order-page-left-container .order-items-table tbody tr td img {
+    height: 5rem;
+    width: 5rem;
+}
+
+.track-order-page-container .track-order-page-right-container {
+    border: 1px solid green;
+    width: 40%;
+    height: 100%;
+    padding: 1rem;
+}
+
+@media(max-width: 830px) {
+    .track-order-page-container {
+        flex-direction: column;
+    }
+
+    .track-order-page-container .track-order-page-left-container,
+    .track-order-page-container .track-order-page-right-container {
+        width: 100%;
+    }
+}

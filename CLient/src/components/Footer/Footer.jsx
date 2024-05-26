@@ -22,9 +22,7 @@ const Footer = () => {
                     <div className="d-flex flex-column footer-column">
                         <div className="footer-logo">
                             <h6>FOODZIE</h6>
-                            <img
-                                src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/foodzie_logo.png?alt=media&token=8ce6cfe2-8ff4-4186-8721-690d25eb7e2c"
-                                alt="logo" />
+                            <img src="https://firebasestorage.googleapis.com/v0/b/foodzie-bcbf4.appspot.com/o/foodzie_logo.png?alt=media&token=8ce6cfe2-8ff4-4186-8721-690d25eb7e2c" alt="logo" />
                         </div>
                         <p>Follow Us @</p>
                         <ul className="social-icons gap-3 list-unstyled d-flex justify-content-start align-items-center">
@@ -38,25 +36,25 @@ const Footer = () => {
                     <div className="flex-column d-flex align-items-center justify-content-center footer-column">
                         <h6 className="footer-heading">Quick Links</h6>
                         <ul className="list-unstyled d-flex align-items-center justify-content-center flex-column">
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/"}><HomeIcon /> Home</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/help"}><HelpIcon /> Help</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/cart"}><ShoppingCartIcon /> Cart</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/"}><HomeIcon /> Home</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/help"}><HelpIcon /> Help</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/cart"}><ShoppingCartIcon /> Cart</Link></li>
                         </ul>
                     </div>
                     <div className="flex-column d-flex align-items-center justify-content-center footer-column">
                         <h6 className="footer-heading">Other Links</h6>
                         <ul className="list-unstyled d-flex align-items-center justify-content-center flex-column">
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link style={{ color: "white" }} to={"/about"}><InfoIcon /> About</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link style={{ color: "white" }} to={"/contact"}><ContactEmergency /> Contact</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"/partner-with-us"}><Handshake /> Partner with us</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/about"}><InfoIcon /> About</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/contact"}><ContactEmergency /> Contact</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"/partner-with-us"}><Handshake /> Partner with us</Link></li>
                         </ul>
                     </div>
                     <div className="flex-column d-flex align-items-center justify-content-cente footer-column">
                         <h6 className="footer-heading">Contact</h6>
                         <ul className="list-unstyled d-flex align-items-center justify-content-center flex-column">
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"https://www.google.com/maps"}><LocationOn /> 12/3, M.G. Road, Kolkata</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"tel:+91 6234567890"}><Phone /> +91 6234567890</Link></li>
-                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link target="_blank" style={{ color: "white" }} to={"mailto:infofoodzie@gmail.com"}><Email /> infofoodzie@gmail.com</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"https://www.google.com/maps"}><LocationOn /> 12/3, M.G. Road, Kolkata</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"tel:+91 6234567890"}><Phone /> +91 6234567890</Link></li>
+                            <li className="footer-link pt-2 d-flex align-items-center justify-content-center"><Link onClick={backToTop} style={{ color: "white" }} to={"mailto:infofoodzie@gmail.com"}><Email /> infofoodzie@gmail.com</Link></li>
                         </ul>
                     </div>
                 </div>

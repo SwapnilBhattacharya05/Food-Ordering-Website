@@ -47,13 +47,18 @@ const AdminUsers = () => {
     },
 
     {
-      field: "photo",
+      field: "image",
       headerName: "Avatar",
       width: 100,
       cellClassName: "photo-column-cell",
       renderCell: (params) => <img src={params.value}
         alt="User images"
         id="admin-user-images"
+        style={{
+          width: "45px",
+          height: "45px",
+          borderRadius: "50%"
+        }}
       />,
     },
 
@@ -176,11 +181,11 @@ const AdminUsers = () => {
                 // ?change style of the content in the table 
                 "& .MuiDataGrid-virtualScroller": {
                   backgroundColor: "white",
-                  color : "black"
+                  color: "black"
                 },
                 ".dark-mode & .MuiDataGrid-virtualScroller": {
                   backgroundColor: "#979797",
-                  color : "white"
+                  color: "white"
                 },
                 // ?change style of the footer of the table
                 "& .MuiDataGrid-footerContainer": {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { tokens, useMode } from '../../Admin/theme'
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
@@ -8,11 +8,114 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { mockAddress } from '../../../data/MockData';
 import "../Profile.css"
+import toastMessage from '../../ToastMessage';
+import { useUserContext } from '../../../Context/UserContext';
 
 const Address = () => {
     const [theme, colorMode] = useMode()
-    const [address, useAddress] = useState(mockAddress)
-    const colors = tokens(theme.palette.mode)
+    const { user, setUser, userAddress } = useUserContext();
+    const colors = tokens(theme.palette.mode);
+    const [addressIndex, setAddressIndex] = useState(null);
+    const [newAddress, setNewAddress] = useState({
+        type: "Home",
+        address: "",
+    });
+
+    const cancelRef = useRef(null);
+
+
+    const handleOnChange = (e) => {
+        setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
+        console.log(newAddress);
+    }
+
+    const handleAddNewAddress = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/addAddress`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                },
+                body: JSON.stringify({
+                    type: newAddress.type,
+                    address: newAddress.address
+                })
+            });
+
+            const json = await response.json();
+            if (!json.success) {
+                return toastMessage({ msg: json.message, type: "error" });
+            } else {
+                cancelRef.current.click();
+                return toastMessage({ msg: json.message, type: "success" });
+            }
+        } catch (error) {
+            console.log(error);
+            toastMessage({ msg: error.message, type: "error" });
+        }
+    }
+
+    const handleDeleteAddress = async (index) => {
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/deleteAddress/${index}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                }
+            });
+
+            const json = await response.json();
+            if (!json.success) {
+                return toastMessage({ msg: json.message, type: "error" });
+            } else {
+                return toastMessage({ msg: json.message, type: "success" });
+            }
+        } catch (error) {
+            console.log(error);
+            toastMessage({ msg: error.message, type: "error" });
+        }
+    }
+
+
+    const handleEditAddress = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/updateAddress/${addressIndex}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                },
+                body: JSON.stringify({
+                    type: newAddress.type,
+                    address: newAddress.address
+                })
+            });
+
+            const json = await response.json();
+            if (!json.success) {
+                return toastMessage({ msg: json.message, type: "error" });
+            } else {
+                cancelRef.current.click();
+                return toastMessage({ msg: json.message, type: "success" });
+            }
+        } catch (error) {
+            console.log(error);
+            toastMessage({ msg: error.message, type: "error" });
+        }
+    }
+
+    const handleEdit = (index) => {
+        setNewAddress({ type: userAddress[index].type, address: userAddress[index].address });
+        setAddressIndex(index);
+    }
+
     return (
         <>
             <Box
@@ -66,13 +169,11 @@ const Address = () => {
                         >
 
                             {
-                                address.map((value) => {
-                                    const { id, type, address } = value
+                                userAddress.map((value, index) => {
+                                    const { type, address } = value
                                     return (
-
-
                                         <Box className="profile-address-card"
-                                            key={id}
+                                            key={index}
                                             sx={{
                                                 display: "flex",
                                                 width: "29vw",
@@ -134,13 +235,15 @@ const Address = () => {
                                                         variant="outlined"
                                                         color='success'
                                                         data-toggle='modal'
-                                                        data-target='#exampleModal'
+                                                        data-target='#editModal'
+                                                        onClick={() => handleEdit(index)}
                                                     >
                                                         Edit
                                                     </Button>
                                                     <Button
                                                         variant="outlined"
                                                         color='error'
+                                                        onClick={() => handleDeleteAddress(index)}
                                                     >
                                                         Delete
                                                     </Button>
@@ -156,16 +259,16 @@ const Address = () => {
             </Box>
 
             {/* EDIT MODAL */}
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content profile-modal">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Change Address</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content profile-modal">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="editModalLabel">Change Address</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <Box className="profile-option-address-modal-container"
                                 component="form"
                                 autoComplete='off'
@@ -212,6 +315,8 @@ const Address = () => {
                                         select
                                         name="type"
                                         variant="outlined"
+                                        value={newAddress.type}
+                                        onChange={handleOnChange}
                                         required
                                         SelectProps={{
                                             native: true,
@@ -228,6 +333,7 @@ const Address = () => {
                                                 gap: 2,
 
                                             }}
+                                            value={"Home"}
                                         >
                                             Home
                                         </option>
@@ -238,6 +344,7 @@ const Address = () => {
                                                 gap: 2,
 
                                             }}
+                                            value={"Work"}
                                         >
                                             Work
                                         </option>
@@ -246,9 +353,8 @@ const Address = () => {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 gap: 2,
-
-
                                             }}
+                                            value={"Other"}
                                         >
                                             Other
                                         </option>
@@ -266,6 +372,8 @@ const Address = () => {
                                         type='text'
                                         id="profile-address-address"
                                         name="address"
+                                        value={newAddress.address}
+                                        onChange={handleOnChange}
                                         variant="outlined"
                                         required
                                         sx={{
@@ -277,34 +385,35 @@ const Address = () => {
                                 </Box>
                             </Box>
                         </div>
-                        <div class="modal-footer"
+                        <div className="modal-footer"
                             style={{
                                 display: 'flex',
                                 gap: 5
                             }}>
-                            <Button variant='outlined' color='error' data-dismiss="modal">Close</Button>
+                            <Button variant='outlined' ref={cancelRef} color='error' data-dismiss="modal">Close</Button>
                             <Button
                                 variant="outlined"
                                 color='success'
+                                onClick={handleEditAddress}
                             >
                                 Save
                             </Button>
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
 
             {/* ADD MODAL */}
-            <div className="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content profile-modal">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addModalLabel">Change Address</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="addModal" tabIndex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content profile-modal">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="addModalLabel">Change Address</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <Box className="profile-option-address-modal-container"
                                 component="form"
                                 autoComplete='off'
@@ -352,6 +461,8 @@ const Address = () => {
                                         name="type"
                                         variant="outlined"
                                         required
+                                        value={newAddress.type}
+                                        onChange={handleOnChange}
                                         SelectProps={{
                                             native: true,
                                         }}
@@ -367,6 +478,7 @@ const Address = () => {
                                                 gap: 2,
 
                                             }}
+                                            value={"Home"}
                                         >
                                             Home
                                         </option>
@@ -377,6 +489,7 @@ const Address = () => {
                                                 gap: 2,
 
                                             }}
+                                            value={"Work"}
                                         >
                                             Work
                                         </option>
@@ -388,6 +501,7 @@ const Address = () => {
 
 
                                             }}
+                                            value={"Other"}
                                         >
                                             Other
                                         </option>
@@ -405,6 +519,8 @@ const Address = () => {
                                         type='text'
                                         id="profile-address-address"
                                         name="address"
+                                        value={newAddress.address}
+                                        onChange={handleOnChange}
                                         variant="outlined"
                                         required
                                         sx={{
@@ -416,22 +532,23 @@ const Address = () => {
                                 </Box>
                             </Box>
                         </div>
-                        <div class="modal-footer"
+                        <div className="modal-footer"
                             style={{
                                 display: 'flex',
                                 gap: 5
                             }}>
-                            <Button variant='outlined' color='error' data-dismiss="modal">Close</Button>
+                            <Button variant='outlined' ref={cancelRef} color='error' data-dismiss="modal">Close</Button>
                             <Button
                                 variant="outlined"
                                 color='success'
+                                onClick={handleAddNewAddress}
                             >
                                 Save
                             </Button>
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
 
         </>
     )

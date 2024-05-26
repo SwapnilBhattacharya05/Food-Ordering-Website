@@ -82,3 +82,15 @@
 .dark-mode .restaurant-page .restaurant-page-main .restaurant-page-main-options button {
     color: white;
 }
+
+.restaurant-page-loader{
+    background: url("../../../public/img/restaurant-loader.gif");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 100px;
+    height: 90vh;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background-position: center;
+}

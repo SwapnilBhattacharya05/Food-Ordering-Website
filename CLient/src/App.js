@@ -26,12 +26,14 @@ import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
 import RestaurantExtras from './components/Restaurant/Options/RestaurantExtras';
 import RestaurantPage from './components/Restaurant/RestaurantPage';
 import RestaurantLogin from './components/Restaurant/RestaurantLogin';
+import RestaurantOrders from './components/Restaurant/Options/RestaurantOrders';
 
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Success from './components/Payment/Success';
 import Cancel from './components/Payment/Cancel';
+import TrackOrder from './components/TrackOrder/TrackOrder';
 
 
 function App() {
@@ -56,6 +58,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/track-order/:orderId' element={<TrackOrder />} />
 
         {/* RESTAURANT PATHS */}
         <Route path='/restaurant-login' element={<RestaurantLogin />} />
@@ -65,6 +68,8 @@ function App() {
         <Route path='/restaurant/:restaurantId' element={<RestaurantPage />}></Route>
         <Route path='/success' element={<Success />}></Route>
         <Route path='/cancel' element={<Cancel />}></Route>
+        <Route path='/track-order/:orderId' element={<TrackOrder />}></Route>
+        <Route path='/RestaurantOrders' element={<RestaurantOrders />}></Route>
 
         {/* LOGIN SIGNUP PATHS */}
         <Route path='/login' element={<Login />} />

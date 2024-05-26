@@ -1,11 +1,11 @@
-.slider-container{
+.slider-container {
     overflow: hidden;
     position: relative;
 }
 
 .slider {
     display: flex;
-    overflow-x: hidden;
+    overflow: hidden;
     scroll-behavior: smooth;
     padding: 0.5rem;
 }
@@ -15,15 +15,15 @@
 }
 
 .slider-container #left-slider-btn,
-.slider-container #right-slider-btn{
+.slider-container #right-slider-btn {
     border: none;
     cursor: pointer;
     position: absolute;
     padding: 0.2rem;
     font-size: 2rem;
     background-color: transparent;
+    -webkit-backdrop-filter: blur(1px);
     backdrop-filter: blur(1px);
-    -webkit-backdrop-filter:blur(1px);
     color: rgb(255, 255, 255);
     height: 100%;
     z-index: 2;
@@ -34,21 +34,31 @@
 }
 
 .slider-container #left-slider-btn p,
-.slider-container #right-slider-btn p{
+.slider-container #right-slider-btn p {
     padding: 0.5rem;
     font-size: 1.5rem;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.slider-container #right-slider-btn{
+.slider-container #right-slider-btn {
     right: 0;
     margin-left: 20rem;
 }
 
-.slider-container #left-slider-bt{
+.slider-container #left-slider-bt {
     left: 0;
 }
 
-.slider .grid-card .grid-card-item-footer button{
-    width: 1rem;
+.slider .grid-card .grid-card-item-footer{
+    width: 80%;
+}
+
+.slider .grid-card .grid-card-item-footer button {
+    width: 9.5rem;
+    padding-left: 1rem;
+}
+
+.slider .grid-card .grid-card-item-footer p{
+    padding-right: 0.9rem;
+    font-size: 0.9rem;
 }

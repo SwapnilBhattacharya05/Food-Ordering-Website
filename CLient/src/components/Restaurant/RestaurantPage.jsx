@@ -7,10 +7,10 @@ import toastMessage from "../ToastMessage";
 import KeywordBox from "../KeywordBox";
 import RenderRatings from "../../Helper/RenderRatings";
 import RestaurantPageExploreComponent from "./RestaurantPageExploreComponent";
-import RestaurantPageDetailsComponent from "./RestaurantPageDetailsComponent";
 import RestaurantPageReviewsComponent from "./RestaurantPageReviewsComponent";
 import RestaurantPagePhotosComponent from "./RestaurantPagePhotosComponent";
 import RestaurantPageMenuComponent from "./RestaurantPageMenuComponent";
+import BackToTop from "../../Helper/BackToTop";
 
 const RestaurantPage = () => {
     const params = useParams();
@@ -59,8 +59,6 @@ const RestaurantPage = () => {
 
     const renderComponent = () => {
         switch (component) {
-            case "Details":
-                return <RestaurantPageDetailsComponent name={restaurant.name} />
             case "Explore":
                 return <RestaurantPageExploreComponent name={restaurant.name} />
             case "Reviews":
@@ -70,11 +68,12 @@ const RestaurantPage = () => {
             case "Menu":
                 return <RestaurantPageMenuComponent name={restaurant.name} img={restaurant.menuUrl} />
             default:
-                return <RestaurantPageDetailsComponent />
+                return <RestaurantPageExploreComponent />
         }
     }
 
     useEffect(() => {
+        BackToTop();
         fetchRestaurant();
         //eslint-disable-next-line
     }, [fetchRestaurant]);
@@ -84,10 +83,9 @@ const RestaurantPage = () => {
             <Navbar />
             {
                 loading ?
-                    <img
-                        style={{ width: "100%", height: "100%", marginTop: "80px" }}
-                        src="https://cdn.dribbble.com/users/348647/screenshots/1273497/hgwm_loading.gif"
-                        alt="loading..." />
+                    <div className="restaurant-page-loader">
+
+                    </div>
                     :
                     <div className="restaurant-page container">
                         <section className="restaurant-page-image-container">
@@ -119,8 +117,7 @@ const RestaurantPage = () => {
 
                             <div className="restaurant-page-main">
                                 <div className="restaurant-page-main-options">
-                                    <button className="pl-3" onClick={(e) => setComponent(e.target.innerText)}>Details</button>
-                                    <button onClick={(e) => setComponent(e.target.innerText)}>Explore</button>
+                                    <button className="pl-3" onClick={(e) => setComponent(e.target.innerText)}>Explore</button>
                                     <button onClick={(e) => setComponent(e.target.innerText)}>Reviews</button>
                                     <button onClick={(e) => setComponent(e.target.innerText)}>Photos</button>
                                     <button onClick={(e) => setComponent(e.target.innerText)}>Menu</button>

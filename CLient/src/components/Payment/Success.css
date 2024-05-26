@@ -19,3 +19,12 @@
 .success-page p {
     margin: 1rem 0;
 }
+
+.payment-success-loader{
+    background: url("https://tpvenue.com/wp-content/uploads/2022/09/02-lottie-tick-01-instant-2.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+}

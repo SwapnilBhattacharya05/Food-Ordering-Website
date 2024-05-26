@@ -42,12 +42,12 @@ const ModuleFavourites = () => {
                         ml: 5,
                     }}>
                     {
-                        profileFavourites.map((value) => {
+                        profileFavourites.map((value,index) => {
                             const { id, img, variety, restaurantName, foodName, location, city, state, pincode, rating } = value;
                             return (
 
                                 // ?CONTAINER AND ROW
-                                <Box className="favourite-card-main">
+                                <Box className="favourite-card-main" key={index}>
                                     {/* CARD */}
                                     <Box className="profile-option-card"
                                         key={id}
@@ -171,10 +171,10 @@ const ListFavourites = () => {
                 }}>
 
                 {
-                    profileFavourites.map((value) => {
+                    profileFavourites.map((value,index) => {
                         const { id, img, variety, restaurantName, foodName, location, city, state, pincode, rating } = value
                         return (
-                            <Box className='favourite-list-main'>
+                            <Box className='favourite-list-main' key={index}>
 
                                 <Box className='profile-option-list'
                                     key={id}
