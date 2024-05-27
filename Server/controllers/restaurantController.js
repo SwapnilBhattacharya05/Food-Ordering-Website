@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { Types } from "mongoose";
 import Review from "../schema/reviewSchema.js";
 import jwt from "jsonwebtoken";
+import Order from "../schema/orderSchema.js";
 import FoodItem from "../schema/foodItemSchema.js";
 const register = async (req, res) => {
 
@@ -217,17 +218,39 @@ const postReview = async (req, res) => {
     }
 }
 
-const getAllOrdersforRestaurant = async (req, res) => {
+const getTopSellingRestaurants = async (req, res) => {
+
     try {
         let success = false;
-        const restrauntId = new Types.ObjectId(req.params.id);
-        const allOrders = await Order.find({ restaurant: restrauntId });
 
-        if (!allOrders) {
-            return res.status(404).json({ success, message: "No orders found" });
+        const topSellingRestaurants = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$restaurant",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { count: -1 }
+            },
+            {
+                $limit: 5
+            }
+        ])
+
+        if (!topSellingRestaurants) {
+            return res.status(404).json({ success, message: "Top selling restaurants not found" });
         }
 
-        return res.status(200).json({ success, allOrders });
+        const restaurants = await Restaurant.find(
+            {
+                _id: { $in: topSellingRestaurants.map(item => item._id) }
+            },
+            { 'name': 1, '_id': 0 }
+        );
+        success = true;
+
+        return res.status(200).json({ success, restaurants });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
@@ -236,5 +259,5 @@ const getAllOrdersforRestaurant = async (req, res) => {
 
 export default {
     register, login, getRestaurant, getallRestaurants,
-    postReview, addFoodItem, getAllFoodItems, getAllOrdersforRestaurant
+    postReview, addFoodItem, getAllFoodItems, getTopSellingRestaurants,
 };

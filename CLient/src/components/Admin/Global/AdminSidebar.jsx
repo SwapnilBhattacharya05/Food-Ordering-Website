@@ -10,7 +10,6 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 
@@ -141,14 +140,7 @@ const AdminSidebar = () => {
             >
             </Item>
 
-            <Item
-              title="Extras"
-              to={"/AdminAddMenu"}
-              icon={<AddOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            >
-            </Item>
+      
 
             <Item
               title="Restaurants"
@@ -159,14 +151,14 @@ const AdminSidebar = () => {
             >
             </Item>
 
-            <Item
+            {/* <Item
               title="Coupons"
               to={"/AdminCoupons"}
               icon={<CurrencyExchangeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             >
-            </Item>
+            </Item> */}
 
             <Typography
               variant='h6'

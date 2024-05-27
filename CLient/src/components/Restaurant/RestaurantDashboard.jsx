@@ -8,7 +8,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import AdminHeader from '../Admin/Global/AdminHeader';
 import "./RestaurantDashboard.css";
 import AdminStatbox from '../Admin/Global/Statbox';
-import Rating from '@mui/material/Rating';
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
@@ -16,6 +15,7 @@ import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import RestaurantSidebar from './RestaurantSidebar';
 import RestaurantTopbar from './RestaurantTopbar';
+import { useRestaurantContext } from '../../Context/RestaurantContext.js';
 
 
 
@@ -31,6 +31,20 @@ const RestaurantDashboard = () => {
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
 
+  const {
+    fetchAllOrders,
+    allOrders,
+    fetchAllFoodItems,
+    allFoodItems,
+    isLoading,
+    fetchTopSellingDishes,
+    topSellingDishes,
+    allUsers,
+    fetchAllUsers,
+    allCoupons,
+    fetchAllCoupons,
+  } = useRestaurantContext();
+
   // ?color palette for pie chart
   const palette = [
     colors.greenAccent[500],
@@ -39,6 +53,90 @@ const RestaurantDashboard = () => {
     colors.greenAccent[100],
   ];
 
+  const [orders, setOrders] = useState(allOrders);
+  const [completedOrders, setCompletedOrders] = useState([]);
+  const [foodItems, setFoodItems] = useState(allFoodItems);
+  const [topDishes, setTopDishes] = useState(topSellingDishes);
+  const [foodItemsByCategory, setFoodItemsByCategory] = useState([
+    {
+      label: "Veg",
+      value: 0
+    },
+    {
+      label: "Non-Veg",
+      value: 0
+    }
+  ]);
+
+  const restaurantId = sessionStorage.getItem("restaurantId");
+
+  useEffect(() => {
+    if (restaurantId) {
+      fetchAllOrders();
+      fetchAllFoodItems();
+      fetchTopSellingDishes(restaurantId);
+      fetchAllUsers();
+      fetchAllCoupons();
+    }
+  }, [restaurantId]);
+
+  useEffect(() => {
+    if (restaurantId && allOrders.length) {
+      const filteredOrders = allOrders.filter((order) => order.restaurant._id === restaurantId);
+      setOrders(filteredOrders);
+      const filterCompletedOrders = filteredOrders.filter((order) => order.status === "completed");
+      setCompletedOrders(filterCompletedOrders);
+      console.log(completedOrders);
+    }
+  }, [restaurantId, allOrders]);
+
+  useEffect(() => {
+    if (restaurantId && allFoodItems.length) {
+      const filteredFoodItems = allFoodItems.filter((foodItem) => foodItem.restaurant._id === restaurantId);
+      setFoodItems(filteredFoodItems);
+      const filterFoodItemsByCategory = filteredFoodItems.reduce((accumulator, item) => {
+        accumulator[item.category] += 1;
+        return accumulator
+      }, {
+        "Veg": 0,
+        "Non-Veg": 0,
+      });
+      setFoodItemsByCategory([{
+        label: "Veg",
+        value: filterFoodItemsByCategory["Veg"],
+      }, {
+        label: "Non-Veg",
+        value: filterFoodItemsByCategory["Non-Veg"],
+      }]);
+      console.log(filterFoodItemsByCategory);
+    }
+  }, [restaurantId, allFoodItems]);
+
+  useEffect(() => {
+    if (restaurantId && topSellingDishes.length) {
+      const filteredTopSellingDishes = topSellingDishes.filter((dish) => dish._id === restaurantId);
+      setTopDishes(filteredTopSellingDishes);
+      console.log(topDishes);
+    }
+  }, [restaurantId, topSellingDishes]);
+
+  useEffect(() => {
+    if (restaurantId && foodItemsByCategory) {
+      console.log(foodItemsByCategory);
+    }
+  }, [restaurantId, foodItemsByCategory]);
+
+  useEffect(() => {
+    if (restaurantId && allUsers) {
+      console.log(allUsers);
+    }
+  }, [restaurantId, allUsers]);
+
+  useEffect(() => {
+    if (restaurantId && allCoupons) {
+      console.log(allCoupons);
+    }
+  }, [restaurantId, allCoupons]);
   return (
     <>
       <ColorModeContext.Provider value={colorMode}>
@@ -106,7 +204,7 @@ const RestaurantDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="126"
+                  title={allUsers && allUsers.length}
                   subtitle="Total Customers"
                   progress='0.75'
                   increase='+14%'
@@ -124,7 +222,7 @@ const RestaurantDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="89"
+                  title={foodItems && foodItems.length}
                   subtitle="Total Foods"
                   progress='0.7'
                   increase='+21%'
@@ -142,7 +240,7 @@ const RestaurantDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="983"
+                  title={orders && orders.length}
                   subtitle="Total Transactions"
                   progress='0.30'
                   increase='+5%'
@@ -161,7 +259,7 @@ const RestaurantDashboard = () => {
               >
                 <AdminStatbox
 
-                  title="156"
+                  title={completedOrders && completedOrders.length}
                   // subtitle="subtitle"
                   icon={
                     'Total Delivery'
@@ -266,9 +364,9 @@ const RestaurantDashboard = () => {
                   </Typography>
                 </Box>
                 {
-                  mockTransactions.slice().reverse().slice(-10).map((transaction, i) => (
+                  orders.slice().reverse().slice(-10).map((order, i) => (
                     <Box
-                      key={`${transaction.txId}-${i}`}
+                      key={`${order._id}-${i}`}
                       display='flex'
                       justifyContent='space-between'
                       alignItems='center'
@@ -276,15 +374,15 @@ const RestaurantDashboard = () => {
                       p='15px'
                     >
                       <Box>
-                        <Typography variant='h5' fontWeight='600'>
-                          {transaction.txId}
+                        <Typography variant='h6' fontWeight='600'>
+                          {order._id}
                         </Typography>
                         <Typography>
-                          {transaction.user}
+                          {order.user?.firstName}
                         </Typography>
                       </Box>
                       <Box>
-                        {transaction.date}
+                        {new Date(order.createdAt).toLocaleDateString()}
                       </Box>
                       <Box
                         backgroundColor={colors.greenAccent[500]}
@@ -294,7 +392,7 @@ const RestaurantDashboard = () => {
                         <CurrencyRupeeOutlinedIcon
                           sx={{
                             fontSize: "15px",
-                          }} />{transaction.cost}
+                          }} />{order.totalAmount}
                       </Box>
                     </Box>
                   ))
@@ -325,7 +423,7 @@ const RestaurantDashboard = () => {
                     colors={palette}
                     series={[
                       {
-                        data: mockPieData,
+                        data: foodItemsByCategory,
                         highlightScope: {
                           faded: 'global',
                           highlighted: 'item',
@@ -389,7 +487,7 @@ const RestaurantDashboard = () => {
                 >
                   Top Selling Products
                 </Typography>
-                {mockProductRating.slice(0, 3).map((restaurant, i) => (
+                {topSellingDishes.slice(0, 3).map((restaurant, i) => (
                   <Box
                     display='flex'
                     justifyContent='space-between'
@@ -399,18 +497,14 @@ const RestaurantDashboard = () => {
                     <Typography
                       variant='h4'
                     >
-                      {restaurant.name}
+                      {restaurant._id}
                     </Typography>
                     <Box>
-                      <Rating
-                        name="half-rating-read"
-                        // !value is used to give the rating here
-                        value={restaurant.value}
-                        // ?precision is used to give the half ratings
-                        precision={0.5}
-                        readOnly
-
-                      />
+                      <Typography
+                        variant='h6'
+                      >
+                        {restaurant.count}
+                      </Typography>
                     </Box>
                   </Box>
                 ))
@@ -419,7 +513,7 @@ const RestaurantDashboard = () => {
             </Box>
           </Box>
         </ThemeProvider>
-      </ColorModeContext.Provider >
+      </ColorModeContext.Provider>
     </>
   )
 }

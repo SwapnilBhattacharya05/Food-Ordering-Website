@@ -1,6 +1,7 @@
 import Order from "../schema/orderSchema.js";
 import Stripe from "stripe";
 import { Types } from "mongoose";
+import sendBillThroughEmail from "../services/generateEmail.js";
 const generatePayment = async (req, res) => {
     const { cartItems, deliveryCharge, discount, totalAmount } = req.body;
     try {
@@ -63,6 +64,8 @@ const placeOrder = async (req, res) => {
         }
 
         success = true;
+        console.log(order._id);
+        sendBillThroughEmail(order._id);
         return res.status(200).json({ success, message: "Order placed successfully" });
     } catch (error) {
         console.log(error);
@@ -95,4 +98,79 @@ const getOrderById = async (req, res) => {
     }
 }
 
-export default { placeOrder, generatePayment, getOrderById };
+const updateOrderStatus = async (req, res) => {
+    try {
+        let success = false;
+        const orderId = new Types.ObjectId(req.params.id);
+        const order = await Order.findOne({ _id: orderId });
+
+        if (!order) {
+            return res.status(404).json({ success, message: "Order not found" });
+        }
+
+        order.status = req.body.status;
+        await order.save();
+        success = true;
+
+        return res.status(200).json({ success, message: "Order status updated successfully", order });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const getAllOrders = async (req, res) => {
+    try {
+        let success = false;
+
+        const orders = await Order.find({}).populate("restaurant", "_id name address imgUrls").populate("user", "firstName lastName");
+
+        if (!orders) {
+            return res.status(404).json({ success, message: "Orders not found" });
+        }
+
+        success = true;
+        return res.status(200).json({ success, orders });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+const getTopSellingDishesByRestaurant = async (req, res) => {
+    try {
+
+        const topSellingDishesByRestaurant = await Order.aggregate([
+            {
+                $match: {
+                    restaurant: new Types.ObjectId(req.params.id)
+                }
+            },
+            {
+                $unwind: "$foodItems"
+            },
+            {
+                $group: {
+                    _id: "$foodItems.name",
+                    count: { $sum: "$foodItems.quantity" }
+                }
+            },
+            {
+                $sort: { count: -1 }
+            },
+            {
+                $limit: 5
+            }
+        ]);
+
+        return res.status(200).json({ topSellingDishesByRestaurant });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+export default {
+    placeOrder, generatePayment, getOrderById,
+    updateOrderStatus, getAllOrders, getTopSellingDishesByRestaurant
+};

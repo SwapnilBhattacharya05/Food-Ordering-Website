@@ -52,6 +52,6 @@ router.post("/addfooditem/:id", [
 
 router.get("/getAllFoodItems", restaurantController.getAllFoodItems);
 
-router.get("/getAllOrdersforRestaurant/:id", restaurantController.getAllOrdersforRestaurant);
+router.get("/topSellingRestaurants", restaurantController.getTopSellingRestaurants);
 
 export default router;

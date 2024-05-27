@@ -7,18 +7,23 @@ import { AppProvider } from './Context/AppContext.js';
 import { UserProvider } from './Context/UserContext.js';
 import { FilterProvider } from './Context/FilterContext.js';
 import { OrderProvider } from './Context/OrderContext.js';
+import { RestaurantProvider } from './Context/RestaurantContext.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <AppProvider>
-      <UserProvider>
-        <OrderProvider>
-          <FilterProvider>
-            <App />
-          </FilterProvider>
-        </OrderProvider>
-      </UserProvider>
-    </AppProvider>
-  </BrowserRouter>
+  // <React.StrictMode>
+    <BrowserRouter>
+      <AppProvider>
+        <UserProvider>
+          <OrderProvider>
+            <RestaurantProvider>
+              <FilterProvider>
+                <App />
+              </FilterProvider>
+            </RestaurantProvider>
+          </OrderProvider>
+        </UserProvider>
+      </AppProvider>
+    </BrowserRouter>
+  // </React.StrictMode>
 );

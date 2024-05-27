@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ColorModeContext, tokens, useMode } from '../../Admin/theme';
 import { CssBaseline, Box, ThemeProvider, TextField, Button, styled, Stack, Select, MenuItem } from '@mui/material'
 import RestaurantTopbar from '../RestaurantTopbar';
@@ -14,19 +14,47 @@ import OutdoorGrillOutlinedIcon from '@mui/icons-material/OutdoorGrillOutlined';
 import MopedOutlinedIcon from '@mui/icons-material/MopedOutlined';
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { useRestaurantContext } from '../../../Context/RestaurantContext';
 
 const RestaurantOrders = () => {
+
+  const {
+    allOrders,
+    fetchAllOrders,
+  } = useRestaurantContext()
+
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
+  const [orders, setOrders] = useState(allOrders)
   const [rows, setRows] = useState(mockFavourites)
+
+  const restaurantId = sessionStorage.getItem("restaurantId");
 
   const handleChange = (id, newValue) => {
     setRows(rows.map(row => (row.id === id ? { ...row, progress: newValue } : row)));
   };
 
+  useEffect(() => {
+    if (restaurantId) {
+      fetchAllOrders()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (restaurantId && allOrders.length) {
+      const filteredOrders = allOrders.filter((order) => order.restaurant._id === restaurantId);
+      setOrders(filteredOrders);
+      console.log(orders);
+
+    }
+  }, [allOrders]);
+
+
+
+
   const columns = [
     {
-      field: "id",
+      field: "_id",
       headerName: "ID",
       width: 90,
     },
@@ -93,8 +121,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'pending'}
               sx={{
                 color: `${colors.redAccent[500]}`,
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <AccessTimeOutlinedIcon /> Pending
@@ -102,8 +130,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'confirmed'}
               sx={{
                 color: `${colors.greenAccent[500]}`,
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <DoneOutlinedIcon /> Confirmed
@@ -111,8 +139,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'preparing'}
               sx={{
                 color: "#FFDA78",
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <OutdoorGrillOutlinedIcon />  Preparing
@@ -120,8 +148,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'ready_for_pickup'}
               sx={{
                 color: "#FEAE6F",
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <MopedOutlinedIcon /> Ready For Pickup
@@ -129,8 +157,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'out_for_delivery'}
               sx={{
                 color: "#FEAE6F",
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <DirectionsBikeOutlinedIcon /> Out for Delivery
@@ -138,8 +166,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'delivered'}
               sx={{
                 color: "#B0EBB4",
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <DoneAllOutlinedIcon />  Delivered
@@ -147,8 +175,8 @@ const RestaurantOrders = () => {
             <MenuItem value={'completed'}
               sx={{
                 color: "#94FFD8",
-                display:'flex',
-                gap:2
+                display: 'flex',
+                gap: 2
               }}
             >
               <CheckCircleOutlineOutlinedIcon /> Completed
@@ -278,8 +306,8 @@ const RestaurantOrders = () => {
                   },
 
                 }}
-                getRowId={(row) => row.id}
-                rows={mockFavourites}
+                getRowId={(row) => row._id}
+                rows={orders}
                 columns={columns}
                 slots={{
                   toolbar: customToolbar,
