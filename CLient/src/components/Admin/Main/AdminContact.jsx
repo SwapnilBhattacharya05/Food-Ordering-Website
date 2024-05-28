@@ -9,42 +9,33 @@ import { ColorModeContext, tokens, useMode } from '../theme'
 import { DataGrid, GridToolbarFilterButton, GridToolbar, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import Stack from '@mui/material/Stack';
 
-const AdminMenu = () => {
+
+const AdminContact = () => {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
-    const [foodItems, setFoodItems] = useState([]);
+    const [contacts, setContacts] = useState([])
 
-    const fetchMenu = async () => {
+    const fetchContacts = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/getAllFoodItems`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact/getAllContacts`, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                },
+                    "Content-Type": "application/json"
+                }
             });
             const data = await response.json();
-            const foodItems = data.foodItems.map(foodItems => ({
-                ...foodItems,
-                _id: foodItems?._id || "N/A",
-                image: foodItems?.image || "N/A",
-                name: foodItems?.name || "N/A",
-                price: foodItems?.price || "N/A",
-                cuisine: foodItems?.restaurant?.cuisine || "N/A",
-                category: foodItems?.category || "N/A",
-                restaurantName: foodItems?.restaurant?.name || "N/A",
-                email: foodItems?.restaurant?.email || "N/A",
-            }))
-            setFoodItems(foodItems);
-            console.log(foodItems);
+            setContacts(data.contacts);
+            console.log(data.contacts);
         } catch (error) {
             console.log(error);
+
         }
+
     }
 
     useEffect(() => {
-        fetchMenu();
+        fetchContacts();
     }, [])
-
 
     const columns = [
         {
@@ -52,55 +43,27 @@ const AdminMenu = () => {
             headerName: "ID",
             width: 90,
         },
-
-        {
-            field: "image",
-            headerName: "Avatar",
-            width: 100,
-            cellClassName: "photo-column-cell",
-            renderCell: (params) => <img src={params.value}
-                alt="User images"
-                id="admin-user-images"
-                style={{
-                    width: "80px",
-                    height: "80px",
-                }}
-            />,
-        },
-
         {
             field: "name",
-            headerName: "Food Name",
+            headerName: "User",
             flex: 1,
             cellClassName: "name-column-cell"
         },
         {
-            field: "category",
-            headerName: "Category",
-            flex: 1,
-            cellClassName: (params) => (params.value === "Veg" ? "veg-category" : "non-veg-category"),
-        },
-        {
-            field: "price",
-            headerName: "Price (₹)",
-            flex: 1
-        },
-        {
-            field: "restaurantName",
-            headerName: "Restaurant",
-            flex: 1
-        },
-        {
-            field: "cuisine",
-            headerName: "Cuisine",
-            flex: 1
+            field: "message",
+            headerName: "Query",
+            flex: 2
         },
         {
             field: "email",
             headerName: "Email ID",
+            flex: 1,
+        },
+        {
+            field: "phone",
+            headerName: "Contact Number",
             flex: 1
         },
-
     ]
 
 
@@ -122,8 +85,6 @@ const AdminMenu = () => {
             </Stack>
         )
     }
-
-
 
     return (
         <>
@@ -149,7 +110,7 @@ const AdminMenu = () => {
                             justifyContent='space-between'
                             alignItems='center'>
 
-                            <AdminHeader title="MENU" subtitle="Check The Menu" />
+                            <AdminHeader title="Queries" subtitle="Check the Queries" />
                         </Box>
                         <Box ml="1.3rem">
                             <DataGrid
@@ -202,7 +163,7 @@ const AdminMenu = () => {
                                     },
                                 }}
                                 getRowId={(row) => row._id}
-                                rows={foodItems}
+                                rows={contacts}
                                 columns={columns}
                                 slots={{
                                     toolbar: customToolbar,
@@ -225,10 +186,11 @@ const AdminMenu = () => {
 
                             />
                         </Box>
+
                     </Box>
                 </ThemeProvider>
             </ColorModeContext.Provider>
         </>
     )
 }
-export default AdminMenu;
+export default AdminContact;

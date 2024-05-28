@@ -18,8 +18,8 @@ import AdminUsers from './components/Admin/Users/AdminUsers';
 import AdminOrders from './components/Admin/Main/AdminOrders';
 import AdminCoupon from './components/Admin/Main/AdminCoupons';
 import AdminMenu from './components/Admin/Main/AdminMenu';
-import AdminExtras from './components/Admin/Main/AdminExtra';
 import AdminRestaurant from './components/Admin/Main/AdminRestaurants';
+import AdminContact from './components/Admin/Main/AdminContact.jsx';
 
 import RestaurantRegistration from './components/Restaurant/RestaurantRegistration';
 import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
@@ -27,6 +27,7 @@ import RestaurantExtras from './components/Restaurant/Options/RestaurantExtras';
 import RestaurantPage from './components/Restaurant/RestaurantPage';
 import RestaurantLogin from './components/Restaurant/RestaurantLogin';
 import RestaurantOrders from './components/Restaurant/Options/RestaurantOrders';
+import RestaurantMenu from './components/Restaurant/Options/RestaurantMenu.jsx';
 
 import { useAppContext } from './Context/AppContext';
 import { ToastContainer } from "react-toastify";
@@ -70,6 +71,7 @@ function App() {
         <Route path='/cancel' element={<Cancel />}></Route>
         <Route path='/track-order/:orderId' element={<TrackOrder />}></Route>
         <Route path='/RestaurantOrders' element={<RestaurantOrders />}></Route>
+        <Route path='/RestaurantMenu' element={<RestaurantMenu />}></Route>
 
         {/* LOGIN SIGNUP PATHS */}
         <Route path='/login' element={<Login />} />
@@ -82,8 +84,8 @@ function App() {
         <Route path='/AdminOrders' element={<AdminOrders />} />
         <Route path='/AdminCoupons' element={<AdminCoupon />} />
         <Route path='/AdminMenu' element={<AdminMenu />} />
-        <Route path='/AdminAddMenu' element={<AdminExtras />} />
         <Route path='/AdminRestaurants' element={<AdminRestaurant />} />
+        <Route path='/AdminContact' element={<AdminContact />} />
       </Routes>
     </div>
   );

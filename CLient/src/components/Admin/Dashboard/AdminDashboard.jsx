@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import { mockTransactions, mockPieData, mockRestaurantRating } from '../../../data/MockData';
 import { ColorModeContext, tokens, useMode } from '../theme'
@@ -11,16 +10,55 @@ import AdminHeader from '../Global/AdminHeader';
 import AdminMapChart from '../Global/AdminMap';
 import "./AdminDashboard.css";
 import AdminStatbox from '../Global/Statbox';
-import Rating from '@mui/material/Rating';
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import { useRestaurantContext } from "../../../Context/RestaurantContext";
+import { useEffect, useState } from "react";
 
 const AdminDashboard = () => {
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
+
+  const {
+    fetchAllOrders,
+    allOrders,
+    fetchAllFoodItems,
+    allFoodItems,
+    fetchTopSellingRestaurants,
+    topSellingRestaurants,
+    fetchFoodItemsByCategory,
+    foodItemsByCategory,
+    fetchAllUsers,
+    allUsers,
+    fetchAllCoupons,
+    allCoupons,
+    fetchAllRestaurants,
+    allRestaurants
+  } = useRestaurantContext();
+
+  const [completedOrders, setCompletedOrders] = useState([]);
+
+  useEffect(() => {
+    fetchAllOrders();
+    fetchAllFoodItems();
+    fetchTopSellingRestaurants();
+    fetchFoodItemsByCategory();
+    fetchAllUsers();
+    fetchAllCoupons();
+    fetchAllRestaurants();
+  }, []);
+
+  useEffect(() => {
+    console.log(allRestaurants);
+  }, [allRestaurants]);
+
+  useEffect(() => {
+    const filterCompletedOrders = allOrders.filter((order) => order.status === "completed");
+    setCompletedOrders(filterCompletedOrders);
+  }, [allOrders]);
 
   // ?color palette for pie chart
   const palette = [
@@ -45,7 +83,7 @@ const AdminDashboard = () => {
           {/* CONTENT */}
           <Box
             ml="16rem"
-            mt='4.324rem'
+            mt='3.324rem'
             mr='0.3125rem'
           >
 
@@ -97,7 +135,7 @@ const AdminDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="123456"
+                  title={allUsers && allUsers.length}
                   subtitle="Total Users"
                   progress='0.75'
                   increase='+14%'
@@ -115,7 +153,7 @@ const AdminDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="56789"
+                  title={allRestaurants && allRestaurants.length}
                   subtitle="Total Restaurants"
                   progress='0.5'
                   increase='+21%'
@@ -133,7 +171,7 @@ const AdminDashboard = () => {
                 className="Admin-StatBox-Background"
               >
                 <AdminStatbox
-                  title="9823"
+                  title={allOrders && allOrders.length}
                   subtitle="Total Transactions"
                   progress='0.30'
                   increase='+5%'
@@ -152,7 +190,7 @@ const AdminDashboard = () => {
               >
                 <AdminStatbox
 
-                  title="123456"
+                  title={completedOrders && completedOrders.length}
                   // subtitle="subtitle"
                   icon={
                     'Total Delivery'
@@ -262,9 +300,9 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 {
-                  mockTransactions.slice().reverse().slice(-10).map((transaction, i) => (
+                  allOrders.slice().reverse().slice(-10).map((order, index) => (
                     <Box
-                      key={`${transaction.txId}-${i}`}
+                      key={index}
                       display='flex'
                       justifyContent='space-between'
                       alignItems='center'
@@ -273,14 +311,14 @@ const AdminDashboard = () => {
                     >
                       <Box>
                         <Typography variant='h5' fontWeight='600'>
-                          {transaction.txId}
+                          {order._id}
                         </Typography>
                         <Typography>
-                          {transaction.user}
+                          {order.user?.firstName}
                         </Typography>
                       </Box>
                       <Box>
-                        {transaction.date}
+                        {new Date(order.createdAt).toLocaleDateString()}
                       </Box>
                       <Box
                         backgroundColor={colors.greenAccent[500]}
@@ -290,7 +328,7 @@ const AdminDashboard = () => {
                         <CurrencyRupeeOutlinedIcon
                           sx={{
                             fontSize: "15px",
-                          }} />{transaction.cost}
+                          }} />{order.totalAmount}
                       </Box>
                     </Box>
                   ))
@@ -321,7 +359,7 @@ const AdminDashboard = () => {
                     colors={palette}
                     series={[
                       {
-                        data: mockPieData,
+                        data: foodItemsByCategory,
                         highlightScope: {
                           faded: 'global',
                           highlighted: 'item',
@@ -357,13 +395,13 @@ const AdminDashboard = () => {
                   Restaurants Overview
                 </Typography>
                 <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <AdminMapChart />
+                  <AdminMapChart allRestaurants={allRestaurants} />
                 </Box>
               </Box>
 
@@ -385,29 +423,18 @@ const AdminDashboard = () => {
                 >
                   Top Selling Restaurants
                 </Typography>
-                {mockRestaurantRating.slice(0, 3).map((restaurant, i) => (
+                {topSellingRestaurants.slice(0, 3).map((restaurant, i) => (
                   <Box
                     display='flex'
                     justifyContent='space-between'
                     mt='30px'
-                    key={`${restaurant.txId}-${i}`}
+                    key={i}
                   >
                     <Typography
                       variant='h4'
                     >
                       {restaurant.name}
                     </Typography>
-                    <Box>
-                      <Rating
-                        name="half-rating-read"
-                        // !value is used to give the rating here
-                        value={restaurant.value}
-                        // ?precision is used to give the half ratings
-                        precision={0.5}
-                        readOnly
-
-                      />
-                    </Box>
                   </Box>
                 ))
                 }
@@ -415,9 +442,8 @@ const AdminDashboard = () => {
             </Box>
           </Box>
         </ThemeProvider>
-      </ColorModeContext.Provider >
+      </ColorModeContext.Provider>
     </>
   )
 }
 export default AdminDashboard;
-

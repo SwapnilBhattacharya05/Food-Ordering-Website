@@ -9,6 +9,7 @@ import MarkunreadIcon from '@mui/icons-material/Markunread';
 import { useUserContext } from "../../Context/UserContext"
 import { useState } from "react"
 import toastMessage from "../ToastMessage"
+import { Navigate } from "react-router-dom"
 const Contact = () => {
   //eslint-disable-next-line
   const [theme, colorMode] = useMode()
@@ -24,6 +25,11 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Check if any input field contains only whitespace characters
+    const isWhitespace = Object.values(formData).some(value => value.trim() === '');
+    if (isWhitespace) {
+      return toastMessage({ msg: "Please Enter Something in the query", type: "error" });
+    }
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact/post-contact`, {
         method: "POST",
@@ -46,6 +52,7 @@ const Contact = () => {
           phone: "",
           message: ""
         });
+        window.location.href = "/";
       }, 4000);
 
     } catch (err) {
@@ -155,7 +162,7 @@ const Contact = () => {
               id="contact-query"
               onChange={onHandleChange}
               name="message"
-              value={formData.query}
+              value={formData.message}
               placeholder="Enter your query"
               variant="outlined"
               multiline

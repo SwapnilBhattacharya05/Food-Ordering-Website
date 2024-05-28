@@ -1,0 +1,9 @@
+.veg-category {
+    color: rgb(111, 241, 111);
+    font-weight: bold;
+}
+
+.non-veg-category {
+    color: rgb(235, 81, 81);
+    font-weight: bold;
+}

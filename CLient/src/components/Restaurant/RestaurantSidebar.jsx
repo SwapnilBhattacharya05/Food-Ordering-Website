@@ -145,14 +145,14 @@ const RestaurantSidebar = () => {
                         >
                         </Item>
 
-                        <Item
+                        {/* <Item
                             title="Coupons"
                             to={"/RestaurantCoupons"}
                             icon={<CurrencyExchangeOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         >
-                        </Item>
+                        </Item> */}
 
                         <Typography
                             variant='h6'

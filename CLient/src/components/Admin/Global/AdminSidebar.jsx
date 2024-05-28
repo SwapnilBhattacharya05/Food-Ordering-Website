@@ -5,6 +5,7 @@ import { tokens } from '../theme';
 import "./AdminSidebar.css"
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
+import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
@@ -160,6 +161,14 @@ const AdminSidebar = () => {
             >
             </Item> */}
 
+            <Item
+              title="Queries"
+              to={"/AdminContact"}
+              icon={<ContactEmergencyOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            >
+            </Item>
             <Typography
               variant='h6'
               sx={{

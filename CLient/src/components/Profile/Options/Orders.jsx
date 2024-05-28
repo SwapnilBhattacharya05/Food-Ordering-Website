@@ -1,20 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { tokens, useMode } from '../../Admin/theme'
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import { mockOrders } from '../../../data/MockData';
+import { Box, Typography, Button, IconButton, TextField, Rating } from "@mui/material";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../../../firebase';
 import "../Profile.css"
 import Divider from '@mui/material/Divider';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { useUserContext } from '../../../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
-
+import toastMessage from '../../ToastMessage';
 
 const Orders = () => {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
     const { orderHistory } = useUserContext();
     const navigate = useNavigate();
+
+    const [file, setFile] = useState(null);
+
+    const [reviewData, setReviewData] = useState({
+        rating: 0,
+        comment: "",
+    });
+
+    const uploadImage = async (file) => {
+        const storage = getStorage(app);
+        const filename = new Date().getTime() + file.name;
+        const storageRef = ref(storage, filename);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        }, (error) => {
+            console.log(error);
+        },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setFile(downloadURL);
+                    console.log('File available at', downloadURL);
+                });
+            }
+        );
+    }
+
+    const handleOnChange = (e) => {
+        setReviewData({ ...reviewData, [e.target.name]: e.target.value });
+    }
+
+    const postReview = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/postReview/${orderHistory[0].restaurant._id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                },
+                body: JSON.stringify({
+                    restaurant: orderHistory[0].restaurant._id,
+                    rating: reviewData.rating,
+                    comment: reviewData.comment,
+                    image: file ? file : ""
+                }),
+            });
+            const data = await response.json();
+
+            if (!data.success) {
+                return toastMessage({ msg: data.message, type: "error" });
+            }
+
+            toastMessage({ msg: data.message, type: "success" });
+            setReviewData({ rating: 0, comment: "" });
+        } catch (err) {
+            toastMessage({ msg: err.message, type: "error" });
+            console.log(err);
+        }
+    }
 
     return (
         <>
@@ -91,7 +152,7 @@ const Orders = () => {
                                                     }}
                                                 >
                                                     {
-                                                        status !== "Completed" ? "Not delivered yet" :
+                                                        status !== "completed" ? "Not delivered yet" :
                                                             <>
                                                                 Delivered&nbsp;on:&nbsp;{new Date(createdAt).toLocaleTimeString()}&nbsp;
                                                                 <CheckCircleIcon color="success" />
@@ -165,17 +226,29 @@ const Orders = () => {
                                                 >REORDER
                                                 </Button>
                                                 {
-                                                    status !== "Completed" &&
-                                                    <Button variant="contained"
-                                                        color='success'
-                                                        sx={{
-                                                            ml: 1.5,
-                                                            backgroundColor: colors.greenAccent[500],
-                                                        }}
-                                                        onClick={() => { navigate(`/track-order/${value._id}`) }}
-                                                    >
-                                                        Track Order
-                                                    </Button>
+                                                    status !== "completed" ?
+                                                        <Button variant="contained"
+                                                            color='success'
+                                                            sx={{
+                                                                ml: 1.5,
+                                                                backgroundColor: colors.greenAccent[500],
+                                                            }}
+                                                            onClick={() => { navigate(`/track-order/${value._id}`) }}
+                                                        >
+                                                            Track Order
+                                                        </Button> :
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: 1.5,
+                                                                backgroundColor: colors.greenAccent[500],
+                                                            }}
+                                                            data-toggle='modal'
+                                                            data-target='#reviewModal'
+                                                        >
+                                                            Post Review
+                                                        </Button>
                                                 }
                                             </Box>
                                         </Box>
@@ -188,6 +261,107 @@ const Orders = () => {
                     }
                 </Box>
             </Box>
+
+            {/* <!-- REVIEW MODAL --> */}
+            <div className="modal fade" id="reviewModal" tabIndex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Modal title</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body" style={{ minHeight: "350px" }}>
+                            <Box className="profile-option-address-modal-container"
+                                component="form"
+                                autoComplete='off'
+                                sx={{
+                                    '&.MuiTextField-root': {
+                                        m: 1,
+                                        width: '25ch'
+                                    },
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: `${colors.greenAccent[500]} !important`,
+                                        }
+                                    },
+                                    '& .Mui-focused fieldset': {
+                                        borderColor: `${colors.greenAccent[500]} !important`,
+                                    },
+                                    ' & label': {
+                                        color: `${colors.greenAccent[500]} !important`,
+                                    },
+                                    ' & label.Mui-focused': {
+                                        color: `${colors.greenAccent[600]} !important`,
+                                    },
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    height: 200,
+                                }}
+                            >
+                                <Box className="profile-option-address-modal-components"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}>
+
+                                    {/* ROW1 */}
+                                    <Typography variant="h6"
+                                        sx={{
+                                            textAlign: "left",
+                                        }}
+                                    >
+                                        Rating
+                                    </Typography>
+                                    <Rating size='large' name="rating" value={reviewData.rating} onChange={handleOnChange} />
+                                    {/* ROW2 */}
+                                    <Typography variant="h6"
+                                        sx={{
+                                            textAlign: "left",
+                                        }}
+                                    >
+                                        Image(2mb max)
+                                    </Typography>
+                                    <div className='d-flex justify-content-center'>
+                                        <input type="file" name='file' id='file' accept="image/*"
+                                            onChange={(e) => { setFile(e.target.files[0]) }}
+                                        />
+                                        <input type="button" value={"Upload"}
+                                            className='btn'
+                                            onClick={() => { uploadImage(file) }}
+                                        />
+                                    </div>
+                                    {/* ROW3 */}
+                                    <Typography variant="h6"
+                                        sx={{
+                                            textAlign: "left",
+                                        }}
+                                    >
+                                        Comment
+                                    </Typography>
+                                    <TextField
+                                        id="outlined-multiline-flexible"
+                                        multiline
+                                        rows={4}
+
+                                        name='comment'
+                                        value={reviewData.comment}
+                                        onChange={handleOnChange}
+                                    />
+                                </Box>
+                            </Box>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-dismiss="modal"
+                                onClick={() => { postReview() }}>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

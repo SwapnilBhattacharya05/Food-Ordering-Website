@@ -12,18 +12,18 @@ import { RestaurantProvider } from './Context/RestaurantContext.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <BrowserRouter>
-      <AppProvider>
-        <UserProvider>
-          <OrderProvider>
-            <RestaurantProvider>
-              <FilterProvider>
-                <App />
-              </FilterProvider>
-            </RestaurantProvider>
-          </OrderProvider>
-        </UserProvider>
-      </AppProvider>
-    </BrowserRouter>
+  <BrowserRouter>
+    <AppProvider>
+      <UserProvider>
+        <OrderProvider>
+          <RestaurantProvider>
+            <FilterProvider>
+              <App />
+            </FilterProvider>
+          </RestaurantProvider>
+        </OrderProvider>
+      </UserProvider>
+    </AppProvider>
+  </BrowserRouter>
   // </React.StrictMode>
 );

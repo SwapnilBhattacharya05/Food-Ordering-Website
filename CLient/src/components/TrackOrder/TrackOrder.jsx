@@ -125,11 +125,8 @@ const TrackOrder = () => {
                             <h2 className="text-center">Order Status:</h2>
                             <Stepper activeStep={activeStep} orientation="vertical">
                                 {steps.map((step, index) => (
-                                    <Step key={step.label} sx={
-                                        {
-                                            '& .light-mode .MuiStepLabel-label': {
-                                                color: `${colors.grey[100]} !important`
-                                            },
+                                    <Step key={step.label} 
+                                    sx={{
                                             '& .dark-mode .MuiStepLabel-label': {
                                                 color: `${colors.grey[100]} !important`
                                             },
