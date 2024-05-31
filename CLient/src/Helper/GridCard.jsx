@@ -66,7 +66,7 @@ const GridCard = ({ data, index, searchBy }) => {
                                             <p style={{ marginBottom: 0, color: 'green' }}>New</p>
                                             :
                                             <p style={{ marginBottom: 0 }}>
-                                                {data.rating}
+                                                {data.rating && data.rating.toFixed(1)}
                                             </p>
                                     }
                                     <Star fontSize='small' className='card-star' />
