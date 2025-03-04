@@ -93,7 +93,7 @@ const Home = () => {
     },
     {
       name: "Chinese",
-      link: "https://xiaomudeng.com/blog/wp-content/uploads/2023/09/best-chinese-food-you-need-to-try-in-singapore-scaled.jpg",
+      link: "https://images.pexels.com/photos/2133989/pexels-photo-2133989.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Italian",
