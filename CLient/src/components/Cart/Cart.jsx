@@ -5,17 +5,17 @@ import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar'
 import "./Cart.css";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { mockAddress } from '../../data/MockData';
 import FormatPrice from '../../Helper/FormatPrice';
 import { useAppContext } from '../../Context/AppContext';
 import toastMessage from '../ToastMessage';
-import { useEffect, useState } from 'react';
+import { getAuthToken } from '../../Helper/authHelper';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import WorkIcon from '@mui/icons-material/Work';
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
 import { loadStripe } from "@stripe/stripe-js";
-import BackToTop from '../../Helper/BackToTop';
+import BackToTop from '../../Helper/backToTop';
 
 const Cart = () => {
   const { user,
@@ -28,17 +28,20 @@ const Cart = () => {
     userAddress,
   } = useUserContext();
 
-  const [address, setAddress] = useState(userAddress);
   const [coupon, setCoupon] = useState("");
   const [validCoupon, setValidCoupon] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [addressLoading, setAddressLoading] = useState(false);
+  const address = userAddress || []; // Ensure address is always an array
 
   const navigate = useNavigate();
   const { mode } = useAppContext();
 
-  const handleCouponSubmit = async (e) => {
+  const handleCouponSubmit = useCallback(async (e) => {
     e.preventDefault();
+    if (!user) return;
+    
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verifyCoupon/${user._id}`, {
       method: "POST",
       headers: {
@@ -57,14 +60,14 @@ const Cart = () => {
     setDiscount(data.discount);
     localStorage.setItem("discount", data.discount);
     setValidCoupon(true);
-  }
+  }, [coupon, user]);
 
-  const setAddressHandler = (value) => {
+  const setAddressHandler = useCallback((value) => {
     setDeliveryAddress(value.address);
     localStorage.setItem("address", JSON.stringify(value.address));
-  }
+  }, []);
 
-  const placeOrder = async (e) => {
+  const placeOrder = useCallback(async (e) => {
     e.preventDefault();
     const totalAmount = validCoupon ? totalCartItemPrice + deliveryCharge - discount : totalCartItemPrice + deliveryCharge;
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -91,11 +94,61 @@ const Cart = () => {
     if (result.error) {
       toastMessage({ msg: result.error.message, type: "error" });
     }
-  }
+  }, [validCoupon, totalCartItemPrice, deliveryCharge, discount, cartItems]);
 
   useEffect(() => {
     BackToTop();
   }, []);
+
+  useEffect(() => {
+    // Redirect to login if user is not logged in
+    if (!user) {
+      toastMessage({ msg: "Please login to view your cart", type: "info" });
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  // Fetch addresses when component mounts
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      if (user) {
+        const token = getAuthToken();
+        if (!token) {
+          console.log("No valid token found");
+          return;
+        }
+        
+        setAddressLoading(true);
+        try {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/getAllAddress`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": token,
+            },
+          });
+          const data = await response.json();
+          if (data.success !== false && data.address) {
+            // Address will be updated via context
+          }
+        } catch (error) {
+          console.error("Error fetching addresses:", error);
+        } finally {
+          setAddressLoading(false);
+        }
+      }
+    };
+    fetchAddresses();
+  }, [user]);
+  
+  const totalAmount = useMemo(() => {
+    return validCoupon ? totalCartItemPrice + deliveryCharge - discount : totalCartItemPrice + deliveryCharge;
+  }, [validCoupon, totalCartItemPrice, deliveryCharge, discount]);
+
+  // Show nothing while redirecting if user is not logged in
+  if (!user) {
+    return null;
+  }
   
   return (
     <div>
@@ -162,11 +215,17 @@ const Cart = () => {
 
                   <Box className="cart-address-container-wrapper">
                     {
-                      address.length === 0 ? <button className="btn"
-                        onClick={() => navigate("/profile")}
-                      >
-                        Add Address
-                      </button> :
+                      addressLoading ? (
+                        <Typography variant="body1" sx={{ textAlign: 'center', py: 2 }}>
+                          Loading addresses...
+                        </Typography>
+                      ) : address.length === 0 ? (
+                        <button className="btn"
+                          onClick={() => navigate("/profile")}
+                        >
+                          Add Address
+                        </button>
+                      ) : (
                         address.map((value, index) => {
                           const { type, address } = value
                           return (
@@ -243,6 +302,7 @@ const Cart = () => {
                             </Box>
                           )
                         })
+                      )
                     }
                   </Box>
                 </section>
@@ -287,7 +347,7 @@ const Cart = () => {
                     }
                     <div className='cart-bill-row mt-1'>
                       <h6>Grand Total</h6>
-                      <p className='price'>{<FormatPrice price={validCoupon ? totalCartItemPrice - discount + deliveryCharge : totalCartItemPrice + deliveryCharge} />}</p>
+                      <p className='price'>{<FormatPrice price={totalAmount} />}</p>
                     </div>
                   </div>
                 </section>

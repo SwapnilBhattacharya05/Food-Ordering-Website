@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useMemo } from "react";
 import reducer from "../Reducer/AppReducer.js";
 import { useLocation } from "react-router-dom";
 
@@ -45,7 +45,12 @@ const AppProvider = ({ children }) => {
         localStorage.setItem("mode", state.mode);
     }, [state.mode]);
 
-    return <AppContext.Provider value={{ ...state, toggleMode }}>
+    const contextValue = useMemo(() => ({
+        ...state,
+        toggleMode
+    }), [state]);
+
+    return <AppContext.Provider value={contextValue}>
         {children}
     </AppContext.Provider>
 

@@ -10,7 +10,7 @@ import RestaurantPageExploreComponent from "./RestaurantPageExploreComponent";
 import RestaurantPageReviewsComponent from "./RestaurantPageReviewsComponent";
 import RestaurantPagePhotosComponent from "./RestaurantPagePhotosComponent";
 import RestaurantPageMenuComponent from "./RestaurantPageMenuComponent";
-import BackToTop from "../../Helper/BackToTop";
+import BackToTop from "../../Helper/backToTop";
 
 const RestaurantPage = () => {
     const params = useParams();

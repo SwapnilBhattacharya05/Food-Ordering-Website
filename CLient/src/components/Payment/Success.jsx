@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
 import toastMessage from "../ToastMessage";
 const Success = () => {
+
   const { cartItems, clearCartItems, user, deliveryCharge } = useUserContext();
   const [loader, setLoader] = useState(true);
   const [discount, setDiscount] = useState(

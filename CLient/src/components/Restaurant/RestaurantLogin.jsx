@@ -2,6 +2,7 @@ import { useState } from 'react';
 import toastMessage from '../ToastMessage';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../Admin/Login/AdminLogin.css';
 
 const RestaurantLogin = () => {
     const [credentials, setCredentials] = useState({

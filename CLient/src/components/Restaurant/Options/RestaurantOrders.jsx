@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ColorModeContext, tokens, useMode } from '../../Admin/theme';
-import { CssBaseline, Box, ThemeProvider, TextField, Button, styled, Stack, Select, MenuItem } from '@mui/material'
+import { CssBaseline, Box, ThemeProvider, Stack, Select, MenuItem } from '@mui/material'
 import RestaurantTopbar from '../RestaurantTopbar';
 import RestaurantSidebar from '../RestaurantSidebar';
 import AdminHeader from '../../Admin/Global/AdminHeader';
 import { DataGrid, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { mockFavourites } from '../../../data/MockData';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import DirectionsBikeOutlinedIcon from '@mui/icons-material/DirectionsBikeOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
@@ -26,12 +24,34 @@ const RestaurantOrders = () => {
   const [theme, colorMode] = useMode();
   const colors = tokens(theme.palette.mode);
   const [orders, setOrders] = useState(allOrders)
-  const [rows, setRows] = useState([])
 
   const restaurantId = sessionStorage.getItem("restaurantId");
 
-  const handleChange = (id, newValue) => {
-    setRows(rows.map(row => (row.id === id ? { ...row, progress: newValue } : row)));
+  const handleChange = async (orderId, newStatus) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/order/updateOrderStatus/${orderId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Update the local state
+        setOrders(prevOrders => 
+          prevOrders.map(order => 
+            order._id === orderId 
+              ? { ...order, status: newStatus }
+              : order
+          )
+        );
+      } else {
+        console.error('Failed to update order status:', data.message);
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
   };
 
   useEffect(() => {
@@ -48,10 +68,9 @@ const RestaurantOrders = () => {
         foodItem: order?.foodItems.map(item => item.name).join(', ') || 'N/A',
         itemCount: order?.foodItems.length || 'N/A',
         totalAmount: order?.totalAmount || 'N/A',
+        status: order?.status || 'pending',
       }));
       setOrders(filteredOrders);
-      console.log(orders);
-
     }
   }, [allOrders]);
 
@@ -86,14 +105,26 @@ const RestaurantOrders = () => {
       flex: 1,
     },
     {
-      field: "progress",
-      headerName: "Progress",
+      field: "status",
+      headerName: "Order Status",
       flex: 1,
 
       cellClassName: "progress-column-cell",
 
-      renderCell: ({ row }) => (
-
+      renderCell: ({ row }) => {
+        const currentStatus = row.status || 'pending';
+        
+        const statusLabels = {
+          'pending': 'Pending',
+          'confirmed': 'Confirmed',
+          'preparing': 'Preparing',
+          'ready_for_pickup': 'Ready For Pickup',
+          'out_for_delivery': 'Out for Delivery',
+          'delivered': 'Delivered',
+          'completed': 'Completed'
+        };
+        
+        return (
         <Box
           width="100%"
           m="0 auto"
@@ -104,10 +135,10 @@ const RestaurantOrders = () => {
 
           {/* //?Adds a progress bar to every row in the table */}
           <Select
-            value={row.progress}
-            onChange={(e) => handleChange(row.id, e.target.value)}
-            label="Progress"
-            defaultValue="pending"
+            value={currentStatus}
+            onChange={(e) => handleChange(row._id, e.target.value)}
+            displayEmpty
+            renderValue={(value) => statusLabels[value] || 'Pending'}
             sx={{
               "& .MuiSelect-select": {
                 color: `${colors.grey[900]}`,
@@ -188,8 +219,8 @@ const RestaurantOrders = () => {
             </MenuItem>
           </Select>
         </Box >
-      ),
-    },
+      )},
+    }
     // {
     //   field: "action",
     //   headerName: "Action",

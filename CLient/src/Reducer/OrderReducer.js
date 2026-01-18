@@ -23,6 +23,11 @@ const reducer = (state, action) => {
                     status: action.payload
                 }
             }
+        case "SET_EVENT_SOURCE":
+            return {
+                ...state,
+                eventSource: action.payload
+            }
         default:
             return state
     }

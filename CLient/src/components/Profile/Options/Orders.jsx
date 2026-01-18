@@ -9,6 +9,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useUserContext } from '../../../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import toastMessage from '../../ToastMessage';
+import { getAuthToken } from '../../../Helper/authHelper';
 
 const Orders = () => {
     const [theme, colorMode] = useMode();
@@ -49,12 +50,17 @@ const Orders = () => {
     }
 
     const postReview = async () => {
+        const token = getAuthToken();
+        if (!token) {
+            return toastMessage({ msg: "Authentication required", type: "error" });
+        }
+        
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/postReview/${orderHistory[0].restaurant._id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": localStorage.getItem("token")
+                    "auth-token": token
                 },
                 body: JSON.stringify({
                     restaurant: orderHistory[0].restaurant._id,

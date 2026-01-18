@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useMemo, useCallback } from "react";
 import reducer from "../Reducer/FilterReducer";
 
 const FilterContext = createContext();
@@ -25,7 +25,8 @@ const initialState = {
 const FilterProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const getallRestaurants = async () => {
+    
+    const getallRestaurants = useCallback(async () => {
         dispatch({ type: "SET_LOADING" });
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/getallRestaurants`);
@@ -34,9 +35,9 @@ const FilterProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         }
-    };
+    }, []);
 
-    const getAllDishes = async () => {
+    const getAllDishes = useCallback(async () => {
         dispatch({ type: "SET_LOADING" });
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/restaurant/getAllFoodItems`);
@@ -45,35 +46,34 @@ const FilterProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    }, []);
 
-    const setGridView = () => {
+    const setGridView = useCallback(() => {
         dispatch({ type: "SET_GRID_VIEW" });
-    };
+    }, []);
 
-    const setListView = () => {
+    const setListView = useCallback(() => {
         dispatch({ type: "SET_LIST_VIEW" });
-    };
+    }, []);
 
-    const sorting = (event) => {
+    const sorting = useCallback((event) => {
         const userValue = event.target.value;
-
         dispatch({ type: "GET_SORTING_VALUE", payload: userValue });
-    }
+    }, []);
 
-    const updateFilterValue = (event) => {
+    const updateFilterValue = useCallback((event) => {
         const name = event.target.name;
         const value = event.target.value;
         dispatch({ type: "UPDATE_FILTER_VALUE", payload: { name, value } });
-    }
+    }, []);
 
-    const clearFilter = () => {
+    const clearFilter = useCallback(() => {
         dispatch({ type: "CLEAR_FILTER" });
         dispatch({ type: "SET_LOADING" })
         setTimeout(() => {
             dispatch({ type: "UNSET_LOADING" })
         }, 1000);
-    }
+    }, []);
 
     useEffect(() => {
         dispatch({ type: "FILTER_RESTAURANTS" });
@@ -83,9 +83,19 @@ const FilterProvider = ({ children }) => {
     useEffect(() => {
         getallRestaurants();
         getAllDishes();
-    }, []);
+    }, [getallRestaurants, getAllDishes]);
 
-    return <FilterContext.Provider value={{ ...state, setGridView, setListView, sorting, updateFilterValue, clearFilter, getAllDishes }}>
+    const contextValue = useMemo(() => ({
+        ...state,
+        setGridView,
+        setListView,
+        sorting,
+        updateFilterValue,
+        clearFilter,
+        getAllDishes
+    }), [state, setGridView, setListView, sorting, updateFilterValue, clearFilter, getAllDishes]);
+
+    return <FilterContext.Provider value={contextValue}>
         {children}
     </FilterContext.Provider>
 }

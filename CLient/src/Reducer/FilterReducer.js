@@ -26,7 +26,6 @@ const reducer = (state, action) => {
                     rating: rating[0]
                 }
             });
-
             return {
                 ...state,
                 isLoading: false,

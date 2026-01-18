@@ -33,7 +33,12 @@ const OAuth = () => {
             const data = await response.json();
 
             if (!data.success) {
-                return toastMessage({ msg: data.message, type: "error" });
+                return toastMessage({ msg: data.message || data.error, type: "error" });
+            }
+
+            // Validate token before storing
+            if (!data.authToken || typeof data.authToken !== 'string') {
+                return toastMessage({ msg: "Authentication failed. Please try again.", type: "error" });
             }
 
             toastMessage({ msg: "Welcome Back to foodzie", type: "success" });

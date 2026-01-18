@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../Context/AppContext';
 import FormatPrice from './FormatPrice';
@@ -10,6 +10,21 @@ const GridCard = ({ data, index, searchBy }) => {
     const { mode } = useAppContext();
     const { addToCart, cartItems } = useUserContext();
     const [buttonToggle, setButtonToggle] = useState(false);
+
+    // Define handleAddToCart before any conditional returns (React Hook rules)
+    const handleAddToCart = useCallback((data) => {
+        const differentRestaurant = cartItems.find(item => item.restaurant._id !== data.restaurant._id);
+        if (differentRestaurant) {
+            const confirm = window.confirm('Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?')
+            if (confirm) {
+                addToCart(data);
+                setButtonToggle(true);
+            }
+        } else {
+            addToCart(data);
+            setButtonToggle(true);
+        }
+    }, [cartItems, addToCart]);
 
     useEffect(() => {
         const existingItem = cartItems.find(item => item._id === data._id);
@@ -27,21 +42,6 @@ const GridCard = ({ data, index, searchBy }) => {
         var imgUrl = (data.imgUrls && data.imgUrls.length > 0) ? data.imgUrls[0] : 'https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg';
         var keywords = data.keywords ? data.keywords : [];
     }
-
-    const handleAddToCart = (data) => {
-        const differentRestaurant = cartItems.find(item => item.restaurant._id !== data.restaurant._id);
-        if (differentRestaurant) {
-            const confirm = window.confirm('Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?')
-            if (confirm) {
-                addToCart(data);
-                setButtonToggle(true);
-            }
-        } else {
-            addToCart(data);
-            setButtonToggle(true);
-        }
-
-    };
 
     return (
         searchBy === "Restaurants" ?
@@ -62,7 +62,7 @@ const GridCard = ({ data, index, searchBy }) => {
                                     }
                                 >
                                     {
-                                        data.rating === 0 ?
+                                        data?.rating === 0 ?
                                             <p style={{ marginBottom: 0, color: 'green' }}>New</p>
                                             :
                                             <p style={{ marginBottom: 0 }}>
@@ -127,4 +127,4 @@ const GridCard = ({ data, index, searchBy }) => {
     );
 }
 
-export default GridCard;
+export default memo(GridCard);

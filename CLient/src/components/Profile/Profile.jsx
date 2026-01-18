@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import "./Profile.css"
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { tokens, useMode } from "../Admin/theme";
 import { ModuleFavourites, ListFavourites } from './Options/Favourites';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
@@ -18,10 +18,11 @@ import Address from "./Options/Address.jsx";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import { clearAuth } from '../../Helper/authHelper';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useUserContext } from "../../Context/UserContext.js";
-import BackToTop from "../../Helper/BackToTop.js";
+import BackToTop from "../../Helper/backToTop.js";
 
 
 const Item = ({ title, icon, className, onClick }) => {
@@ -82,10 +83,8 @@ const Profile = () => {
     const navigate = useNavigate();
     // const userContext = useContext(useUserContext);
     // const { userData, setUserData, setUser } = userContext;
-    const handleLogout = async () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userData");
-
+    const handleLogout = () => {
+        clearAuth();
         navigate("/login")
         window.location.reload();
     }

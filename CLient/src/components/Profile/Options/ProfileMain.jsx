@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import { useUserContext } from "../../../Context/UserContext.js";
 import app from '../../../firebase.js';
 import toastMessage from '../../ToastMessage.jsx';
+import { getAuthToken } from '../../../Helper/authHelper';
 
 const ProfileMain = () => {
     const [theme, colorMode] = useMode();
@@ -90,12 +91,17 @@ const ProfileMain = () => {
             return toastMessage({ msg: "Please upload your profile picture", type: "error" });
         }
 
+        const token = getAuthToken();
+        if (!token) {
+            return toastMessage({ msg: "Authentication required", type: "error" });
+        }
+
         try {
             const respone = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/update-profile`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    "auth-token": localStorage.getItem("token")
+                    "auth-token": token
                 },
                 body: JSON.stringify({
                     fname: formData.firstName,

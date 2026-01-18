@@ -12,11 +12,24 @@ const TrackOrder = () => {
     const [theme, colorMode] = useMode();
     const colors = tokens(theme.palette.mode);
 
-    const { isLoading, fetchOrder, orderDetails } = useOrderContext();
+    const { isLoading, fetchOrder, orderDetails, connectToOrderStatusStream, disconnectFromOrderStatusStream } = useOrderContext();
     const params = useParams();
 
     useEffect(() => {
+        // Fetch initial order data
         fetchOrder(params.orderId);
+        
+        // Connect to SSE for real-time updates after a small delay
+        const timer = setTimeout(() => {
+            console.log('Connecting to SSE stream for order:', params.orderId);
+            connectToOrderStatusStream(params.orderId);
+        }, 1000);
+
+        // Cleanup function to disconnect SSE when component unmounts
+        return () => {
+            clearTimeout(timer);
+            disconnectFromOrderStatusStream();
+        };
         // eslint-disable-next-line
     }, [params.orderId])
 

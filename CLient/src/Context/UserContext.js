@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from "../Reducer/UserReducer";
+import { getAuthToken, handleAuthError } from "../Helper/authHelper";
 
 const UserContext = createContext();
 
@@ -59,34 +60,56 @@ const UserProvider = ({ children }) => {
     }
 
     const fetchAllOrderHistory = async () => {
+        const token = getAuthToken();
+        if (!token) {
+            console.log("No valid token found for fetching order history");
+            return;
+        }
+        
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/getAllOrders`,
                 {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"),
+                        "auth-token": token,
                     },
                 }
             );
+            
+            // Handle authentication errors
+            if (handleAuthError(response)) return;
+            
             const data = await response.json();
-            dispatch({ type: "SET_ORDER_HISTORY", payload: data.orders });
+            if (data.success !== false) {
+                dispatch({ type: "SET_ORDER_HISTORY", payload: data.orders });
+            }
         } catch (error) {
             console.log(error);
         }
     }
 
     const fetchAllAddress = async () => {
+        const token = getAuthToken();
+        if (!token) {
+            console.log("No valid token found for fetching addresses");
+            return;
+        }
+        
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/getAllAddress`,
                 {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "auth-token": localStorage.getItem("token"),
+                        "auth-token": token,
                     },
                 }
             );
+            
+            // Handle authentication errors
+            if (handleAuthError(response)) return;
+            
             const data = await response.json();
             dispatch({ type: "SET_USER_ADDRESS", payload: data.address });
         } catch (error) {
@@ -106,13 +129,14 @@ const UserProvider = ({ children }) => {
         localStorage.setItem("userData", JSON.stringify(state.user));
     }, [state.user])
 
+    // Fetch data only once when user logs in
     useEffect(() => {
-        fetchAllOrderHistory();
-    }, [state.orderHistory]);
-
-    useEffect(() => {
-        fetchAllAddress();
-    }, [state.userAddress]);
+        if (state.user) {
+            fetchAllOrderHistory();
+            fetchAllAddress();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state.user?._id]); // Only re-fetch when user ID changes (login/logout)
 
     return (
         <UserContext.Provider value={{ ...state, setUser, clearUser, addToCart, incrementQuantity, decrementQuantity, clearCartItems, removeItem, updateAddress, applyDiscount }}>

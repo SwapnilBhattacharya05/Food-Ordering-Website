@@ -46,10 +46,16 @@ const Login = () => {
 
         const data = await response.json();
         if (!data.success) {
-            toastMessage({ msg: data.message, type: "error" });
+            toastMessage({ msg: data.message || data.error, type: "error" });
             setTimeout(() => {
                 setUserData({ email: "", password: "" })
             }, 3700);
+            return;
+        }
+
+        // Validate token before storing
+        if (!data.authToken || typeof data.authToken !== 'string') {
+            toastMessage({ msg: "Authentication failed. Please try again.", type: "error" });
             return;
         }
 
