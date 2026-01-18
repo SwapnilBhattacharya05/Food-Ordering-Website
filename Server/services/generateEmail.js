@@ -32,14 +32,14 @@ const sendBillThroughEmail = async (orderId) => {
             secure: true,
             auth: {
                 user: process.env.GMAIL,
-                pass: 'bmyv cjvs spxw dioq',
+                pass: process.env.APP_PASSWORD,
             }
         });
 
         const message = {
             from: process.env.GMAIL,
             to: order.user.email,
-            subject: 'Order Confirmation',
+            subject: `Order Confirmation - Your order #${order._id.toString()} has been successfully placed!`,
             html: html
         };
 
